@@ -1,0 +1,13 @@
+.left {
+	display: block;
+	float: left;
+}
+
+.right {
+	display: block;
+	float: right;
+}
+
+h2 {
+	text-align: center;
+}
