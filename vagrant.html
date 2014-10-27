@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Vagrant &mdash; WWU DevOps Bootcamp 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    <script type="text/javascript" src="_static/ga.js"></script>
+    
+    <link rel="top" title="WWU DevOps Bootcamp 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="DevOps Bootcamp Introduction" href="00_introduction.html" />
+    <link rel="prev" title="Purpose of DevOps BootCamp" href="mission.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  <article class="slide level-1" id="vagrant">
+<h1>Vagrant</h1>
+
+</article>
+<article class="slide level-2" id="trying-linux-as-a-virtual-machine-with-vagrant">
+<h2>Trying Linux as a virtual machine with Vagrant</h2>
+<p>In order to create a stable learning environment, we're going to have everyone
+use a Devop tool called <a class="reference external" href="http://www.vagrantup.com/">Vagrant</a>. Vagrant is typically used to help assist
+both developers and system engineers in ensuring that their application and
+system deployments work predictably. For our purposes we're going to use it as
+an easy way for new people to get to a Linux prompt quickly with no fear of
+breaking their system.</p>
+<p>Vagrant basically interfaces with hypervisors such as <a class="reference external" href="https://www.virtualbox.org/">VirtualBox</a> with a
+unified command line interface. This makes it portable between Mac, Windows and
+even Linux! Vagrant itself is just a collection of ruby scripts while Virtualbox
+does all the virtual machine magic.</p>
+<p>We will go in more depth with how to install Linux manually, but for now we've
+done all the hard work and have create pre-made Linux images.</p>
+
+</article>
+<article class="slide level-2" id="installing-virtualbox">
+<h2>Installing Virtualbox</h2>
+<p>VirtualBox is a <em>free</em> and open source virtual machine manager that you can
+install on a variety of operating system platforms such as Mac and Windows.</p>
+<ol class="arabic simple">
+<li>Go to the <a class="reference external" href="https://www.virtualbox.org/wiki/Downloads">VirtualBox download page</a> and download the latest copy of
+VirtualBox.</li>
+<li>Go through the installer and use the default settings when prompted.</li>
+<li>Once completed, see if you can open up the VirtualBox Manager</li>
+<li>If it asks you to download the latest extensions, go ahead and do that.</li>
+</ol>
+
+</article>
+<article class="slide level-2" id="installing-vagrant">
+<h2>Installing Vagrant</h2>
+<p>Vagrant is a <em>free</em> and open source tool used to build complete devops
+environments.</p>
+<ol class="arabic simple">
+<li>Go to the <a class="reference external" href="http://downloads.vagrantup.com/">Vagrant download page</a> and choose the newest version available.</li>
+<li>Choose all the defaults during the install if it asks you any questions</li>
+</ol>
+
+</article>
+<article class="slide level-2" id="testing-vagrant">
+<h2>Testing Vagrant</h2>
+<ol class="arabic simple">
+<li>If you're on a Mac, open up the Terminal. If you're on windows, open up a DOS
+prompt (<em>cmd.exe</em>).</li>
+<li>Type: <tt class="docutils literal"><span class="pre">vagrant</span> <span class="pre">status</span></tt></li>
+<li>If there are no errors then Vagrant was installed correctly!</li>
+</ol>
+
+</article>
+<article class="slide level-2" id="cloning-the-vagrant-repo">
+<h2>Cloning the Vagrant Repo</h2>
+<p>We keep all of our vagrant configuration in a git version controlled repository.
+If you don't have git installed, please go <a class="reference external" href="http://git-scm.com/downloads">download git</a> and install it.</p>
+<p>Once you have downloaded and installed git, go to a folder where you want to
+keep the repository and type the following:</p>
+<div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/DevOpsBootcamp/devopsbootcamp-vagrant.git
+</pre></div>
+</div>
+<p>If installing git is too difficult, you can also download a <a class="reference external" href="https://github.com/DevOpsBootcamp/devopsbootcamp-vagrant/archive/master.zip">zip file</a>
+containing the repository. We will teach you more about git later in the year,
+so don't worry!</p>
+
+</article>
+<article class="slide level-2" id="using-vagrant">
+<h2>Using Vagrant</h2>
+<p>Now that we have the entire environment working, lets get to playing with Linux!
+Open the terminal and get to the directory where the <tt class="docutils literal"><span class="pre">devopsbootcamp-vagrant</span></tt>
+repo is at. You can run the following commands:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Start the VM</span>
+vagrant up
+
+<span class="c"># SSH into the VM</span>
+vagrant ssh
+
+<span class="c"># Stop and halt the VM</span>
+vagrant halt
+
+<span class="c"># Destroy and remove the VM</span>
+vagrant destroy
+</pre></div>
+</div>
+<p>Also check out the <a class="reference external" href="http://docs.vagrantup.com/v2/cli/index.html">Vagrant Documentation</a> for more information. You can also
+always type <tt class="docutils literal"><span class="pre">-h</span></tt> to find out more information about a command.</p>
+
+</article>
+<article class="slide level-2" id="troubleshooting">
+<h2>Troubleshooting</h2>
+<p>Depending on how your laptop or computer is confused in the BIOS, you may or may
+not run into issues getting Vagrant and VirtualBox to work properly.</p>
+
+</article>
+<article class="slide level-3" id="booting-the-vm-takes-forever-and-never-completes">
+<h3>Booting the VM takes forever and never completes</h3>
+<p>The most common problem is when you type <tt class="docutils literal"><span class="pre">vagrant</span> <span class="pre">up</span></tt> the system just waits
+and waits and never finishes the boot process. The most likely cause is because
+your system doesn't have hardware virtualization enabled in the BIOS. You can
+either enable the feature or you can disable the requirement in the
+<tt class="docutils literal"><span class="pre">Vagrantfile</span></tt>.</p>
+<p><strong>1. Enabling Hardware Virtualization</strong></p>
+<p>Reboot your machine and press the appropriate buttons to get into the BIOS or
+Setup screen. This is usually done by hitting a combination of the escape or
+function keys.</p>
+<p>Once you get into the BIOS, find a screen that has some options for the CPU.
+Each BIOS is different but you are basically trying to find a feature called
+<em>Hardware Virtualization</em>. Once you find it, go ahead and enable it and reboot
+your system.</p>
+<p><strong>2. Disabling HW Virtualization in Vagrant</strong></p>
+<p>Open the <tt class="docutils literal"><span class="pre">Vagrantfile</span></tt> with your favorite editor of choice. Find the line that
+says <tt class="docutils literal"><span class="pre">hwvirtex</span></tt> and remove the <tt class="docutils literal"><span class="pre">#</span></tt> from the front of the line. Now run
+<tt class="docutils literal"><span class="pre">vagrant</span> <span class="pre">destroy</span> <span class="pre">-f</span></tt> and then <tt class="docutils literal"><span class="pre">vagrant</span> <span class="pre">up</span></tt> again. This should boot the VM
+properly now.</p>
+
+</article>
+
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>

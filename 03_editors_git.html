@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lesson 3: Editors &amp; Version Control &mdash; WWU DevOps Bootcamp 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    <script type="text/javascript" src="_static/ga.js"></script>
+    
+    <link rel="top" title="WWU DevOps Bootcamp 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Lesson 4: Scripting, Troubleshooting, &amp; Workflow" href="04_scripting_troubleshooting.html" />
+    <link rel="prev" title="Lesson 2: Homework" href="homework02.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  <article class="slide level-1" id="lesson-3-editors-version-control">
+<h1>Lesson 3: Editors &amp; Version Control</h1>
+
+</article>
+<article class="slide level-2" id="check-in-from-last-week">
+<h2>Check in from last week</h2>
+<p>Is anyone having problems with package management?</p>
+<p>Install the packages named git, vim, and emacs</p>
+
+</article>
+<article class="slide level-2" id="what-we-ll-discuss">
+<h2>What we'll discuss</h2>
+<ul class="simple">
+<li>What's a text editor?</li>
+<li>Features of an editor</li>
+<li>Version control: Git!</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="how-do-you-edit-files">
+<h2>How do you edit files?</h2>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/word_screenshot.gif"><img alt="_images/word_screenshot.gif" src="_images/word_screenshot.gif" style="width: 625.0px; height: 438.75px;" /></a>
+</div>
+
+</article>
+<article class="slide level-2" id="no-never-ever-edit-code-in-word-libreoffice">
+<h2>No. Never, Ever edit code in Word/LibreOffice</h2>
+<ul class="simple">
+<li>Autocorrect is your worst enemy</li>
+<li>Syntax highlighting is nice</li>
+<li>You are editing plain text, not 'documents', i.e. .doc, .rtf, etc</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="then-what-should-you-use">
+<h2>Then what should you use?</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>Text editors</dt>
+<dd><ul class="first last simple">
+<li>Command-line</li>
+<li>available in your package manager</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">For coding, an IDE can be helpful</p>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="integrated-development-environments">
+<h2>Integrated Development Environments</h2>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/eclipse_screenshot.gif"><img alt="_images/eclipse_screenshot.gif" src="_images/eclipse_screenshot.gif" style="width: 502.8px; height: 336.4px;" /></a>
+</div>
+<ul class="simple">
+<li>Entire toolchain in one place</li>
+<li>Usually graphical</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="sysadmin-tools">
+<h2>Sysadmin tools</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>Frequently work with remote machines over a ssh connection</dt>
+<dd><ul class="first last simple">
+<li>xforwarding can sort of give you a GUI</li>
+<li>Not all remote machines have a desktop environment</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Faster to edit file in place than transfer it down then back up</dt>
+<dd><ul class="first last simple">
+<li>Frequent small changes when testing or debugging</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Broken machines often have only terminal via crash cart</p>
+</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Editor Requirements:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li>Small program, runs in terminal</li>
+<li>Preferably installed by default on most systems</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+
+</article>
+<article class="slide level-2" id="features-of-an-editor">
+<h2>Features of an editor</h2>
+<ul class="simple">
+<li>Needs to be installed on your system</li>
+<li>Create files</li>
+<li>Move around within the file</li>
+<li>Add or delete text</li>
+<li>Easily automate tedious tasks</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="text-editors">
+<h2>Text Editors</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Quick intro/history:  ed editor
+Pros: low-bandwidth, installed pretty much everywhere, very fast and powerful
+for complicated and repetitive tasks
+Cons: Steep learning curve, different “modes” can be confusing at first
+Sublime and other desktop editors: nice for serious programming, but learn
+the basics of simple text editors even if you want to be a developer, you
+won't always be able to edit your code on your own desktop</p>
+</div>
+<ul class="simple">
+<li>ed -&gt; Vi -&gt; Vim</li>
+<li>Stallman -&gt; lisp -&gt; emacs</li>
+</ul>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/xkcd_378.png"><img alt="_images/xkcd_378.png" src="_images/xkcd_378.png" style="width: 629.0px; height: 345.1px;" /></a>
+</div>
+<p>Avoid Pico/Nano, Notepad++, SublimeText</p>
+
+</article>
+<article class="slide level-2" id="emacs">
+<h2>Emacs</h2>
+<div class="figure align-right">
+<img alt="_images/emacs_logo.jpeg" src="_images/emacs_logo.jpeg" />
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Originally released 1976
+name from Editor MACros for TECO editor, originally Tape Editor and
+COrrector at MIT in the '60s</p>
+</div>
+<p>But, along the way, I wrote a text editor, Emacs. The interesting idea about
+Emacs was that it had a programming language, and the user's editing commands
+would be written in that interpreted programming language, so that you could
+load new commands into your editor while you were editing. You could edit the
+programs you were using and then go on editing with them.</p>
+<blockquote>
+<div>-- Richard Stallman, <a class="reference external" href="http://www.gnu.org/gnu/rms-lisp.html">http://www.gnu.org/gnu/rms-lisp.html</a></div></blockquote>
+
+</article>
+<article class="slide level-2" id="vim">
+<h2>Vim</h2>
+<div class="figure align-right">
+<img alt="_images/vim_logo.jpeg" src="_images/vim_logo.jpeg" />
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">originally written for Amiga systems (Commodore PCs), 1988
+vim released 1991
+vimscript, Lua (as of Vim 7.3), Perl, Python, Racket, Ruby, Tcl (tool
+command language).
+vi written by Bill Joy in 1976, visual mode for line editor called ex
+line editors are from age of teleprinters, no cursors</p>
+</div>
+<ul class="simple">
+<li>Available almost everywhere</li>
+<li>Lightweight</li>
+<li>Design decisions explained in <a class="reference external" href="http://docs.freebsd.org/44doc/usd/12.vi/paper.html">http://docs.freebsd.org/44doc/usd/12.vi/paper.html</a></li>
+<li>Modal editor (command, insert, visual)</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="how-to-choose">
+<h2>How to choose</h2>
+<ul>
+<li><p class="first">What can the people around you help with?</p>
+</li>
+<li><p class="first">Try both; choose one and get good at it</p>
+</li>
+<li><dl class="first docutils">
+<dt>Have a good answer when people ask why you made that choice</dt>
+<dd><ul class="first last simple">
+<li>&quot;Because it's familiar&quot; is tolerated</li>
+<li>&quot;Because I was initially taught it&quot; is common but accepted (honesty)</li>
+<li>&quot;Because <tt class="docutils literal"><span class="pre">$usecase</span></tt>&quot; provokes argument but more respected</li>
+<li>&quot;Because I tried both and picked this one&quot; is rare but good</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Your use case as a sysadmin or developer</p>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="modes">
+<h2>Modes</h2>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/vim_modes.png"><img alt="_images/vim_modes.png" src="_images/vim_modes.png" style="width: 412.5px; height: 349.5px;" /></a>
+</div>
+<p>How to tell?</p>
+<div class="highlight-bash"><div class="highlight"><pre>-- INSERT --                                          144,1    36%
+-- VISUAL --                                          144,77   36%
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="commands">
+<h2>Commands</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Moving around in a file
+Search / replace
+Text manipulation, ie: cw, dw, c$, yy / p, x, .</p>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/vim_cheatsheet.gif"><img alt="_images/vim_cheatsheet.gif" src="_images/vim_cheatsheet.gif" style="width: 768.0px; height: 543.0px;" /></a>
+</div>
+
+</article>
+<article class="slide level-2" id="moving-around">
+<h2>Moving Around</h2>
+<div class="highlight-python"><div class="highlight"><pre>h move one character to the left.
+j move down one line.
+k move up one line.
+l move one character to the right.
+0 move to the beginning of the line.
+$ move to the end of the line.
+w move forward one word.
+b move backward one word.
+G move to the end of the file.
+gg move to the beginning of the file.
+. move to the last edit.
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="configuration-customization">
+<h2>Configuration / customization</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">there are many many options and pre-existing packages to make
+editing nice for sysadmins and developers</p>
+</div>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">.vimrc</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">:set</span></tt></li>
+</ul>
+<p>Some sets of Vim plugins and configurations are available</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/astrails/dotvim">https://github.com/astrails/dotvim</a></li>
+<li><a class="reference external" href="https://github.com/carlhuda/janus">https://github.com/carlhuda/janus</a></li>
+</ul>
+<p>Use them for research on what's available to improve dev productivity</p>
+
+</article>
+<article class="slide level-2" id="learning-resources">
+<h2>Learning Resources</h2>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">$</span> <span class="pre">vimtutor</span></tt></li>
+<li><a class="reference external" href="http://vim-adventures.com/">http://vim-adventures.com/</a></li>
+</ul>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/learning_curves.jpg"><img alt="_images/learning_curves.jpg" src="_images/learning_curves.jpg" style="width: 700.0px; height: 466.2px;" /></a>
+</div>
+
+</article>
+<article class="slide level-2" id="regular-expressions">
+<h2>Regular expressions</h2>
+<p>You should know basic substitution:</p>
+<div class="highlight-python"><div class="highlight"><pre>:%s/foo/bar/g
+</pre></div>
+</div>
+<p>On IRC, Hamper does rudimentary regex in the form <tt class="docutils literal"><span class="pre">s/foo/bar/</span></tt> applying only
+to the most recent comment.</p>
+<p>This is not <a class="reference external" href="http://tldp.org/LDP/abs/html/globbingref.html">shell globbing</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Resources for learning:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li><a class="reference external" href="http://gskinner.com/RegExr/">RegExr</a> - an interactive Regular Expression editor and debugger</li>
+<li><a class="reference external" href="http://www.regular-expressions.info/">Regular-Expressions.info</a> - Tutorials and general information</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+
+</article>
+<article class="slide level-2" id="editor-questions">
+<h2>Editor questions?</h2>
+<ul class="simple">
+<li>Open an editor, find a cheat sheet, try to add some text</li>
+<li>Modify the text: &quot;<tt class="docutils literal"><span class="pre">disemvowel</span></tt>&quot; it</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>vim testvim.txt            <span class="nv">$ </span>emacs testemacs.txt
+&lt;i&gt;                          Hello world!
+Hello world!                 &lt;esc&gt;
+&lt;esc&gt;                        &lt;
+:%s/<span class="o">[</span>aeiou<span class="o">]</span>//g               &lt;alt + x&gt;
+:wq                          replace-regexp
+                             <span class="o">[</span>aeiou<span class="o">]</span>
+                             &lt;enter&gt;
+                             &lt;ctrl + x&gt; &lt;ctrl + s&gt;
+                             &lt;ctrl + x&gt; &lt;ctrl + c&gt;
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-1" id="lesson-3-intro-to-git">
+<h1>Lesson 3: Intro to Git</h1>
+
+</article>
+<article class="slide level-2" id="version-control-is-hard">
+<h2>Version Control is Hard</h2>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/xkcd_1053.png"><img alt="_images/xkcd_1053.png" src="_images/xkcd_1053.png" style="width: 693.0px; height: 474.0px;" /></a>
+<p class="caption">Image from <a class="reference external" href="http://xkcd.com/1053/">XKCD</a></p>
+</div>
+
+</article>
+<article class="slide level-2" id="why-bother">
+<h2>Why Bother?</h2>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/phd_final.gif"><img alt="_images/phd_final.gif" src="_images/phd_final.gif" style="width: 450.0px; height: 600.0px;" /></a>
+<p class="caption">Image from <a class="reference external" href="http://www.phdcomics.com/comics/archive.php?comicid=1531">PhD Comics</a></p>
+</div>
+
+</article>
+<article class="slide level-2" id="better-options-version-control">
+<h2>Better Options: Version Control</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Collaboration with multiple developers is important to mention</p>
+</div>
+<ul>
+<li><p class="first">Commit = Snapshot of part of your project's state</p>
+</li>
+<li><p class="first">Centralized (SVN, CVS) vs. Decentralized (Git, hg)</p>
+</li>
+<li><dl class="first docutils">
+<dt>We'll look at Git today</dt>
+<dd><ul class="first last simple">
+<li>Easier to learn other VCS from Git</li>
+<li>Widely used in the open source world</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="git">
+<h2>Git</h2>
+<div class="figure align-left">
+<img alt="_images/Linus_Torvalds.jpeg" src="_images/Linus_Torvalds.jpeg" />
+</div>
+<dl class="docutils">
+<dt>git</dt>
+<dd>noun. Brit.informal.
+1. an unpleasant or contemptible person.</dd>
+</dl>
+
+</article>
+<article class="slide level-2" id="using-git-locally">
+<h2>Using Git Locally</h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># This initializes a git repo. Use `man git-init` for more info.</span>
+<span class="nv">$ </span>git init
+
+<span class="c"># This puts &lt;filename&gt; into the staging area. It isn&#39;t committed yet.  Use</span>
+<span class="c"># `git diff` to see what changes aren&#39;t yet in staging.</span>
+<span class="nv">$ </span>git add &lt;filename&gt;
+
+<span class="c"># This actually makes the commit. Use `git status` to see what&#39;s in staging</span>
+<span class="c"># but not yet committed. Use `git show` or `git log` to see recent commits.</span>
+<span class="nv">$ </span>git commit -m <span class="s2">&quot;I did a thing!&quot;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Undo things?
+the <a class="reference external" href="http://git-scm.com/book/en/Git-Basics-Undoing-Things">git book</a> explains well</li>
+<li>Did I remember to commit that?
+<tt class="docutils literal"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">status</span></tt></li>
+<li>What commits have I made lately?
+<tt class="docutils literal"><span class="pre">$</span> <span class="pre">git</span> <span class="pre">log</span></tt></li>
+</ul>
+
+</article>
+<article class="slide level-2" id="more-on-commits">
+<h2>More on commits</h2>
+<p>Your work goes from unstaged to staging area with <tt class="docutils literal"><span class="pre">git</span> <span class="pre">add</span></tt>.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>git config --global user.name <span class="s1">&#39;Your Name&#39;</span>
+<span class="nv">$ </span>git config --global user.email you@somedomain.com
+</pre></div>
+</div>
+<ul>
+<li><dl class="first docutils">
+<dt>Everything in staging gets wrapped up into an object that contains</dt>
+<dd><ul class="first last simple">
+<li>changes</li>
+<li>timestamp</li>
+<li>author info</li>
+<li>parent commit hash</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">These live in <tt class="docutils literal"><span class="pre">.git/</span></tt> in your project directory</p>
+</li>
+<li><p class="first">Commits go to other locations with <tt class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></tt></p>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="what-not-to-do">
+<h2>What Not To Do</h2>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/dont_do_this.jpg"><img alt="_images/dont_do_this.jpg" src="_images/dont_do_this.jpg" style="width: 320.0px; height: 189.5px;" /></a>
+<p class="caption">image from <a class="reference external" href="http://arstechnica.com/security/2013/01/psa-dont-upload-your-important-passwords-to-github/">http://arstechnica.com/security/2013/01/psa-dont-upload-your-important-passwords-to-github/</a></p>
+</div>
+<ul class="simple">
+<li>Don't delete the <tt class="docutils literal"><span class="pre">.git</span></tt> files</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you kill them, git loses its memory :(</p>
+</div>
+<ul>
+<li><p class="first">Redundant copies of same work</p>
+</li>
+<li><dl class="first docutils">
+<dt>&quot;oops, undoing that&quot; commits.</dt>
+<dd><ul class="first last simple">
+<li>Use <tt class="docutils literal"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">--amend</span></tt></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Amending is fine as long as you haven't pushed yet. It's generally a
+bad idea to amend or rebase work that you've already shared with others,
+unless you really know what you're doing.</p>
+</div>
+<ul>
+<li><dl class="first docutils">
+<dt>Don't wait too long between commits</dt>
+<dd><ul class="first last simple">
+<li>Squashing them together later is easy</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Commit every time you think you might want to return to the current
+state. You can revert back to any previous commit, but there is no way to
+magically add a commit in where you forgot to make one.</p>
+</div>
+<ul class="simple">
+<li>Don't commit compiled/generated items</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Mostly relevant to writing code, .gitignore allows you to avoid
+dealing with compiled binaries, generated output, log files, etc</p>
+</div>
+<ul class="simple">
+<li>Don't commit secrets...</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Yes, there are ways to sort of take them down off of GitHub, but
+somebody might have cloned your repo while it had the secrets in. Once
+someone has a piece of information, you can't just take it away.</p>
+</div>
+
+</article>
+<article class="slide level-2" id="daily-workflow">
+<h2>Daily workflow</h2>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/gitflow.png"><img alt="_images/gitflow.png" src="_images/gitflow.png" style="width: 458.25px; height: 611.25px;" /></a>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ul class="simple">
+<li>Pull</li>
+<li>Work</li>
+<li>Add changes</li>
+<li>Commit</li>
+<li>Push</li>
+</ul>
+<p>Larger projects have more complex workflows</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The picture is of the Git Flow branching model, and you'll probably
+see it every single time anyone explains Git branching and merging to you.
+If you are working on a larger project or writing code, you'll likely be
+using branches, this allows a project to keep many simultaneous code
+changes organized.</p>
+</div>
+
+</article>
+<article class="slide level-1" id="lesson-3-github">
+<h1>Lesson 3: GitHub</h1>
+<div class="figure align-right">
+<img alt="_images/octocat.jpg" src="_images/octocat.jpg" />
+</div>
+<ul class="simple">
+<li>Manage permissions on repos</li>
+<li>Back up your work</li>
+<li>Social/gamification</li>
+<li>Amazing documentation: <a class="reference external" href="http://help.github.com">http://help.github.com</a></li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">GitHub serves a threefold purpose:
+It also has <a class="reference external" href="https://help.github.com/">amazing documentation</a> which you should all go read right now
+and consult whenever you're the least bit confused. It's like the Ubuntu
+forums in that it's explained in a way the newbies can understand, but
+unlike them in that it's all written by people who know what they're doing.</p>
+</div>
+
+</article>
+<article class="slide level-2" id="let-s-walk-through">
+<h2>Let's Walk Through</h2>
+<div class="figure align-right">
+<img alt="_images/octocat.jpg" src="_images/octocat.jpg" />
+</div>
+<ul>
+<li><dl class="first docutils">
+<dt>Creating an account</dt>
+<dd><ul class="first last simple">
+<li>Gravatar</li>
+<li>How to read a profile</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>you just go to github.com and click the account creation links. To
+make a custom icon, go to gravatar.com and set up an account using the
+same email address as you used for github. The picture you upload on
+Gravatar will then show up for your github account.</p>
+<p class="last">The most important thing about reading profiles is that not all of a
+person's repos will display on the front page of their profile -- to see
+them, got to the 'repositories' tab instead of 'contributions'.</p>
+</div>
+<ul>
+<li><dl class="first docutils">
+<dt>Creating SSH keys</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">ssh-keygen</span> <span class="pre">-t</span> <span class="pre">rsa</span></tt></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Uploading your SSH key</p>
+</li>
+<li><p class="first">Creating a new repository</p>
+</li>
+<li><p class="first">Fork somebody else's repo</p>
+</li>
+<li><p class="first">Edit files online</p>
+</li>
+<li><p class="first">Submit a pull request</p>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="help-everythings-s-broken">
+<h2>Help, Everythings's Broken!</h2>
+<div class="highlight-python"><div class="highlight"><pre>Permission denied (publickey).
+fatal: The remote end hung up unexpectedly
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Solution:</th><td class="field-body"><tt class="docutils literal"><span class="pre">ssh-add</span> <span class="pre">~/.ssh/id-rsa</span></tt> or whatever key you have added on github</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre>To git@github.com:edunham/slides.git
+ ! [rejected]        master -&gt; master (non-fast-forward)
+error: failed to push some refs to &#39;git@github.com:edunham/slides.git&#39;
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Merge the remote changes (e.g. &#39;git pull&#39;)
+hint: before pushing again.
+hint: See the &#39;Note about fast-forwards&#39; in &#39;git push --help&#39; for details.
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Solution:</th><td class="field-body">To avoid a messy merge commit, <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span> <span class="pre">--rebase</span></tt>.</td>
+</tr>
+</tbody>
+</table>
+
+</article>
+<article class="slide level-2" id="learn-more">
+<h2>Learn More</h2>
+<div class="figure">
+<img alt="_images/octocat.jpg" src="_images/octocat.jpg" />
+</div>
+<ul class="simple">
+<li><a class="reference external" href="http://git-scm.com/book">http://git-scm.com/book</a></li>
+<li><a class="reference external" href="http://try.github.io/levels/1/challenges/1">http://try.github.io/levels/1/challenges/1</a></li>
+</ul>
+
+</article>
+<article class="slide level-2" id="hands-on">
+<h2>Hands-On</h2>
+<ul class="simple">
+<li>Fork the devopsbootcamp dotfiles repo</li>
+<li>Clone a copy of the repo to your VM and make a branch</li>
+<li>Make a commit with a helpful commit message and push to your fork</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>ssh-keygen -t rsa <span class="c"># make an SSH key and add it to your account</span>
+<span class="nv">$ </span>git clone &lt;url from sidebar of your fork&gt; <span class="c"># clone the repo</span>
+<span class="nv">$ </span><span class="nb">cd </span>dotfiles <span class="c"># git commands only work in project directlry</span>
+<span class="nv">$ </span>git checkout -b &lt;yourname&gt; <span class="c"># -b creates branch</span>
+<span class="nv">$ </span>vim &lt;filename&gt;
+    <span class="c"># &#39;i&#39; to enter insert mode</span>
+    <span class="c"># &lt;esc&gt; to get back to command mode</span>
+    <span class="c"># :wq to save and quit</span>
+<span class="nv">$ </span>git add &lt;filename&gt;
+<span class="nv">$ </span>git commit -m <span class="s2">&quot;please use a helpful commit message, not like this one&quot;</span>
+<span class="nv">$ </span>git push
+</pre></div>
+</div>
+
+</article>
+
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>

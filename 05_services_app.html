@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lesson 5: Web Applications &mdash; WWU DevOps Bootcamp 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    <script type="text/javascript" src="_static/ga.js"></script>
+    
+    <link rel="top" title="WWU DevOps Bootcamp 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Lesson 6: Boot and the Filesystem Hierarchy" href="06_boot_filesystem.html" />
+    <link rel="prev" title="Lesson 4: Scripting, Troubleshooting, &amp; Workflow" href="04_scripting_troubleshooting.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  <article class="slide level-1" id="lesson-5-web-applications">
+<h1>Lesson 5: Web Applications</h1>
+
+</article>
+<article class="slide level-2" id="what-is-a-web-app">
+<h2>What is a web app?</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>talk briefly about responsibilities of each component</li>
+<li>talk briefly about http</li>
+<li>mention Virtual Environments (red box on diagram)</li>
+</ul>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/web_app_diagram.png"><img alt="_images/web_app_diagram.png" src="_images/web_app_diagram.png" style="width: 560.0px; height: 481.0px;" /></a>
+</div>
+
+</article>
+<article class="slide level-2" id="what-is-this-virtual-environment-thing">
+<h2>What is this Virtual Environment thing?</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Discuss system packages vs local, mention rvm</p>
+</div>
+<ul class="simple">
+<li>Separates application packages from system packages</li>
+<li>Choose versions that differ from the system versions</li>
+<li>Maintain a list of required packages for easy install</li>
+<li>Install modules as a user</li>
+<li>Pip and Gem</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="frameworks">
+<h2>Frameworks</h2>
+<p>Ready-made building blocks take care of the tedious details:</p>
+<ul class="simple">
+<li>Speaking HTTP</li>
+<li>Connecting code to URLS</li>
+<li>Talking to the database</li>
+<li>Built-in development servers</li>
+</ul>
+<p>Popular frameworks:</p>
+<p>Django, CakePHP, Ruby on Rails, Flask</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Talk about major differences between frameworks, especially Django and Flask</p>
+</div>
+
+</article>
+<article class="slide level-2" id="the-systemview-app">
+<h2>The SystemView app</h2>
+<p>Display a filtered list of processes on the system</p>
+<div class="figure align-center">
+<img alt="_images/systemview_app.png" src="_images/systemview_app.png" />
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last">
+<li><dl class="first docutils">
+<dt>explain basic idea of the app</dt>
+<dd><ul class="first last simple">
+<li>reference code from lesson 4</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+
+</article>
+<article class="slide level-2" id="setting-up">
+<h2>Setting Up</h2>
+<p>Update your vagrant file and vagrant up:</p>
+<div class="highlight-bash"><div class="highlight"><pre>git pull
+vagrant up
+vagrant ssh
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Changes to the vagrant file: forward port 5050 to 5000 on the vm</p>
+</div>
+
+</article>
+<article class="slide level-2" id="id1">
+<h2>Setting Up</h2>
+<p>Install packages</p>
+<div class="highlight-bash"><div class="highlight"><pre>sudo apt-get install python-virtualenv*
+sudo apt-get install git
+</pre></div>
+</div>
+<p>Create a virtualenv</p>
+<div class="highlight-bash"><div class="highlight"><pre>virtualenv systemview_venv
+</pre></div>
+</div>
+<p>And activate it</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">source </span>systemview_venv/bin/activate
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>students probably already have git?</li>
+<li>discuss what virtualenv actually does, what is in it</li>
+<li>env variables, etc</li>
+<li>they can put the virtualenv anywhere, discuss locations</li>
+<li>discuss, but don't use virtualenv tools (mkvirtualenv, use, etc)</li>
+<li>explain what source does</li>
+</ul>
+</div>
+
+</article>
+<article class="slide level-2" id="get-the-code">
+<h2>Get the Code</h2>
+<div class="highlight-bash"><div class="highlight"><pre>git clone git@github.com:WWUDevOps/systemview.git
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>break here for github account setup, key location (where are they checking
+code out from? Where is their key located?), etc</li>
+<li><a class="reference external" href="https://github.com/WWUDevOps/systemview.git">https://github.com/WWUDevOps/systemview.git</a> for anyone who can't get
+their account/key working</li>
+</ul>
+</div>
+
+</article>
+<article class="slide level-2" id="run-the-code">
+<h2>Run the Code</h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd </span>systemview
+python systemview.py
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="fail">
+<h2>Fail</h2>
+<p>Oops!</p>
+<div class="highlight-python"><div class="highlight"><pre>Traceback (most recent call last):
+  File &quot;systemview.py&quot;, line 2, in &lt;module&gt;
+    from flask import Flask, request, session, g, redirect, url_for, \
+ImportError: No module named flask
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">talk about missing modules, we need to install them, this is
+what the venv is for</p>
+</div>
+
+</article>
+<article class="slide level-2" id="pip">
+<h2>Pip</h2>
+<p>A package manager for Python packages</p>
+<ul class="simple">
+<li>Connects to PyPi, a vast repository of Python modules</li>
+<li>Resolves dependencies, installs prerequisites</li>
+<li>Can install packages from a list in a file</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="install-what-s-missing">
+<h2>Install What's Missing</h2>
+<p>Make sure you are in your virtualenv, then:</p>
+<div class="highlight-bash"><div class="highlight"><pre>pip install flask
+pip install argparse
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>How do you know if you are in the virtualenv?</li>
+<li>can put requirements in requirements.txt for easy installation</li>
+</ul>
+</div>
+
+</article>
+<article class="slide level-2" id="run-and-test">
+<h2>Run and Test!</h2>
+<div class="highlight-bash"><div class="highlight"><pre>python systemview.py -i 0.0.0.0 -d
+</pre></div>
+</div>
+<p>Now go to <a class="reference external" href="http://localhost:5050">http://localhost:5050</a></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>talk about flags</li>
+<li>go to terminal after this slide and talk about the code:<ul>
+<li>main module, templates, css, etc</li>
+</ul>
+</li>
+<li>Point out areas where bugs could be fixed or features added</li>
+</ul>
+</div>
+
+</article>
+<article class="slide level-2" id="branch-and-modify">
+<h2>Branch and Modify</h2>
+<p>Create a Github issue for your changes</p>
+<p><a class="reference external" href="https://github.com/DevOpsBootcamp/systemview/issues">https://github.com/DevOpsBootcamp/systemview/issues</a></p>
+<p>Create a branch for your changes</p>
+<div class="highlight-bash"><div class="highlight"><pre>git checkout -b my_name
+</pre></div>
+</div>
+<p>When you have made changes and everything works, push it up</p>
+<div class="highlight-bash"><div class="highlight"><pre>git push origin my_name
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>talk about branching vs forking, get everyone working on a new feature or
+bug</li>
+<li>use IRC handles for branch names to make sure you are unique and
+identifiable</li>
+</ul>
+</div>
+
+</article>
+<article class="slide level-2" id="homework">
+<h2>Homework</h2>
+<p>Add a feature or fix a bug, push your changes up.</p>
+<p>Github URL:</p>
+<p><a class="reference external" href="https://github.com/WWUDevOps/systemview">https://github.com/WWUDevOps/systemview</a></p>
+<p>Github issue tracker:</p>
+<p><a class="reference external" href="https://github.com/WWUDevOps/systemview/issues">https://github.com/WWUDevOps/systemview/issues</a></p>
+
+</article>
+
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>

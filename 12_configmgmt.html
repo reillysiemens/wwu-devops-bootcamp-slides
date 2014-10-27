@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lesson 12: Configuration Management &mdash; WWU DevOps Bootcamp 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    <script type="text/javascript" src="_static/ga.js"></script>
+    
+    <link rel="top" title="WWU DevOps Bootcamp 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Lesson 13: Contributing to Open Source" href="13_opensource.html" />
+    <link rel="prev" title="Lesson 11: Devops &amp; Configuration Management Intro" href="11_devops.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  <article class="slide level-1" id="lesson-12-configuration-management">
+<h1>Lesson 12: Configuration Management</h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">starting off with cs312 content</p>
+</div>
+
+</article>
+<article class="slide level-2" id="large-site-management">
+<h2>Large site management</h2>
+<ul class="simple">
+<li>Configuration Management</li>
+<li>Automation</li>
+<li>Centralized</li>
+<li>Standardization</li>
+<li>History</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>Automating most of what you do</li>
+<li>Scaling the configuration management is key</li>
+<li>Centralized so that a team can work together</li>
+<li>History via SCM (source control management)</li>
+</ul>
+</div>
+
+</article>
+<article class="slide level-2" id="what-config-management-does">
+<h2>What config management does</h2>
+<ul class="simple">
+<li>Verify permissions for security/mgmt purposes</li>
+<li>Distribute config files and scripts</li>
+<li>Control batch jobs</li>
+<li>Ensure packages are up to date</li>
+<li>Look for file changes</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Ensures that critical configs always are set like you want. No mucking around
+by a bad admin</p>
+</div>
+
+</article>
+<article class="slide level-2" id="configuration-management">
+<h2>Configuration Management</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>System-wide settings</dt>
+<dd><ul class="first last simple">
+<li>sshd, ntp, ldap, etc</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Group settings</dt>
+<dd><ul class="first last simple">
+<li>Web, email, database</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Standardize settings globally</p>
+</li>
+<li><p class="first">Easy to troubleshoot</p>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="cf-management-tools">
+<h2>CF Management Tools</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>CFEngine</dt>
+<dd><ul class="first last simple">
+<li>Mature, widely used</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Puppet</dt>
+<dd><ul class="first last simple">
+<li>Getting mature, different concept</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Chef</dt>
+<dd><ul class="first last simple">
+<li>Very new</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Different concepts
+Feature set different between them
+Each have their own issues</p>
+</div>
+
+</article>
+<article class="slide level-2" id="puppet">
+<h2>Puppet</h2>
+<p>Let's install puppet</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>yum install puppet
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="declarative-configuration">
+<h2>Declarative Configuration</h2>
+<ul class="simple">
+<li>We 'declare' the desired state of the system</li>
+<li>Puppet does the necessary work to make the system match our declaration</li>
+<li>We can save these declarations in a repository, just like code</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="puppet-resources">
+<h2>Puppet Resources</h2>
+<p>Puppet knows about &quot;resources&quot; on the system</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>puppet describe -l
+</pre></div>
+</div>
+<p>Look at all those things Puppet can manage out of the box. We're most interested
+in these:</p>
+<div class="highlight-python"><div class="highlight"><pre>file            - Manages files, including their content, owner ...
+group           - Manage groups
+package         - Manage packages
+service         - Manage running services
+user            - Manage users
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="resources-have-attributes">
+<h2>Resources Have Attributes</h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># let&#39;s look at the vagrant user</span>
+<span class="nv">$ </span>sudo puppet resource user vagrant
+</pre></div>
+</div>
+<div class="highlight-puppet"><div class="highlight"><pre><span class="k">user</span> <span class="p">{</span> <span class="s">&#39;vagrant&#39;</span><span class="p">:</span>
+  <span class="na">ensure</span>           <span class="o">=&gt;</span> <span class="s">&#39;present&#39;</span><span class="p">,</span>
+  <span class="na">gid</span>              <span class="o">=&gt;</span> <span class="s">&#39;500&#39;</span><span class="p">,</span>
+  <span class="na">groups</span>           <span class="o">=&gt;</span> <span class="p">[</span><span class="s">&#39;wheel&#39;</span><span class="p">],</span>
+  <span class="na">home</span>             <span class="o">=&gt;</span> <span class="s">&#39;/home/vagrant&#39;</span><span class="p">,</span>
+  <span class="na">password</span>         <span class="o">=&gt;</span> <span class="s">&#39;$1$aDsSD/Uu$.tXG5wN.TSit1AP5ZyphB0&#39;</span><span class="p">,</span>
+  <span class="na">password_max_age</span> <span class="o">=&gt;</span> <span class="s">&#39;99999&#39;</span><span class="p">,</span>
+  <span class="na">password_min_age</span> <span class="o">=&gt;</span> <span class="s">&#39;0&#39;</span><span class="p">,</span>
+  <span class="na">shell</span>            <span class="o">=&gt;</span> <span class="s">&#39;/bin/bash&#39;</span><span class="p">,</span>
+  <span class="na">uid</span>              <span class="o">=&gt;</span> <span class="s">&#39;500&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We can declare a value for any of those attributes, and Puppet will make it
+happen.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">the password is a password hash, as appears in /etc/shadow - don't put
+passwords in puppet manifests!</p>
+</div>
+
+</article>
+<article class="slide level-2" id="puppet-manifests">
+<h2>Puppet Manifests</h2>
+<p>Puppet keeps its declarations in manifest files. We can write a manifest to
+create a user:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>sudo su -
+<span class="nv">$ </span>vim users.pp
+</pre></div>
+</div>
+<div class="highlight-puppet"><div class="highlight"><pre><span class="k">user</span> <span class="p">{</span><span class="s">&#39;yournamehere&#39;</span><span class="p">:</span>
+  <span class="na">ensure</span>    <span class="o">=&gt;</span> <span class="s">&#39;present&#39;</span><span class="p">,</span>
+  <span class="na">home</span>      <span class="o">=&gt;</span> <span class="s">&#39;/home/yournamehere&#39;</span><span class="p">,</span>
+  <span class="na">groups</span>    <span class="o">=&gt;</span> <span class="p">[</span><span class="s">&#39;wheel&#39;</span><span class="p">,</span> <span class="s">&#39;vagrant&#39;</span><span class="p">],</span>
+  <span class="na">shell</span>     <span class="o">=&gt;</span> <span class="s">&#39;/bin/tcsh&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="pull-the-strings">
+<h2>Pull the Strings</h2>
+<p>Lets run our manifest.</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; puppet apply user.pp
+Notice: Compiled catalog for devops-bootcamp.osuosl.org in
+environment production in 0.12 seconds
+Notice: /Stage[main]/Main/User[yournamehere]/ensure: created
+Notice: Finished catalog run in 0.13 seconds
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">we are using stand-alone mode, manually running an individual manifest</p>
+</div>
+
+</article>
+<article class="slide level-2" id="declarations-are-idempotent">
+<h2>Declarations Are Idempotent</h2>
+<p>Lets run our manifest again.</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; puppet apply user.pp
+Notice: Compiled catalog for devops-bootcamp.osuosl.org in
+environment production in 0.12 seconds
+Notice: Finished catalog run in 0.02 seconds
+</pre></div>
+</div>
+<p>The state of the system is already what we declared it should be, so applying
+the manifest again doesn't change anything.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">idempotency is important, the puppet master daemon will run periodically, and
+it is important that running the same commands over and over does not have
+cumulative effects</p>
+</div>
+
+</article>
+<article class="slide level-2" id="packages-and-services">
+<h2>Packages and Services</h2>
+<p>We can declare that our system should have certain things installed and running.</p>
+<p>apache.pp:</p>
+<div class="highlight-puppet"><div class="highlight"><pre><span class="k">package</span><span class="p">{</span><span class="s">&#39;httpd&#39;</span><span class="p">:</span>
+    <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="s">&#39;present&#39;</span>
+<span class="p">}</span>
+
+<span class="k">service</span><span class="p">{</span><span class="s">&#39;httpd&#39;</span><span class="p">:</span>
+    <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="s">&#39;running&#39;</span><span class="p">,</span>
+    <span class="na">enable</span> <span class="o">=&gt;</span> <span class="s">&#39;true&#39;</span><span class="p">,</span>
+    <span class="na">require</span> <span class="o">=&gt;</span> <span class="k">Package</span><span class="p">[</span><span class="s">&#39;httpd&#39;</span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The 'service' block makes sure that the httpd service is started, and that it
+is enabled, the 'require' directive tells the service that it must wait until
+the package 'httpd' is processed. Services are anything you would start with
+&quot;service x start&quot; and packages anything you would install with &quot;yum install x&quot;</p>
+</div>
+
+</article>
+<article class="slide level-2" id="puppet-config">
+<h2>Puppet Config</h2>
+<p>Where does Puppet keep its configuration files?</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">the audience really ought to know where to start looking by this point</p>
+</div>
+
+</article>
+<article class="slide level-2" id="etc-puppet">
+<h2>/etc/puppet</h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>ls /etc/puppet
+auth.conf  modules  puppet.conf
+</pre></div>
+</div>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">puppet.conf</span></tt> - systemwide configuration</li>
+<li><tt class="docutils literal"><span class="pre">auth.conf</span></tt> - puppet agent configuration</li>
+<li><tt class="docutils literal"><span class="pre">modules</span></tt> - we'll talk about that later</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">there isn't much of anything we need to worry about in any of the config files</p>
+</div>
+
+</article>
+<article class="slide level-2" id="the-site-manifest">
+<h2>The Site Manifest</h2>
+<p>We want to move beyond running individual manifests on the command line.
+'<tt class="docutils literal"><span class="pre">/etc/puppet/manifests/site.pp</span></tt>' is the place to put your site's
+configuration.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>mkdir /etc/puppet/manifests
+<span class="nv">$ </span>vim /etc/puppet/manifests/site.pp
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="but-first-nodes">
+<h2>But First, Nodes</h2>
+<ul class="simple">
+<li>Nodes are defined in the site manifest</li>
+<li>A node is a single machine, identified by its FQDN (Fully-Qualified Domain
+Name).</li>
+<li>You can define many nodes.</li>
+<li>You can add declarations to a node definition.</li>
+<li>A special 'default' node will be used if a node's name can't be found.</li>
+</ul>
+<p>We will put our configurations in the default node for now.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">a node can inherit from another node, but this is discouraged</p>
+</div>
+
+</article>
+<article class="slide level-2" id="an-example-site-manifest">
+<h2>An Example Site Manifest</h2>
+<div class="highlight-puppet"><div class="highlight"><pre><span class="k">node</span> <span class="k">default</span> <span class="p">{</span>
+    <span class="k">file</span> <span class="p">{</span><span class="s">&#39;/etc/issue&#39;</span><span class="p">:</span>
+        <span class="na">path</span>    <span class="o">=&gt;</span> <span class="s">&#39;/etc/issue&#39;</span><span class="p">,</span>
+        <span class="na">mode</span>    <span class="o">=&gt;</span> <span class="mi">644</span><span class="p">,</span>
+        <span class="na">ensure</span>  <span class="o">=&gt;</span> <span class="k">present</span><span class="p">,</span>
+        <span class="na">content</span> <span class="o">=&gt;</span> <span class="s">&quot;Welcome to the DevOps Bootcamp VM.\n&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">package</span><span class="p">{</span><span class="s">&#39;httpd&#39;</span><span class="p">:</span>
+        <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="s">&#39;present&#39;</span>
+    <span class="p">}</span>
+
+    <span class="k">service</span><span class="p">{</span><span class="s">&#39;httpd&#39;</span><span class="p">:</span>
+        <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="s">&#39;running&#39;</span><span class="p">,</span>
+        <span class="na">enable</span> <span class="o">=&gt;</span> <span class="s">&#39;true&#39;</span><span class="p">,</span>
+        <span class="na">require</span> <span class="o">=&gt;</span> <span class="k">Package</span><span class="p">[</span><span class="s">&#39;httpd&#39;</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">have we talked about /etc/issue? The file resource lets you declare the
+filename, ownership, and contents. You can also have it copy files from the
+module onto the node instead of manually inserting content here.</p>
+</div>
+
+</article>
+<article class="slide level-2" id="the-master-and-the-agent">
+<h2>The Master and the Agent</h2>
+<p>Puppet uses a Master/Agent architecture.</p>
+<ul class="simple">
+<li>The Master reads the '<tt class="docutils literal"><span class="pre">site.pp</span></tt>' and listens for an Agent to contact it.</li>
+<li>Agents run on nodes, they contact the master to get their configuration</li>
+<li>Master and Agent can be on the same machine.</li>
+<li>When they are on different machines, they need an SSL certificate to
+authenticate</li>
+</ul>
+<p>Run the master on your vm:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>puppet master
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">the master will background by default and log to syslog, but you can run it in
+the foreground with --no-daemonize and get extra logging on stdout with
+--verbose</p>
+</div>
+
+</article>
+<article class="slide level-2" id="the-agent">
+<h2>The Agent</h2>
+<p>The agent will look for its master on the host '<tt class="docutils literal"><span class="pre">puppet</span></tt>' by default. Lets add
+the hostname '<tt class="docutils literal"><span class="pre">puppet</span></tt>' to our local host definition in <tt class="docutils literal"><span class="pre">/etc/hosts</span></tt>, so it
+will look on the local machine.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>vim /etc/hosts
+
+127.0.0.1   devops-bootcamp.osuosl.org devops-bootcamp localhost
+localhost.localdomain localhost4 localhost4.localdomain4 puppet
+                                                         ^^^^^^
+</pre></div>
+</div>
+<p>Now run the agent in test mode:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>puppet agent --test --verbose
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">the agent will also background by default, the --test flag prevents that and
+shows us what is going on. In a production environment, the master and agent
+would always be running in the background, usually started as services on
+boot.</p>
+</div>
+
+</article>
+<article class="slide level-2" id="modules">
+<h2>Modules</h2>
+<p>We can keep adding configurations to site.pp, but it's going to get long and
+messy. Let's use modules instead.</p>
+<ul class="simple">
+<li>Modules are classes</li>
+<li>Modules encapsulate a set of related configurations</li>
+<li>Modules make it easy to apply configurations to many nodes</li>
+<li>Community created modules already exist for almost everything</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">community or puppetlabs modules vary in quality, always read the docs
+thoroughly</p>
+</div>
+
+</article>
+<article class="slide level-2" id="module-structure">
+<h2>Module Structure</h2>
+<div class="highlight-bash"><div class="highlight"><pre>/etc/puppet/modules/
+                modulename/
+                    files/
+                        some_file
+                    manifests/
+                        init.pp
+                        some_other_manifest.pp
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">that files directory is served to the puppet agent like a fileserver, file
+resources can declare their source attribute like
+&quot;puppet:///modules/module_name/some_file&quot; and the file will be copied into
+place</p>
+</div>
+
+</article>
+<article class="slide level-2" id="the-bootcamp-apache-module">
+<h2>The Bootcamp Apache Module</h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Let&#39;s create a module for our Apache configuration.</span>
+<span class="nv">$ </span><span class="nb">cd</span> /etc/puppet/modules
+<span class="nv">$ </span>mkdir bootcamp_apache
+<span class="nv">$ </span>mkdir bootcamp_apache/manifests
+<span class="nv">$ </span>vim bootcamp_apache/manifests/init.pp
+</pre></div>
+</div>
+<div class="highlight-puppet"><div class="highlight"><pre><span class="k">class</span> <span class="na">bootcamp_apache</span> <span class="p">{</span>
+    <span class="k">package</span><span class="p">{</span><span class="s">&#39;httpd&#39;</span><span class="p">:</span>
+        <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="s">&#39;present&#39;</span>
+    <span class="p">}</span>
+    <span class="k">package</span><span class="p">{</span><span class="s">&#39;mod_wsgi&#39;</span><span class="p">:</span>
+        <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="s">&#39;present&#39;</span>
+    <span class="p">}</span>
+    <span class="k">service</span><span class="p">{</span><span class="s">&#39;httpd&#39;</span><span class="p">:</span>
+        <span class="na">ensure</span> <span class="o">=&gt;</span> <span class="s">&#39;running&#39;</span><span class="p">,</span>
+        <span class="na">enable</span> <span class="o">=&gt;</span> <span class="s">&#39;true&#39;</span><span class="p">,</span>
+        <span class="na">require</span> <span class="o">=&gt;</span> <span class="k">Package</span><span class="p">[</span><span class="s">&#39;httpd&#39;</span><span class="p">],</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">it is good practice to namespace the class name of your modules, so instead of
+just 'apache', we use bootcamp_apache, which won't collide with any other
+apache related module.</p>
+</div>
+
+</article>
+<article class="slide level-2" id="site-pp-modularized">
+<h2>Site.pp Modularized</h2>
+<div class="highlight-puppet"><div class="highlight"><pre><span class="k">node</span> <span class="k">default</span> <span class="p">{</span>
+    <span class="k">file</span> <span class="p">{</span><span class="s">&#39;/etc/issue&#39;</span><span class="p">:</span>
+        <span class="na">path</span>    <span class="o">=&gt;</span> <span class="s">&#39;/etc/issue&#39;</span><span class="p">,</span>
+        <span class="na">mode</span>    <span class="o">=&gt;</span> <span class="mi">644</span><span class="p">,</span>
+        <span class="na">ensure</span>  <span class="o">=&gt;</span> <span class="k">present</span><span class="p">,</span>
+        <span class="na">content</span> <span class="o">=&gt;</span> <span class="s">&quot;Welcome to the DevOps Bootcamp VM.\n&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">include</span> <span class="na">bootcamp_apache</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">the include statement assumes a module located in modules/ under the pupper
+config dir. The name is the class name of the the module, which is not
+necessarily the directory name the module is stored under (but it is much
+easier to name them the same)</p>
+</div>
+
+</article>
+<article class="slide level-2" id="community-modules">
+<h2>Community Modules</h2>
+<p>We need MySql installed for our SystemView app, as well as a database, user, and
+permissions. We could do all that with package, service and file resources, but
+there is a better way, the puppetlabs-mysql module.</p>
+<p><a class="reference external" href="https://github.com/puppetlabs/puppetlabs-mysql">https://github.com/puppetlabs/puppetlabs-mysql</a></p>
+<p>(It's in Git, how convenient!)</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> /etc/puppet/modules/
+<span class="c"># We&#39;ll clone into a directory named mysql, because that&#39;s the module name</span>
+<span class="nv">$ </span>git clone https://github.com/puppetlabs/puppetlabs-mysql.git mysql
+</pre></div>
+</div>
+<p>We can include this module's class into our site manifest or our own modules.</p>
+
+</article>
+<article class="slide level-2" id="the-bootcamp-mysql-module">
+<h2>The Bootcamp Mysql Module</h2>
+<p>We want to create a database and users, so lets make a module and not clutter up
+the site.pp</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> /etc/puppet/modules
+<span class="nv">$ </span>mkdir bootcamp_mysql
+<span class="nv">$ </span>mkdir bootcamp_mysql/manifests
+<span class="nv">$ </span>vim bootcamp_mysql/manifests/init.pp
+</pre></div>
+</div>
+<div class="highlight-puppet"><div class="highlight"><pre><span class="k">class</span> <span class="na">bootcamp_mysql</span> <span class="p">{</span>
+    <span class="k">class</span> <span class="p">{</span> <span class="s">&#39;::mysql::server&#39;</span> <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">::mysql::server</span></tt> causes Puppet to install MySql and makes available many
+methods for managing MySql.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Calling the 'mysql' class essentially includes that module, which
+includes a package declaration insuring mysql is installed. It is easy to
+explore the module files and see what is in it.</p>
+</div>
+
+</article>
+<article class="slide level-2" id="databases-users-and-grants">
+<h2>Databases, Users, and Grants</h2>
+<div class="highlight-puppet"><div class="highlight"><pre><span class="k">class</span> <span class="na">bootcamp_mysql</span> <span class="p">{</span>
+    <span class="k">class</span> <span class="p">{</span> <span class="s">&#39;::mysql::server&#39;</span> <span class="p">}</span>
+
+    <span class="na">mysql_database</span> <span class="p">{</span> <span class="s">&#39;systemview&#39;</span><span class="p">:</span>
+        <span class="na">ensure</span>  <span class="o">=&gt;</span> <span class="s">&#39;present&#39;</span><span class="p">,</span>
+        <span class="na">charset</span> <span class="o">=&gt;</span> <span class="s">&#39;utf8&#39;</span><span class="p">,</span>
+        <span class="na">collate</span> <span class="o">=&gt;</span> <span class="s">&#39;utf8_swedish_ci&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="na">mysql_user</span> <span class="p">{</span> <span class="s">&#39;vagrant@localhost&#39;</span><span class="p">:</span>
+        <span class="na">ensure</span>  <span class="o">=&gt;</span> <span class="s">&#39;present&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="na">mysql_grant</span> <span class="p">{</span> <span class="s">&#39;vagrant@localhost/systemview.*&#39;</span><span class="p">:</span>
+        <span class="na">ensure</span>     <span class="o">=&gt;</span> <span class="s">&#39;present&#39;</span><span class="p">,</span>
+        <span class="na">options</span>    <span class="o">=&gt;</span> <span class="p">[</span><span class="s">&#39;GRANT&#39;</span><span class="p">],</span>
+        <span class="na">privileges</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s">&#39;ALL&#39;</span><span class="p">],</span>
+        <span class="na">table</span>      <span class="o">=&gt;</span> <span class="s">&#39;systemview.*&#39;</span><span class="p">,</span>
+        <span class="k">user</span>       <span class="o">=&gt;</span> <span class="s">&#39;vagrant@localhost&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">the mysql module has a lot of stuff in it, there isn't time to get into it all.</p>
+</div>
+
+</article>
+<article class="slide level-2" id="test-it-out">
+<h2>Test It Out</h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>puppet agent --test --verbose
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="further-reading">
+<h2>Further Reading</h2>
+<ul class="simple">
+<li><a class="reference external" href="http://docs.puppetlabs.com/learning/introduction.html">http://docs.puppetlabs.com/learning/introduction.html</a></li>
+<li><a class="reference external" href="https://github.com/puppetlabs/puppetlabs-mysql">https://github.com/puppetlabs/puppetlabs-mysql</a></li>
+</ul>
+
+</article>
+
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>

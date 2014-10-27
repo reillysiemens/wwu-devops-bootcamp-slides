@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lesson 4: Scripting, Troubleshooting, &amp; Workflow &mdash; WWU DevOps Bootcamp 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    <script type="text/javascript" src="_static/ga.js"></script>
+    
+    <link rel="top" title="WWU DevOps Bootcamp 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Lesson 5: Web Applications" href="05_services_app.html" />
+    <link rel="prev" title="Lesson 3: Editors &amp; Version Control" href="03_editors_git.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  <article class="slide level-1" id="lesson-4-scripting-troubleshooting-workflow">
+<h1>Lesson 4: Scripting, Troubleshooting, &amp; Workflow</h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">week 1, 1/9/2014
+- log files
+- git bisect, git log, git blame
+- scientific method (small changes)</p>
+</div>
+
+</article>
+<article class="slide level-2" id="agenda">
+<h2>Agenda</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>Scripting</dt>
+<dd><ul class="first last simple">
+<li>What's a script?</li>
+<li>What's a scripting language?</li>
+<li>Common scripting languages</li>
+<li>Bash &amp; Python examples</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Troubleshooting</dt>
+<dd><ul class="first last simple">
+<li>Techniques</li>
+<li>Examples</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Workflow</dt>
+<dd><ul class="first last simple">
+<li>Life cycle of a bug</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="scripting">
+<h2>Scripting</h2>
+
+</article>
+<article class="slide level-2" id="what-s-a-script">
+<h2>What's a script?</h2>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/xkcd_1205.png"><img alt="_images/xkcd_1205.png" src="_images/xkcd_1205.png" style="width: 428.25px; height: 348.0px;" /></a>
+</div>
+<ul class="simple">
+<li>Piece of code to automate a boring task</li>
+<li>Explanation of how to do what you do</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="what-s-a-scripting-language">
+<h2>What's a scripting language?</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is more programming language than scripting specific.</p>
+</div>
+<ul>
+<li><p class="first">Compiled vs interpreted</p>
+</li>
+<li><dl class="first docutils">
+<dt>Expresses logic and actions</dt>
+<dd><ul class="first last simple">
+<li>Logic: loops, conditionals, statements</li>
+<li>Actions: File I/O, print to console, interact with system utilities</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="common-scripting-languages">
+<h2>Common Scripting Languages</h2>
+<ul class="simple">
+<li>Bash</li>
+<li>Python</li>
+<li>Language affects the speed of development and performance of a task</li>
+<li>Most tasks can be done using any language</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="bash">
+<h2>Bash</h2>
+<ul class="simple">
+<li>Adds a bit of logic to automate your shell commands</li>
+<li>Saves re-typing things</li>
+<li>Powered by the tools you invoke from the shell</li>
+<li>Scripts can be hard to read at first because they call to external utilities</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="python">
+<h2>Python</h2>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/xkcd_353.png"><img alt="_images/xkcd_353.png" src="_images/xkcd_353.png" style="width: 414.4px; height: 470.4px;" /></a>
+</div>
+
+</article>
+<article class="slide level-2" id="why-python">
+<h2>Why Python?</h2>
+<ul class="simple">
+<li>Easy to read</li>
+<li>Easy to maintain</li>
+<li>Quick to write</li>
+<li>Lots of libraries</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="troubleshooting">
+<h2>Troubleshooting</h2>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/xkcd_627.png"><img alt="_images/xkcd_627.png" src="_images/xkcd_627.png" style="width: 475.8px; height: 534.95px;" /></a>
+</div>
+
+</article>
+<article class="slide level-2" id="informal-method">
+<h2>Informal method</h2>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/xkcd_349.png"><img alt="_images/xkcd_349.png" src="_images/xkcd_349.png" style="width: 326.4px; height: 565.2px;" /></a>
+</div>
+<ul>
+<li><p class="first">Notice that something isn't working right</p>
+</li>
+<li><dl class="first docutils">
+<dt>Identify what should be happening</dt>
+<dd><ul class="first last simple">
+<li>Define a success criterion (&quot;<em>it works if...</em>&quot;)</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="if-it-used-to-work">
+<h2>If it used to work</h2>
+<div class="figure align-right">
+<img alt="_images/xkcd_1172.png" src="_images/xkcd_1172.png" />
+</div>
+<ul>
+<li><dl class="first docutils">
+<dt>Determine what changed</dt>
+<dd><ul class="first last simple">
+<li>Version control history (Git bisect)</li>
+<li>Emails from the system? Logs? (Check for cron jobs or config mgmt)</li>
+<li>Ask others who've been working on system</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Use your own notes/documentation</p>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="if-it-s-never-worked-for-you">
+<h2>If it's never worked for you</h2>
+<ul>
+<li><p class="first">Determine whether it's possible at all</p>
+</li>
+<li><p class="first">Find evidence of similar things working (code, blog posts, stackoverflow)</p>
+</li>
+<li><p class="first">If there's no evidence of anything like this working, you might be Doing It
+Wrong (tm)</p>
+</li>
+<li><dl class="first docutils">
+<dt>If there's documentation of something similar working:</dt>
+<dd><ul class="first last simple">
+<li>Confirm that the docs are correct for the versions of things that you're
+using</li>
+<li>If they docs are wrong, fix them</li>
+<li>If the docs appear right, figure out what differs between your code and
+the example</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>If there's sample code, make sure you can run it</dt>
+<dd><ul class="first last simple">
+<li>Your goal is minimum viable test case</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="after-finding-the-problem">
+<h2>After finding the problem</h2>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/xkcd_806.png"><img alt="_images/xkcd_806.png" src="_images/xkcd_806.png" style="width: 312.5px; height: 461.5px;" /></a>
+</div>
+<ul>
+<li><p class="first">Did the docs tell you how to fix it?</p>
+</li>
+<li><p class="first">If you can't fix the problem, identify why not, and then fix that</p>
+</li>
+<li><dl class="first docutils">
+<dt>Ask for help</dt>
+<dd><ul class="first last simple">
+<li>Expert takes 5 minutes to answer a well-asked question</li>
+<li>Newbie can waste hours</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="formal-method">
+<h2>Formal method</h2>
+<p>(from <a class="reference external" href="http://my.safaribooksonline.com/book/certification/aplus/9780768694420/pc-technician-essentials/ch01lev1sec3">this</a>)</p>
+<ul class="simple">
+<li>Identify the problem</li>
+<li>Establish a theory of probable cause (question the obvious)</li>
+<li>Test the theory to determine the cause</li>
+<li>Establish a plan of action to resolve the problem and implement the solution</li>
+<li>Verify full system functionality and, if applicable, implement preventative measures</li>
+<li>Document findings, actions, and outcomes</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="how-to-get-help">
+<h2>How to get help</h2>
+<ul class="simple">
+<li>Don't ask to ask</li>
+<li>Summarize what's wrong</li>
+<li>Summarize what you've tried and why it hasn't worked</li>
+<li>Make a specific request, politely</li>
+<li>Pick the right place &amp; time to ask</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="documentation">
+<h2>Documentation</h2>
+<ul>
+<li><p class="first">Man pages</p>
+</li>
+<li><p class="first">Wikis</p>
+</li>
+<li><dl class="first docutils">
+<dt>Google (used wisely)</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>Assessing sites' applicability and reliability</dt>
+<dd><ul class="first last simple">
+<li>Who wrote it?</li>
+<li>When?</li>
+<li>Is the other content reliable?</li>
+<li>Is feedback from others visible? If so, what does it say?</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="sources-of-trouble">
+<h2>Sources of trouble</h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">When using something new:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><ul class="first simple">
+<li>You probably misunderstood it.</li>
+<li>Maybe their documentation was wrong.</li>
+<li>If neither, then perhaps their code is wrong.</li>
+<li>Submit a ticket or pull request to fix the docs or code</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">When something previously working breaks:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><ul class="first last simple">
+<li>Something changed</li>
+<li>Someone updated something</li>
+<li>Figure out who and why; document</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+
+</article>
+<article class="slide level-2" id="tickets">
+<h2>Tickets</h2>
+<ul>
+<li><p class="first">Ticket (often sysadmin) or Issue (often developer)</p>
+</li>
+<li><p class="first">Ticket comes into tracking system, submitted by a user</p>
+</li>
+<li><dl class="first docutils">
+<dt>Triage</dt>
+<dd><ul class="first last simple">
+<li>Add details to tickets; consolidate duplicates</li>
+<li>Contact submitter if more info needed</li>
+<li>Add tags, milestones, priority, etc.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Ticket is assigned to someone, who fixes it</p>
+</li>
+<li><p class="first">Someone else confirms that the fix works, then ticket is closed</p>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="tickets-vs-issues">
+<h2>Tickets vs. Issues</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>Workflow defined by tracker system</dt>
+<dd><ul class="first last simple">
+<li>RT, Redmine, Chiliproject, GitHub issues, mailing lists</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Issues/Bugs are developer work items which need to be included in a release of
+code</p>
+</li>
+<li><p class="first">Tickets are sysadmin work items, often related to systems improvement or
+maintenance</p>
+</li>
+<li><p class="first">Can't log in because your account got reset: Ticket.</p>
+</li>
+<li><p class="first">Can't log in because the newest release of the software is incompatible with
+the old database format: Bug.</p>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="some-examples">
+<h2>Some Examples</h2>
+<ul class="simple">
+<li>Trac</li>
+<li>Chiliproject</li>
+<li>RT</li>
+<li>Bugzilla</li>
+</ul>
+
+</article>
+
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>

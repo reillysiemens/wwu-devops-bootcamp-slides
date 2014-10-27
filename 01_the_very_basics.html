@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lesson 1: The Very Basics &mdash; WWU DevOps Bootcamp 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    <script type="text/javascript" src="_static/ga.js"></script>
+    
+    <link rel="top" title="WWU DevOps Bootcamp 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Lesson 2: Single System Fundamentals" href="02_single_system_fundamentals.html" />
+    <link rel="prev" title="DevOps Bootcamp Introduction" href="00_introduction.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  <article class="slide level-1" id="lesson-1-the-very-basics">
+<h1>Lesson 1: The Very Basics</h1>
+
+</article>
+<article class="slide level-2" id="today-s-agenda">
+<h2>Today's Agenda</h2>
+<ul>
+<li><p class="first">Getting (to) Linux</p>
+</li>
+<li><dl class="first docutils">
+<dt>The Terminal &amp; Shell</dt>
+<dd><ul class="first last simple">
+<li>Scripts, file paths, special characters</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Productivity tricks</dt>
+<dd><ul class="first last simple">
+<li>Getting help</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="figure align-right">
+<img alt="_images/Tux.png" src="_images/Tux.png" />
+</div>
+<ul>
+<li><dl class="first docutils">
+<dt>IRC</dt>
+<dd><ul class="first last simple">
+<li>Vocabulary</li>
+<li>Get connected</li>
+<li>Etiquette</li>
+<li>#wwucs, #wwu-devops, #wwu-alumni</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="a-note-about-notation">
+<h2>A note about notation</h2>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/stickynote.png"><img alt="_images/stickynote.png" src="_images/stickynote.png" style="width: 300.0px; height: 300.0px;" /></a>
+</div>
+<ul>
+<li><dl class="first docutils">
+<dt>Variables</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">$varname</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">&lt;varname&gt;</span></tt></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Shell prompt</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">$</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">`literal</span> <span class="pre">stuff</span> <span class="pre">in</span> <span class="pre">backticks`</span></tt></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">foo, bar, baz, username, etc.</p>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="how-to-get-to-linux">
+<h2>How to get (to) Linux</h2>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/dualboot.png"><img alt="_images/dualboot.png" src="_images/dualboot.png" style="width: 240.0px; height: 105.2px;" /></a>
+</div>
+<ul>
+<li><p class="first">How many have it already installed?</p>
+</li>
+<li><p class="first">Install VM or dual-boot</p>
+</li>
+<li><p class="first">When stuck on Windows, use <a class="reference external" href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">PuTTy</a>:</p>
+</li>
+<li><p class="first">Students:</p>
+<div class="highlight-python"><div class="highlight"><pre>ssh &lt;username&gt;@linux.cs.wwu.edu
+</pre></div>
+</div>
+</li>
+</ul>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/osm_server.jpg"><img alt="_images/osm_server.jpg" src="_images/osm_server.jpg" style="width: 400.0px; height: 300.0px;" /></a>
+</div>
+
+</article>
+<article class="slide level-2" id="trying-linux-on-a-virtual-machine">
+<h2>Trying Linux on a Virtual Machine</h2>
+<p>Virtual machines act as a full system on a physical machine</p>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/virtualbox.png"><img alt="_images/virtualbox.png" src="_images/virtualbox.png" style="width: 256.0px; height: 256.0px;" /></a>
+</div>
+<ul>
+<li><dl class="first docutils">
+<dt>Hypervisors:</dt>
+<dd><ul class="first last simple">
+<li>VirtualBox (free)</li>
+<li>VMWare (mostly free)</li>
+<li>KVM (Linux only hosts)</li>
+<li>Parallels</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Public Cloud Virtual Machines</dt>
+<dd><ul class="first last simple">
+<li>Amazon EC2, Rackspace Cloud, Google Compute Engine, etc</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Easy way to test without breaking your machine!</p>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="installing-linux-on-virtualbox">
+<h2>Installing Linux on Virtualbox</h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Your home directories in all CS labs are mounted over NFS. If you run a
+virtual machine from your home directory you will crash the file server and
+get your account disabled.</p>
+<p class="last">You can stop this from happening by adding &quot;export
+VAGRANT_HOME=/tmp/$USER-vagrant.d/&quot; to your .bashrc (or .zshrc, etc.) and
+changing the virtualbox default machine location to /tmp. This setting can be
+found in File -&gt; Preferences -&gt; General in Virtualbox.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Try other distributions if you like to see what's different. Fedora or Manjaro are great next
+steps to try out.</p>
+</div>
+<ol class="arabic">
+<li><p class="first">Download and install: <a class="reference external" href="https://www.virtualbox.org/wiki/Downloads">https://www.virtualbox.org/wiki/Downloads</a></p>
+</li>
+<li><p class="first">Grab the latest minimal ISO: <a class="reference external" href="http://cdimage.debian.org/debian-cd/current/amd64/iso-cd/">http://cdimage.debian.org/debian-cd/current/amd64/iso-cd/</a></p>
+</li>
+<li><dl class="first docutils">
+<dt>Create VM</dt>
+<dd><ol class="first last arabic simple">
+<li>New -&gt; Name &quot;Debian&quot; -&gt; Default Ram -&gt; Default Disk settings</li>
+<li>Settings -&gt; Storage -&gt; Empty -&gt; CD/DVD Drive -&gt; Select ISO</li>
+<li>Start -&gt; press enter -&gt; Skip media check</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">\o/</span></tt></p>
+</li>
+</ol>
+
+</article>
+<article class="slide level-2" id="vagrant-virtualbox">
+<h2>Vagrant &amp; VirtualBox</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can see the gui by uncommenting the line in the Vagrantfile.</p>
+</div>
+<ul class="simple">
+<li>Vagrant is a tool used with Virtualbox (and other) platforms</li>
+<li>Make a reproducible pre-installed Linux environment</li>
+<li>Download and install: <a class="reference external" href="http://www.vagrantup.com/">http://www.vagrantup.com/</a></li>
+<li>Clone our repo, start and access the vm:</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># clone</span>
+git clone https://github.com/WWUDevOps/vagrantfile
+
+<span class="c"># rename</span>
+mv vagrantfile devopsbootcamp-vagrant
+
+<span class="c"># start up</span>
+<span class="nb">cd </span>devopsbootcamp-vagrant
+vagrant up
+
+<span class="c"># access vm</span>
+vagrant ssh
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="vagrant-cheat-sheet">
+<h2>Vagrant cheat sheet</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">We'll get into more detail later in how you can access ports on your VMs and
+other use cases.</p>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># start</span>
+vagrant up
+
+<span class="c"># stop</span>
+vagrant halt
+
+<span class="c"># destroy (remove vm)</span>
+vagrant destroy
+
+<span class="c"># ssh to the vm</span>
+vagrant ssh
+</pre></div>
+</div>
+<p>Also check out the <a class="reference external" href="http://docs.vagrantup.com/v2/cli/index.html">Vagrant Documentation</a> for more information.</p>
+
+</article>
+<article class="slide level-2" id="the-terminal">
+<h2>The Terminal</h2>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/crashcart.jpg"><img alt="_images/crashcart.jpg" src="_images/crashcart.jpg" style="width: 375.0px; height: 250.5px;" /></a>
+</div>
+<ul>
+<li><dl class="first docutils">
+<dt>Used to mean the keyboard+monitor</dt>
+<dd><ul class="first last simple">
+<li>Now that's a crash cart</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Terminal emulator</p>
+</li>
+<li><dl class="first docutils">
+<dt>Shell: Use bash; others include csh, zsh, tsch</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">~/.bashrc</span></tt></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/televideo_terminal.jpg"><img alt="_images/televideo_terminal.jpg" src="_images/televideo_terminal.jpg" style="width: 289.2px; height: 239.6px;" /></a>
+</div>
+<div class="figure align-left">
+<img alt="_images/teletype_terminal.jpg" src="_images/teletype_terminal.jpg" />
+</div>
+
+</article>
+<article class="slide level-2" id="basic-shell-commands">
+<h2>Basic Shell Commands</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Explain architecture:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">built in commands vs. external binaries</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Demo commands:</th><td class="field-body">Directory movement and file manipulation: Cd, pwd, ls, rm, mv, touch</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">User info:</th><td class="field-body">id, whoami, w</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Pipes:</th><td class="field-body">redirection (pipe.txt, redirect.txt)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Special variables:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">$?, $$ (pid.sh), !!, !*, !$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/pylogo.png"><img alt="_images/pylogo.png" src="_images/pylogo.png" style="width: 210.0px; height: 210.0px;" /></a>
+</div>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">ls</span></tt>, <tt class="docutils literal"><span class="pre">cd</span></tt>, <tt class="docutils literal"><span class="pre">cat</span></tt>, <tt class="docutils literal"><span class="pre">echo</span></tt></li>
+<li>invoke/call an installed program</li>
+<li>get help: <tt class="docutils literal"><span class="pre">man</span> <span class="pre">&lt;program&gt;</span></tt></li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre>test@x230 ~ $ tree
+.
+├── Documents
+│   ├── Code
+│   │   └── scripts
+│   │       └── test.sh
+│   ├── School
+│   └── Work
+└── Pictures
+    ├── manatee.gif
+    └── turtle.png
+
+6 directories, 5 files
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="invoking-a-script">
+<h2>Invoking a script</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Permissions discussed later.</p>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>ls -l
+<span class="nv">$ </span>chmod +x <span class="nv">$filename</span>
+</pre></div>
+</div>
+<p><strong>Arguments</strong> are extra information that you pass to a script or program when
+you call it. They tell it in more detail what you want to do.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>ls -a -l
+<span class="nv">$ </span>ls -al
+</pre></div>
+</div>
+<p>Why pass arguments on the command line rather than having an interactive mode?</p>
+
+</article>
+<article class="slide level-2" id="file-paths">
+<h2>File Paths</h2>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">.</span></tt> means current directory</li>
+<li><tt class="docutils literal"><span class="pre">..</span></tt> means parent directory</li>
+<li>Tilde (<tt class="docutils literal"><span class="pre">~</span></tt>) means your homedir (<tt class="docutils literal"><span class="pre">/home/$username</span></tt>)</li>
+<li><tt class="docutils literal"><span class="pre">/</span></tt> separates directories (not <tt class="docutils literal"><span class="pre">\</span></tt>)</li>
+<li><tt class="docutils literal"><span class="pre">/</span></tt> is root directory, so <tt class="docutils literal"><span class="pre">~</span></tt> expands to <tt class="docutils literal"><span class="pre">/home/$username/</span></tt></li>
+<li>current path appears in your prompt: I'm logged in as the user test on the
+machine named x230</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre>test@x230 ~ $ ls
+Documents  Pictures
+test@x230 ~ $ cd Documents/
+test@x230 ~/Documents $ ls
+Code  School  Work
+test@x230 ~/Documents $
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">root directory is not to be confused with a home directory for the root
+account</p>
+</div>
+
+</article>
+<article class="slide level-2" id="special-characters">
+<h2>Special Characters</h2>
+<ul class="simple">
+<li>escape with <tt class="docutils literal"><span class="pre">\</span></tt> to use them literally</li>
+<li># means a comment</li>
+<li>; allows multiple commands per line</li>
+<li>!, ?, *, &amp;&amp;, &amp;</li>
+<li>Regular expressions (we'll learn more later)</li>
+</ul>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/xkcd_regex.png"><img alt="_images/xkcd_regex.png" src="_images/xkcd_regex.png" style="width: 300.0px; height: 303.5px;" /></a>
+</div>
+
+</article>
+<article class="slide level-2" id="type-less">
+<h2>Type less</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>Reverse-i-search</dt>
+<dd><ul class="first last simple">
+<li>ctrl+r then type command</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>aliases</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">~/.bashrc</span></tt></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Tab completion</p>
+</li>
+</ul>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/space_cadet_keyboard.gif"><img alt="_images/space_cadet_keyboard.gif" src="_images/space_cadet_keyboard.gif" style="width: 684.0px; height: 180.0px;" /></a>
+</div>
+<p>Automation &gt; Typing &gt; Mouse</p>
+
+</article>
+<article class="slide level-2" id="help-get-me-out-of-here">
+<h2>Help, get me out of here!</h2>
+<div class="figure align-center">
+<img alt="_images/exit.jpg" src="_images/exit.jpg" />
+</div>
+<ul>
+<li><p class="first">ctrl+c kills/quits</p>
+</li>
+<li><dl class="first docutils">
+<dt>ctrl+d sends EOF (end-of-file)</dt>
+<dd><ul class="first last simple">
+<li>also means logout</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>:q gets you out of Vi derivatives and man pages</dt>
+<dd><ul class="first last simple">
+<li>esc - esc - :q if you changed modes</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">read what's on your screen; it'll help you</p>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="knowledge-check">
+<h2>Knowledge Check</h2>
+<div class="highlight-python"><div class="highlight"><pre>test@x230 ~ $ tree
+.
+├── Documents
+│   ├── Code
+│   │   └── scripts
+│   │       └── test.sh
+│   ├── School
+│   └── Work
+└── Pictures
+    ├── manatee.gif
+    └── turtle.png
+6 directories, 5 files
+</pre></div>
+</div>
+<ul class="simple">
+<li>What user am I logged in as?</li>
+<li>What command did I just run?</li>
+<li>What is my current directory when I run that command?</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="more-about-man-pages">
+<h2>More about Man Pages</h2>
+<ul>
+<li><p class="first">the manual (rtfm):</p>
+<div class="highlight-python"><div class="highlight"><pre>$ man &lt;program&gt;
+$ man man
+</pre></div>
+</div>
+</li>
+<li><p class="first">use <tt class="docutils literal"><span class="pre">/phrase</span></tt> to search for <tt class="docutils literal"><span class="pre">phrase</span></tt> in the document; <tt class="docutils literal"><span class="pre">n</span></tt> for next match</p>
+</li>
+<li><p class="first">else:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ &lt;program&gt; --help
+</pre></div>
+</div>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="documentation">
+<h2>Documentation</h2>
+<p>Man pages, blogs you find by Googling, StackOverflow</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/google.gif"><img alt="_images/google.gif" src="_images/google.gif" style="width: 244.0px; height: 130.0px;" /></a>
+</div>
+<ul>
+<li><dl class="first docutils">
+<dt>Contribute to community</dt>
+<dd><ul class="first last simple">
+<li>Correct it if it's wrong</li>
+<li>Remind them what newbies don't know</li>
+<li>Write your own</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">For your future self as well</p>
+</li>
+<li><p class="first">Start now</p>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="asking-for-help">
+<h2>Asking for help</h2>
+<p>It's okay to ask.</p>
+<ol class="arabic simple">
+<li>What should be happening?</li>
+<li>What's actually happening?</li>
+<li>Google it</li>
+<li>Skim the manuals of each component</li>
+<li>Identify a friend, mentor, or IRC channel who could help</li>
+<li>When they're not busy, give them a quick synopsis of points 1 and 2,
+mentioning what possibilities you've ruled out by searching.</li>
+</ol>
+<p><strong>Contributions = expertise + time</strong></p>
+<p>Don't waste experts' time, but do build your expertise.</p>
+
+</article>
+<article class="slide level-2" id="irc">
+<h2>IRC</h2>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/multiple_networks.gif"><img alt="_images/multiple_networks.gif" src="_images/multiple_networks.gif" style="width: 604.8px; height: 317.6px;" /></a>
+</div>
+<ul class="simple">
+<li>Internet Relay Chat</li>
+<li>Very old (RFC 1459 May 1993)</li>
+<li>Works on everything (no GUI needed)</li>
+<li>The people you want to listen to are there</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="a-client">
+<h2>A Client</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Switche to a terminal and show example</p>
+</div>
+<p>Use irssi in screen</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># This step is optional, but persistent IRC is cool</span>
+<span class="nv">$ </span>ssh &lt;username&gt;@&lt;preferred shell host&gt;
+
+<span class="c"># start Screen</span>
+<span class="nv">$ </span>screen -S irc
+
+<span class="c"># start your client</span>
+<span class="nv">$ </span>irssi
+
+<span class="c"># after ending ssh session, to get back:</span>
+<span class="nv">$ </span>ssh &lt;username&gt;@&lt;preferred shell host&gt;
+<span class="nv">$ </span>screen -dr IRC
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="networks">
+<h2>Networks</h2>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/multiple_networks.gif"><img alt="_images/multiple_networks.gif" src="_images/multiple_networks.gif" style="width: 453.6px; height: 238.2px;" /></a>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>/connect irc.freenode.net
+
+/nick &lt;myawesomenickname&gt;
+/msg nickserv register &lt;password&gt; &lt;email&gt;
+
+/nick &lt;myawesomenickname&gt;
+/msg nickserv identify &lt;password&gt;
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="channels">
+<h2>Channels</h2>
+<div class="highlight-python"><div class="highlight"><pre>/join #osu-lug
+/join #devopsbootcamp
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name"><tt class="docutils literal"><span class="pre">/list</span></tt>:</th><td class="field-body"><ul class="first simple">
+<li>tells all channels on network</li>
+<li>Don't do this on Freenode!</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name"><tt class="docutils literal"><span class="pre">/topic</span></tt>:</th><td class="field-body"><p class="first">tells you the current channel's topic</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name"><tt class="docutils literal"><span class="pre">/names</span></tt>:</th><td class="field-body"><p class="first last">tells you who's here</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+</article>
+<article class="slide level-2" id="commands">
+<h2>Commands</h2>
+<ul class="simple">
+<li>take action with <tt class="docutils literal"><span class="pre">/me</span> <span class="pre">does</span> <span class="pre">thing`</span></tt></li>
+<li>everything else starting with / is a command</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre>/say $thing
+/join, /part, /whois &lt;nick&gt;, /msg, /help &lt;command&gt;
+</pre></div>
+</div>
+<p>Note that nothing shows up in the channel when you run a <tt class="docutils literal"><span class="pre">/whois</span></tt> command; it
+shows up either in your status buffer or your conversation with the person.</p>
+<div class="codeblock-sm highlight-python"><div class="highlight"><pre>12:04 -!- _test_ [~test@c-50-137-46-63.hsd1.or.comcast.net]
+12:04 -!-  ircname  : Example User
+12:04 -!-  channels : #ExampleChannel
+12:04 -!-  server   : moorcock.freenode.net [TX, USA]
+12:04 -!-  hostname : c-50-137-46-63.hsd1.or.comcast.net 50.137.46.63
+12:04 -!-  idle     : 0 days 0 hours 2 mins 38 secs [signon: Wed Nov  6
+12:00:30
+                      2013]
+12:04 -!- End of WHOIS
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="useful-tricks">
+<h2>Useful tricks</h2>
+<ul>
+<li><p class="first">Tab-complete works on nicknames. use it.</p>
+</li>
+<li><p class="first">Highlight when people say your name</p>
+</li>
+<li><p class="first">Symbols are <em>not</em> part of names; they mark status in channel</p>
+</li>
+<li><p class="first">Logging (expect it); `/set autolog on`</p>
+</li>
+<li><dl class="first docutils">
+<dt>chanserv and nickserv are good bots to know</dt>
+<dd><ul class="first last simple">
+<li>hamper is also a bot</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="screen-irssi-hints">
+<h2>Screen &amp; Irssi Hints</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>Paste with ctrl+shift+v</dt>
+<dd><ul class="first last simple">
+<li>PuTTY defaults to right-click to paste</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">to get back, <tt class="docutils literal"><span class="pre">screen</span> <span class="pre">-dr</span> <span class="pre">IRC</span></tt></p>
+</li>
+<li><p class="first">Can you use <tt class="docutils literal"><span class="pre">man</span> <span class="pre">screen</span></tt> to find out what the d and r flags mean?</p>
+</li>
+</ul>
+<div class="highlight-python"><div class="highlight"><pre>SCREEN(1)                                                               SCREEN(1)
+
+NAME
+       screen - screen manager with VT100/ANSI terminal emulation
+
+SYNOPSIS
+       screen [ -options ] [ cmd [ args ] ]
+       screen -r [[pid.]tty[.host]]
+       screen -r sessionowner/[[pid.]tty[.host]]
+Manual page screen(1) line 1 (press h for help or q to quit)
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="etiquette">
+<h2>Etiquette</h2>
+<ul>
+<li><p class="first">Lurk more</p>
+</li>
+<li><dl class="first docutils">
+<dt>Don't ask to ask</dt>
+<dd><ul class="first last simple">
+<li>Lure help out of hiding with tasty details of problem</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Show that you're worth helping</p>
+</li>
+<li><dl class="first docutils">
+<dt>Read the topic</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">/topic</span></tt></li>
+<li>Output only shows up in your channel, not to everyone else</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Pastebin code</p>
+</li>
+<li><p class="first">Choose your nick carefully</p>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="terminology">
+<h2>Terminology</h2>
+<ul class="simple">
+<li>ping/pong</li>
+<li>flapping</li>
+</ul>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/jargon.jpg"><img alt="_images/jargon.jpg" src="_images/jargon.jpg" style="width: 360.0px; height: 187.5px;" /></a>
+</div>
+<ul>
+<li><p class="first">tail</p>
+</li>
+<li><p class="first">hat</p>
+</li>
+<li><p class="first">nick</p>
+</li>
+<li><p class="first">netsplit</p>
+</li>
+<li><p class="first">kick/ban/k-line</p>
+</li>
+<li><dl class="first docutils">
+<dt>common emotes</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">o/</span></tt> AND  <tt class="docutils literal"><span class="pre">\o</span></tt> high fives</li>
+<li><tt class="docutils literal"><span class="pre">/me</span> <span class="pre">&amp;</span></tt> means afk</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="review">
+<h2>Review</h2>
+<ul>
+<li><p class="first">What's Linux?</p>
+</li>
+<li><dl class="first docutils">
+<dt>How do you open a terminal emulator?</dt>
+<dd><ul class="first last simple">
+<li>this varies between window managers</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">I have the script <tt class="docutils literal"><span class="pre">test.py</span></tt>. How do I run it??</p>
+</li>
+<li><p class="first">How do you list all the files in the current directory?</p>
+</li>
+<li><p class="first">Give 2 ways to change directory to your home directory.</p>
+</li>
+<li><dl class="first docutils">
+<dt>How do you start an irc client?</dt>
+<dd><ul class="first last simple">
+<li>How often should you need to start your IRC client?</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">How do you reconnect to a screen session?</p>
+</li>
+<li><p class="first">Give an example of something which you should not do in IRC</p>
+</li>
+</ul>
+
+</article>
+
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>

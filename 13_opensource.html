@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lesson 13: Contributing to Open Source &mdash; WWU DevOps Bootcamp 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    <script type="text/javascript" src="_static/ga.js"></script>
+    
+    <link rel="top" title="WWU DevOps Bootcamp 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Lesson 14: Review" href="14_review.html" />
+    <link rel="prev" title="Lesson 12: Configuration Management" href="12_configmgmt.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  <article class="slide level-1" id="lesson-13-contributing-to-open-source">
+<h1>Lesson 13: Contributing to Open Source</h1>
+
+</article>
+<article class="slide level-2" id="getting-started-in-open-source">
+<h2>Getting started in Open Source</h2>
+<ul>
+<li><p class="first"><a class="reference external" href="http://classes.engr.oregonstate.edu/eecs/spring2014/cs419-003/">Carlos's CS419 in a nutshell</a></p>
+</li>
+<li><dl class="first docutils">
+<dt>Relevant books</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="http://www.catb.org/~esr/writings/homesteading/cathedral-bazaar/cathedral-bazaar.ps">The cathedral and the bazaar (Eric Raymond)</a></li>
+<li><a class="reference external" href="http://producingoss.com/">Producing Open Source Software (Karl Fogel)</a></li>
+<li><a class="reference external" href="http://open-advice.org/Open-Advice.pdf">Open Advice (Lydia Pintscher)</a></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="joining-vs-starting-a-project">
+<h2>Joining vs Starting a Project</h2>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="figure align-right">
+<img alt="_images/cowbrush.gif" src="_images/cowbrush.gif" />
+</div>
+<ul>
+<li><p class="first">Scratch an itch.</p>
+</li>
+<li><p class="first">Research first</p>
+</li>
+<li><p class="first">Revive dead project vs. rewrite</p>
+</li>
+<li><dl class="first docutils">
+<dt>Get involved with communities even if you plan to start your own</dt>
+<dd><ul class="first last simple">
+<li>Learn from their examples</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="know-your-licenses">
+<h2>Know your licenses</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>I am not a lawyer.</p>
+<p><a class="reference external" href="http://opensource.org/licenses">http://opensource.org/licenses</a> is pretty cool</p>
+<p>&quot; Freely used, modified, and shared&quot;</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">MIT/X11:</th><td class="field-body">Short, permissive, says attribution and no liability. Doesn't discuss
+copyright. Can convert to Apache 2</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Apache:</th><td class="field-body">Short, permissive, goes in every file, grants patent rights from
+contributors to users, author keeps copyright. Plays nice with GPL3 (?)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">BSD:</th><td class="field-body">Attribution, keep copyright, no liability</td>
+</tr>
+<tr class="field-even field"><th class="field-name">AGPL:</th><td class="field-body">Demands source distribution even when software not distributed (for
+cloud/hosted)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">GPL:</th><td class="field-body">Viral, copyleft. Viral = infects entire program if it links to GPL library
+or uses a single line of GPL'd code</td>
+</tr>
+<tr class="field-even field"><th class="field-name">LGPL:</th><td class="field-body">Fixes library linking issue with GPL</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">CC:</th><td class="field-body">Non-code content</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/licensing.jpg"><img alt="_images/licensing.jpg" src="_images/licensing.jpg" style="width: 375.0px; height: 335.75px;" /></a>
+</div>
+<ul class="simple">
+<li>MIT/X11</li>
+<li>Apache</li>
+<li>BSD</li>
+<li>AGPL/GPL/LGPL</li>
+<li>Creative Commons</li>
+<li><a class="reference external" href="http://choosealicense.com/">http://choosealicense.com/</a></li>
+</ul>
+
+</article>
+<article class="slide level-2" id="assessing-a-new-community">
+<h2>Assessing a new community</h2>
+<ul class="simple">
+<li>Elitism vs welcomeness</li>
+<li>Communication style</li>
+<li>Documentation and guides</li>
+<li>Faster or slower change?</li>
+</ul>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/welcome_mat.jpg"><img alt="_images/welcome_mat.jpg" src="_images/welcome_mat.jpg" style="width: 509.1px; height: 339.3px;" /></a>
+</div>
+
+</article>
+<article class="slide level-2" id="getting-involved">
+<h2>Getting involved</h2>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/keeptrying.png"><img alt="_images/keeptrying.png" src="_images/keeptrying.png" style="width: 360.0px; height: 420.0px;" /></a>
+</div>
+<ul>
+<li><p class="first">Lurk more</p>
+</li>
+<li><dl class="first docutils">
+<dt>Make accounts</dt>
+<dd><ul class="first last simple">
+<li>Mailing lists</li>
+<li>IRC channels</li>
+<li>Wikis</li>
+<li>Issue trackers</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Your nick is your reputation</p>
+</li>
+<li><p class="first">It's okay to make mistakes... But learn from them.</p>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="finding-a-project">
+<h2>Finding a project</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>First contributions will be metric of how nice they are to newbies</p>
+<p class="last">There's a thing where older project members get grumpy at newbies because
+they've answered the question over and over... read docs/faq then improve them</p>
+</div>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/osslogos.jpg"><img alt="_images/osslogos.jpg" src="_images/osslogos.jpg" style="width: 360.0px; height: 277.2px;" /></a>
+</div>
+<ul class="simple">
+<li>Openhatch</li>
+<li>Easy bugs</li>
+<li>GSOC submitters who didn't get enough interns</li>
+<li>Search by language</li>
+<li>Search by project type -- find something that interests you (web dev?
+bioinformatics? video games?)</li>
+<li>Your immediate payment for contributions will be satisfaction, so pick
+something satisfying</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="first-steps">
+<h2>First steps</h2>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="figure align-center">
+<img alt="_images/babypenguin.gif" src="_images/babypenguin.gif" />
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It will feel like you have only a vague idea what you're doing. This means
+you've found a project that's challenging and that you'll learn from.</p>
+</div>
+<ul class="simple">
+<li>Lurk awhile then ask</li>
+<li>Write a test</li>
+<li>Fix a typo</li>
+<li>Deploy and update the installation docs</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="devops-concerns">
+<h2>DevOps Concerns</h2>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/devops_all_the_things.jpg"><img alt="_images/devops_all_the_things.jpg" src="_images/devops_all_the_things.jpg" style="width: 386.4px; height: 459.2px;" /></a>
+</div>
+<ul class="simple">
+<li>Configurations often managed in public repos</li>
+<li>Root can't be handed out to just anyone</li>
+<li>Build trust, contribute to project consistently</li>
+<li>Practice with the tools they use</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="your-homework">
+<h2>Your Homework</h2>
+<ul class="simple">
+<li>Find a project that you'd like to get involved with this summer</li>
+<li>Join IRC, mailing lists, etc.</li>
+<li>Pull the code and run its tests using what you've learned</li>
+<li>Find something you can contribute to the project</li>
+<li>Discuss how it's going in <tt class="docutils literal"><span class="pre">#devopsbootcamp</span></tt> on irc.freenode.net</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="questions">
+<h2>Questions?</h2>
+<p>Any questions about anything from this year?</p>
+<ul class="simple">
+<li>Conferences: OSBridge, OSCON may have free expo hall passes</li>
+<li>In Corvallis? Want to come to the OSL and see what we do, pair program, etc.?</li>
+<li>No meeting next week -- <a class="reference external" href="https://docs.google.com/forms/d/14wO3fq80bIWCJDfnE1rYy2w_D7DP_Vu6i6Eul6sXIAk/viewform">please leave feedback!</a></li>
+</ul>
+
+</article>
+
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>

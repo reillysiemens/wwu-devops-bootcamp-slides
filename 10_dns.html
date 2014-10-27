@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lesson 10: Networking part 2 &mdash; WWU DevOps Bootcamp 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    <script type="text/javascript" src="_static/ga.js"></script>
+    
+    <link rel="top" title="WWU DevOps Bootcamp 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Lesson 11: Devops &amp; Configuration Management Intro" href="11_devops.html" />
+    <link rel="prev" title="Lesson 9: Networking" href="09_networking.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  <article class="slide level-1" id="lesson-10-networking-part-2">
+<h1>Lesson 10: Networking part 2</h1>
+
+</article>
+<article class="slide level-2" id="agenda">
+<h2>Agenda</h2>
+<ul class="simple">
+<li>Networking review</li>
+<li>DNS</li>
+<li>Web Server Setup</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="networking-review">
+<h2>Networking Review</h2>
+<div class="figure">
+<img alt="_images/Home.png" src="_images/Home.png" />
+</div>
+
+</article>
+<article class="slide level-2" id="id1">
+<h2>Networking Review</h2>
+<div class="figure">
+<img alt="_images/Home1.png" src="_images/Home1.png" />
+</div>
+
+</article>
+<article class="slide level-2" id="id2">
+<h2>Networking Review</h2>
+<div class="figure">
+<img alt="_images/Home2.png" src="_images/Home2.png" />
+</div>
+
+</article>
+<article class="slide level-2" id="id3">
+<h2>Networking Review</h2>
+<div class="figure">
+<img alt="_images/Home3.png" src="_images/Home3.png" />
+</div>
+
+</article>
+<article class="slide level-2" id="id4">
+<h2>Networking Review</h2>
+<div class="figure">
+<img alt="_images/Diagram1.png" src="_images/Diagram1.png" />
+</div>
+
+</article>
+<article class="slide level-2" id="intro-to-dns">
+<h2>Intro to DNS</h2>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="figure align-center">
+<img alt="_images/visit_osuosl.org.png" src="_images/visit_osuosl.org.png" />
+</div>
+<p>I get the OSL's home page when visiting osuosl.org</p>
+
+</article>
+<article class="slide level-2" id="how-do-i-know-where-the-page-came-from">
+<h2>How do I know where the page came from?</h2>
+<div class="highlight-python"><div class="highlight"><pre>HOST(1)                       BIND9                       HOST(1)
+
+NAME
+       host - DNS lookup utility
+
+SYNOPSIS
+       host [-aCdlnrsTwv] [-c class] [-N ndots] [-R number]
+            [-t type] [-W wait] [-m flag] [-4] [-6] {name}
+            [server]
+
+DESCRIPTION
+       host is a simple utility for performing DNS lookups. It is
+       normally used to convert names to IP addresses and vice
+       versa. When no arguments or options are given, host prints
+       a short summary of its command line arguments and options.
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="osl">
+<h2>OSL</h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>host osuosl.org
+osuosl.org has address 140.211.15.183
+</pre></div>
+</div>
+<p>How did it know?</p>
+
+</article>
+<article class="slide level-2" id="dns">
+<h2>DNS</h2>
+<p>Domain Name System</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/phonebook_wikipedia.jpg"><img alt="_images/phonebook_wikipedia.jpg" src="_images/phonebook_wikipedia.jpg" style="width: 640.0px; height: 410.4px;" /></a>
+</div>
+<ul class="simple">
+<li>Port 53</li>
+</ul>
+<p>My laptop asked a DNS server how to get to osuosl.org.</p>
+
+</article>
+<article class="slide level-2" id="hierarchy-of-domains">
+<h2>Hierarchy of domains</h2>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="figure align-center">
+<img alt="_images/tree.png" src="_images/tree.png" />
+</div>
+
+</article>
+<article class="slide level-2" id="pop-quiz">
+<h2>Pop quiz</h2>
+<ul class="build simple">
+<li>What's 15 * 823?</li>
+<li>12345</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="recursive-dns">
+<h2>Recursive DNS</h2>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/An_example_of_theoretical_DNS_recursion_wikimedia.png"><img alt="_images/An_example_of_theoretical_DNS_recursion_wikimedia.png" src="_images/An_example_of_theoretical_DNS_recursion_wikimedia.png" style="width: 750.0px; height: 266.25px;" /></a>
+</div>
+<ul class="simple">
+<li>Always gives real answer or error</li>
+<li>Vulnerable to cache poisoning</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="non-recursive">
+<h2>Non-recursive</h2>
+<ul>
+<li><p class="first">Uses cache or referral</p>
+</li>
+<li><dl class="first docutils">
+<dt>Includes all authoritative-only</dt>
+<dd><ul class="first last simple">
+<li>root and top-level domain servers</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="another-quiz">
+<h2>Another Quiz</h2>
+<ul class="build simple">
+<li>What's 15 * 823?</li>
+<li>How did you know so quickly?</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="caching">
+<h2>Caching</h2>
+<ul>
+<li><p class="first">You cached the answer.</p>
+</li>
+<li><p class="first">DNS can be cached at routers, ISPs, and DNS servers to improve performance.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Negative caching: Remember fails</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">TTL</p>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="etc-resolv-conf">
+<h2>/etc/resolv.conf</h2>
+<dl class="docutils">
+<dt>Configuration for BIND (Berkeley Internet Name Domain tool)</dt>
+<dd><ul class="first last simple">
+<li>most common DNS resolver</li>
+<li>current version is BIND 9</li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>cat /etc/resolv.conf
+<span class="c"># Generated by resolvconf</span>
+domain wireless.oregonstate.edu
+nameserver 128.193.15.13
+nameserver 128.193.15.12
+</pre></div>
+</div>
+<p>Can only handle recursive name servers, no referrals</p>
+
+</article>
+<article class="slide level-2" id="etc-hosts">
+<h2>/etc/hosts</h2>
+<p>Used to skip looking up the DNS</p>
+<p>Useful for testing web sites</p>
+<p><a class="reference external" href="http://someonewhocares.org/hosts/">Avoid malicious sites</a></p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>cat /etc/hosts
+127.0.0.1 devops-bootcamp32.osuosl.org devops-bootcamp32 localhost
+localhost.localdomain localhost4 localhost4.localdomain4
+::1       localhost localhost.localdomain localhost6 localhost6.localdomain6
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="load-balancing">
+<h2>Load Balancing</h2>
+<p>Multiple IPs bound to a single hostname are returned in random order</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>host google.com
+google.com has address 173.194.33.131
+google.com has address 173.194.33.132
+google.com has address 173.194.33.133
+google.com has address 173.194.33.134
+google.com has address 173.194.33.135
+google.com has address 173.194.33.136
+google.com has address 173.194.33.137
+google.com has address 173.194.33.142
+google.com has address 173.194.33.128
+google.com has address 173.194.33.129
+google.com has address 173.194.33.130
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="records">
+<h2>Records</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference external" href="http://tools.ietf.org/html/rfc1035">rfc 1035</a></p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">A:</th><td class="field-body"><p class="first">hostname -&gt; IPV4 address</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">AAAA:</th><td class="field-body"><p class="first">hostname -&gt; IPV6 address</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">CNAME:</th><td class="field-body"><p class="first">like an alias, &quot;Go look up this name's record&quot;</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">PTR:</th><td class="field-body"><ul class="first simple">
+<li>Pointer to a canonical name, returns name and stops</li>
+<li>Used in reverse DNS</li>
+</ul>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">SOA:</th><td class="field-body"><ul class="first simple">
+<li>Start of Authority for a zone (such as osuosl.org)</li>
+<li>Administrator contact info, timers, serial number</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">MX:</th><td class="field-body"><p class="first last">Email (more on this next week)</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+</article>
+<article class="slide level-2" id="reverse-dns">
+<h2>Reverse DNS</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference external" href="http://support.simpledns.com/kb/a45/what-is-reverse-dns-and-do-i-need-it.aspx">http://support.simpledns.com/kb/a45/what-is-reverse-dns-and-do-i-need-it.aspx</a></p>
+</div>
+<p>Reverse segments, then end with in-addr.arpa</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>host osuosl.org   <span class="c"># could also use dig</span>
+osuosl.org has address 140.211.15.183
+</pre></div>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>dig 183.15.211.140.in-addr.arpa
+...
+;; AUTHORITY SECTION:
+15.211.140.in-addr.arpa. 10795  IN  SOA ns1.auth.osuosl.org. hostmaster.osuosl.org. 1398356710 300 900 604800 86400
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="web-apps-a-bit-of-review">
+<h2>Web Apps: A Bit of Review</h2>
+<ul class="simple">
+<li>We created a python app called Systemview using the Flask framework</li>
+<li>We tested Systemview by running Flask's built-in webserver on the command line</li>
+<li>Systemview ran on a special port we had to open up on the virtual machine</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="what-we-want-to-do">
+<h2>What We Want To Do</h2>
+<ul class="simple">
+<li>Install a production-quality web server on a standard port</li>
+<li>Serve Systemview using that web server</li>
+<li>Party</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="why">
+<h2>Why?</h2>
+<ul class="simple">
+<li>Flask's web server is not robust or secure</li>
+<li>We want to use standard ports for our web apps</li>
+<li>We may want to run multiple apps on one server</li>
+<li>Web server administration is <em>cool</em></li>
+</ul>
+
+</article>
+<article class="slide level-2" id="what-is-a-web-server">
+<h2>What is a Web Server</h2>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/web_app_diagram-server-highlight.png"><img alt="_images/web_app_diagram-server-highlight.png" src="_images/web_app_diagram-server-highlight.png" style="width: 560.0px; height: 481.0px;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Webserver software, not hardware</p>
+</div>
+
+</article>
+<article class="slide level-2" id="webservers-talk-http">
+<h2>Webservers Talk HTTP</h2>
+<p>They don't run code (well, they kinda do)</p>
+<ul class="simple">
+<li>PHP, Python, Ruby, C don't run in your browser</li>
+<li>Separate servers (usually) run that code, and send the output of the code to
+the web server to send to your browser</li>
+<li>Sometimes those separate servers are web server modules</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Apache modules generally run in the apache process itself</p>
+</div>
+
+</article>
+<article class="slide level-2" id="a-digression-ajax-json-and-apis">
+<h2>A Digression: AJAX, JSON and APIs</h2>
+<ul class="simple">
+<li>Browsers render HTML/CSS (layout)</li>
+<li>Browsers execute Javascipt (logic)</li>
+<li>Javascript can dynamically update the layout</li>
+<li>Javascript can handle user interaction</li>
+<li>Javascript can call back to the server for more data</li>
+<li>Javascript can process data</li>
+<li><strong>Javascript is Client Side Logic</strong></li>
+</ul>
+
+</article>
+<article class="slide level-2" id="ajax">
+<h2>AJAX</h2>
+<ul class="simple">
+<li><strong>A</strong>synchronous <strong>J</strong>avascript <strong>A</strong>nd <strong>X</strong>ML</li>
+<li>An http request initiated by Javascript</li>
+<li>Javascript listens in the background</li>
+<li>The app sends a response containing data</li>
+<li>Javascript processes the data</li>
+<li>Traditionally XML, but now mostly JSON</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Lots of issues around security, javascript calling many servers, gathering
+data, calling servers outside the domain of the originating page, etc. Install
+RequestPolicy and NoScript, just to see who that web page is talking to while
+you read it.</p>
+</div>
+
+</article>
+<article class="slide level-2" id="json">
+<h2>JSON</h2>
+<p><strong>J</strong>ava<strong>S</strong>cript <strong>O</strong>bject <strong>N</strong>otation</p>
+<div class="highlight-json"><div class="highlight"><pre><span class="p">{</span><span class="nt">&quot;menu&quot;</span><span class="p">:</span> <span class="p">{</span>
+  <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;file&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;File&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;popup&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;menuitem&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span><span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;New&quot;</span><span class="p">,</span> <span class="nt">&quot;onclick&quot;</span><span class="p">:</span> <span class="s2">&quot;CreateNewDoc()&quot;</span><span class="p">},</span>
+      <span class="p">{</span><span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;Open&quot;</span><span class="p">,</span> <span class="nt">&quot;onclick&quot;</span><span class="p">:</span> <span class="s2">&quot;OpenDoc()&quot;</span><span class="p">},</span>
+      <span class="p">{</span><span class="nt">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;Close&quot;</span><span class="p">,</span> <span class="nt">&quot;onclick&quot;</span><span class="p">:</span> <span class="s2">&quot;CloseDoc()&quot;</span><span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}}</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="xml">
+<h2>XML</h2>
+<p>The same text expressed as XML:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;menu</span> <span class="na">id=</span><span class="s">&quot;file&quot;</span> <span class="na">value=</span><span class="s">&quot;File&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;popup&gt;</span>
+    <span class="nt">&lt;menuitem</span> <span class="na">value=</span><span class="s">&quot;New&quot;</span> <span class="na">onclick=</span><span class="s">&quot;CreateNewDoc()&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;menuitem</span> <span class="na">value=</span><span class="s">&quot;Open&quot;</span> <span class="na">onclick=</span><span class="s">&quot;OpenDoc()&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;menuitem</span> <span class="na">value=</span><span class="s">&quot;Close&quot;</span> <span class="na">onclick=</span><span class="s">&quot;CloseDoc()&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/popup&gt;</span>
+<span class="nt">&lt;/menu&gt;</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="apis">
+<h2>APIs</h2>
+<ul class="simple">
+<li>When web apps talk to web apps</li>
+<li>When javascript talks to a web app</li>
+<li>When curl talks to a web app</li>
+</ul>
+<p>They talk HTTP, using clearly defined GET or POST params to initiate actions on
+the remote application.</p>
+<div class="highlight-python"><div class="highlight"><pre>curl http://graph.facebook.com/12345/friendlists
+curl https://api.github.com/users/osuosl/repos
+curl http://pub.sandbox.orcid.org/v1.1/0000-0001-7857-2795/orcid-bio
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Take a look at the source of a web page, look at all the javascript! How much
+of it is talking to Google, to Facebook, etc?</p>
+</div>
+
+</article>
+<article class="slide level-2" id="let-s-install-a-web-server">
+<h2>Let's Install a Web Server!</h2>
+<div class="highlight-python"><div class="highlight"><pre>yum install httpd
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="apache">
+<h2>Apache</h2>
+<p>What's this httpd thing?</p>
+<p>&quot;<em>A patchy web server</em>&quot; - born of many patches to NCSA's HTTPD (1995)</p>
+<ul class="simple">
+<li>Venerable, tested, solid</li>
+<li>Old, complex, slow (not really that slow)</li>
+<li>Many modules for executing code</li>
+<li>Many modules for all kinds of other things too</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="let-s-serve-some-web">
+<h2>Let's Serve Some Web</h2>
+<p>Apache's <tt class="docutils literal"><span class="pre">DocumentRoot</span></tt> is the default place where it will look for files to
+serve. It maps &quot;/&quot; in the URL to a location on disk</p>
+<div class="highlight-bash"><div class="highlight"><pre>http://localhost:8080/index.html
+                     ^
+                     <span class="s2">&quot;/&quot;</span> is the DocumentRoot
+</pre></div>
+</div>
+<p>We'll write some HTML in the <tt class="docutils literal"><span class="pre">DocumentRoot</span></tt> for Apache to serve.</p>
+
+</article>
+<article class="slide level-2" id="but-first-config-files">
+<h2>But First, Config Files</h2>
+<div class="highlight-python"><div class="highlight"><pre>/etc/httpd/conf/httpd.conf
+</pre></div>
+</div>
+<div class="highlight-apache"><div class="highlight"><pre><span class="nb">DocumentRoot</span> <span class="s2">&quot;/var/www/html&quot;</span>
+
+<span class="nt">&lt;Directory</span> <span class="s">&quot;/var/www/html&quot;</span><span class="nt">&gt;</span>
+    <span class="nb">Options</span> Indexes FollowSymLinks
+    <span class="nb">AllowOverride</span> <span class="k">None</span>
+    <span class="nb">Order</span> allow,deny
+    <span class="nb">Allow</span> from <span class="k">all</span>
+<span class="nt">&lt;/Directory&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Just looking, we are not editing the configs here. Note the <tt class="docutils literal"><span class="pre">DocumentRoot</span></tt>
+and Directory</p>
+</div>
+
+</article>
+<article class="slide level-2" id="wait-what-am-i-writing-again">
+<h2>Wait, What am I Writing Again?</h2>
+<p><strong>HTML</strong>: <strong>H</strong>yper <strong>T</strong>ext <strong>M</strong>arkup <strong>L</strong>anguage</p>
+<p>Go to the <tt class="docutils literal"><span class="pre">DocumentRoot</span></tt> and create an html file:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> /var/www/html
+vim index.html
+</pre></div>
+</div>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>This is only a test!<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;p&gt;</span>Nothing to see here, move along<span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>Point your browser to: <a class="reference external" href="http://localhost:8080/index.html">http://localhost:8080/index.html</a></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">HTML, is it code? Is it a language? Can you do logic with it? What happens if
+you forget the <tt class="docutils literal"><span class="pre">&lt;html&gt;</span></tt>? The browser does the rendering, the web server
+doesn't care, it just sends the data along. HTTP <tt class="docutils literal"><span class="pre">Content-Type</span></tt> header says
+what kind of data.</p>
+</div>
+
+</article>
+<article class="slide level-2" id="voila">
+<h2>Voila!</h2>
+<ul class="simple">
+<li>Apache receives a request for /index.html</li>
+<li>It translates &quot;/&quot; into <tt class="docutils literal"><span class="pre">/var/www/html</span></tt> using the <tt class="docutils literal"><span class="pre">DocumentRoot</span></tt> directive</li>
+<li>It looks in <tt class="docutils literal"><span class="pre">/var/www/html</span></tt> for the file &quot;<tt class="docutils literal"><span class="pre">index.html</span></tt>&quot;</li>
+<li>It finds your file and sends its contents, along with HTTP headers, back to
+your browser</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Have a look at the page source. Edit the file, remove &lt;html&gt;, etc, look at
+source again. If time allows, use developer tools, firebug, etc to look at
+http headers</p>
+</div>
+
+</article>
+<article class="slide level-2" id="but-i-want-to-run-code">
+<h2>But I Want to Run Code!</h2>
+<p>Let's put some PHP code in the <tt class="docutils literal"><span class="pre">DocumentRoot</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre>vim index.php
+</pre></div>
+</div>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>This is only a test!<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="cp">&lt;?php print &quot;Hey, this is PHP!&quot; ?&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>Then go to  <a class="reference external" href="http://localhost:8080/index.php">http://localhost:8080/index.php</a></p>
+
+</article>
+<article class="slide level-2" id="what-went-wrong">
+<h2>What Went Wrong?</h2>
+<p>Apache doesn't know what PHP is, it needs a module to execute the PHP code and
+return data it can serve</p>
+<div class="highlight-python"><div class="highlight"><pre>yum install php
+service httpd restart
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Pop quiz - where do you look to find out what went wrong? Look at log files,
+talk about them, then look at page source.</p>
+</div>
+
+</article>
+<article class="slide level-2" id="voila-again">
+<h2>Voila, Again.</h2>
+<p>How does Apache know what to do with index.php?</p>
+<div class="highlight-python"><div class="highlight"><pre>/etc/httpd/conf.d/php.conf
+</pre></div>
+</div>
+<div class="highlight-apache"><div class="highlight"><pre><span class="nt">&lt;IfModule</span> <span class="s">prefork.c</span><span class="nt">&gt;</span>
+  <span class="nb">LoadModule</span> php5_module modules/libphp5.so
+<span class="nt">&lt;/IfModule&gt;</span>
+<span class="nt">&lt;IfModule</span> <span class="s">worker.c</span><span class="nt">&gt;</span>
+  <span class="nb">LoadModule</span> php5_module modules/libphp5-zts.so
+<span class="nt">&lt;/IfModule&gt;</span>
+
+<span class="nb">AddHandler</span> php5-script .php
+<span class="nb">AddType</span> text/html .php
+
+<span class="nb">DirectoryIndex</span> index.php
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">CentOS, and most distribution system packages put these conf files for modules
+in place for you. httpd.conf includes everything in conf.d - similar for Nginx</p>
+</div>
+
+</article>
+<article class="slide level-2" id="ok-but-i-want-to-serve-a-python-app">
+<h2>Ok, But I Want To Serve a Python App...</h2>
+<p>There's a module for that! (Actually several, but we are going to use this one)</p>
+<p><strong>WSGI</strong>:  <strong>W</strong>eb  <strong>S</strong>erver  <strong>G</strong>ateway  <strong>I</strong>nterface</p>
+<ul class="simple">
+<li>Standardized interface for python apps to talk to web servers</li>
+<li>Works with many different servers</li>
+<li>Allows separation of python app and web server processes</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">talk about mod_python - runs python scripts directly, not bad for single
+scripts, but unwieldy for applications and frameworks.</p>
+</div>
+
+</article>
+<article class="slide level-2" id="sounds-great-let-s-go">
+<h2>Sounds Great, Let's Go!</h2>
+<div class="highlight-python"><div class="highlight"><pre>yum install mod_wsgi
+</pre></div>
+</div>
+<p>Let's clone the systemview app into a reasonable location while we are at it</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">cd</span> /var/www
+git clone https://github.com/DevOpsBootcamp/systemview.git
+<span class="nb">cd </span>systemview
+git checkout wsgi
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Talk about the location - can be anywhere, but be consistent - /var/www is
+actually not in the web root, not accessible by default, don't put things
+under the docroot!</p>
+</div>
+
+</article>
+<article class="slide level-2" id="don-t-forget-virtualenv">
+<h2>Don't Forget Virtualenv!</h2>
+<p>(in the systemview/ directory)</p>
+<div class="highlight-bash"><div class="highlight"><pre>virtualenv --no-site-packages venv
+<span class="nb">source </span>venv/bin/activate
+pip install -r requirements.txt
+</pre></div>
+</div>
+<p>And lets make sure everything is owned by the web server:</p>
+<div class="highlight-bash"><div class="highlight"><pre>chown -R apache ../systemview
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Web server user/group ownership is a major source of breakage - get
+cloning/pulling as the wrong user will change perms on files, possibly
+breaking things</p>
+</div>
+
+</article>
+<article class="slide level-2" id="what-makes-an-app-wsgi">
+<h2>What Makes an App WSGI?</h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">systemview</span><span class="o">.</span><span class="n">wsgi</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">activate_this</span> <span class="o">=</span> <span class="s">&#39;/var/www/html/systemview/venv/bin/activate_this.py&#39;</span>
+<span class="nb">execfile</span><span class="p">(</span><span class="n">activate_this</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">__file__</span><span class="o">=</span><span class="n">activate_this</span><span class="p">))</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#39;/var/www/html/systemview&#39;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">systemview</span> <span class="kn">import</span> <span class="n">app</span> <span class="k">as</span> <span class="n">application</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="configuring-apache-for-systemview">
+<h2>Configuring Apache for Systemview</h2>
+<div class="highlight-python"><div class="highlight"><pre>/etc/httpd/conf.d/systemview.conf
+</pre></div>
+</div>
+<div class="highlight-apache"><div class="highlight"><pre><span class="nb">WSGISocketPrefix</span> <span class="sx">/var/run</span>
+<span class="nb">WSGIDaemonProcess</span> systemview <span class="k">user</span>=apache <span class="k">group</span>=apache threads=5
+<span class="nb">WSGIScriptAlias</span> <span class="sx">/systemview</span> <span class="sx">/var/www/systemview/systemview.wsgi</span>
+
+<span class="nt">&lt;Directory</span> <span class="s">/var/www/systemview</span><span class="nt">&gt;</span>
+        <span class="nb">WSGIProcessGroup</span> systemview
+        <span class="nb">WSGIApplicationGroup</span> %{GLOBAL}
+        <span class="nb">Order</span> deny,allow
+        <span class="nb">Allow</span> from <span class="k">all</span>
+<span class="nt">&lt;/Directory&gt;</span>
+</pre></div>
+</div>
+<p>(Look for this in systemview/docs/systemview.conf)</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This will go into a vhost some day</p>
+</div>
+
+</article>
+<article class="slide level-2" id="even-more-voila">
+<h2>Even More Voila</h2>
+<p><a class="reference external" href="http://localhost:8080/systemview">http://localhost:8080/systemview</a></p>
+<p>There are a lot of steps to getting this app up, wouldn't it be nice to automate
+this?</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Future topics - configuration management and automated deploys, virtual hosts,
+best practices for app location, Nginx, UWSGI, PHP-FPM, etc</p>
+</div>
+
+</article>
+<article class="slide level-2" id="homework">
+<h2>Homework</h2>
+<ul class="simple">
+<li>Deploy Systemview's master branch with Apache (we merged the database code)</li>
+<li>Read about Apache Virtualhosts</li>
+<li>Install Nginx and UWSGI, deploy Systemview</li>
+</ul>
+
+</article>
+
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>
