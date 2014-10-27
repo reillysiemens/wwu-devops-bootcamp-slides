@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lesson 11: Devops &amp; Configuration Management Intro &mdash; WWU DevOps Bootcamp 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    <script type="text/javascript" src="_static/ga.js"></script>
+    
+    <link rel="top" title="WWU DevOps Bootcamp 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Lesson 12: Configuration Management" href="12_configmgmt.html" />
+    <link rel="prev" title="Lesson 10: Networking part 2" href="10_dns.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  <article class="slide level-1" id="lesson-11-devops-configuration-management-intro">
+<h1>Lesson 11: Devops &amp; Configuration Management Intro</h1>
+
+</article>
+<article class="slide level-2" id="session-summary">
+<h2>Session Summary</h2>
+<ul class="simple">
+<li>Devops introduction</li>
+<li>Configuration management introduction</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="devops-introduction">
+<h2>Devops Introduction</h2>
+<p>What is it?</p>
+<blockquote>
+<div><em>&quot;A software development method that stresses communication, collaboration and
+integration between software developers and information technology (IT)
+operations professionals.&quot;</em> [Wikipedia]</div></blockquote>
+<table class="docutils citation" frame="void" id="wikipedia" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[Wikipedia]</td><td><a class="reference external" href="http://en.wikipedia.org/wiki/DevOps">http://en.wikipedia.org/wiki/DevOps</a></td></tr>
+</tbody>
+</table>
+
+</article>
+<article class="slide level-2" id="definition-of-devops">
+<h2>Definition of Devops</h2>
+<ul class="simple">
+<li>Software Engineering (Dev)</li>
+<li>Technology Operations (Ops)</li>
+<li>Quality Assurance (QA)</li>
+</ul>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/Devops.svg"><img src="_images/Devops.svg" /></a>
+<p class="caption">Wikipedia (cc)</p>
+</div>
+
+</article>
+<article class="slide level-2" id="the-old-view">
+<h2>The old view</h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">&quot;Dev&quot;:</th><td class="field-body">side being the <em>&quot;makers&quot;</em></td>
+</tr>
+<tr class="field-even field"><th class="field-name">&quot;Ops&quot;:</th><td class="field-body">side being the <em>&quot;people that deal with the creation after its birth”</em></td>
+</tr>
+</tbody>
+</table>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/silo-fire.jpg"><img alt="_images/silo-fire.jpg" src="_images/silo-fire.jpg" style="width: 450.0px; height: 337.5px;" /></a>
+<p class="caption">photo by <a class="reference external" href="http://thoriseador.deviantart.com/">http://thoriseador.deviantart.com/</a> (CC)</p>
+</div>
+<p>This siloed environment has created much harm in the industry and the core
+reason behind creating Devops.</p>
+<p><strong>Burn down those silos!</strong></p>
+
+</article>
+<article class="slide level-2" id="history-of-devops">
+<h2>History of Devops</h2>
+<ul>
+<li><p class="first">mid-2000s</p>
+<blockquote>
+<div><p>&quot;<em>Hey, our methodology of running systems seems to still be in a pretty
+primitive state despite years of effort.  Let’s start talking about doing it
+better&quot;</em></p>
+</div></blockquote>
+</li>
+<li><p class="first">Velocity Conf 2008/2009 - increased presentations on <em>&quot;Agile System
+Administration</em>&quot;</p>
+</li>
+<li><p class="first">Agile 2008 Conf - &quot;Agile Infrastructure&quot; BOF -- nobody showed up!</p>
+</li>
+<li><p class="first">2009 DevOpsDays in Ghent, Belgium - Patrick Debois</p>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="the-agile-approach">
+<h2>The Agile Approach</h2>
+<ul class="simple">
+<li>Iterative, incremental</li>
+<li>Requirements change often thus need to be adaptive</li>
+<li>Very short feedback loop and adaptation cycle</li>
+<li>Quality focus</li>
+</ul>
+<p>Manifesto:</p>
+<ul class="simple">
+<li><em>Individuals and interactions over processes and tools</em></li>
+<li><em>Working software over comprehensive documentation</em></li>
+<li><em>Customer collaboration over contract negotiation</em></li>
+<li><em>Responding to change over following a plan</em></li>
+</ul>
+<p><em>That is, while there is value in the items on the right, we value the items on
+the left more.</em></p>
+
+</article>
+<article class="slide level-2" id="adapting-agile-to-ops">
+<h2>Adapting Agile to Ops</h2>
+<ul>
+<li><p class="first">Widening the principles towards infrastructure</p>
+<p><em>&quot;Infrastructure as code&quot;</em> - i.e. configuration management</p>
+</li>
+<li><p class="first">Integrating ops with dev, QA and product in the product teams</p>
+</li>
+<li><p class="first">Continuous Integration</p>
+<p><em>&quot;Give your developers a pager and put them on call&quot;</em></p>
+</li>
+<li><p class="first">Utilizing more specific metric and monitoring schemes</p>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="better-tools-enable-devops">
+<h2>Better Tools enable Devops</h2>
+<p>Explosion of new tools over the past few years:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Release tools (jenkins, travisci, etc)</li>
+<li>Config Management (puppet, chef, ansible, cfengine)</li>
+<li>Orchestration (zookeeper, noah, mesos)</li>
+<li>Monitoring &amp; Metrics (statsd, graphite, etc)</li>
+<li>Virtualization &amp; containerization (AWS, Openstack, vagrant, docker)</li>
+</ul>
+</div></blockquote>
+
+</article>
+<article class="slide level-2" id="it-s-not-noops">
+<h2>It's not NoOps</h2>
+<ul class="simple">
+<li>Existing ops principles, processes and practices have not kept pace</li>
+<li>Business &amp; dev teams need more agility to keep up with competitors</li>
+<li>Deep dev skill set + Deep ops skill set == awesomesauce</li>
+<li>Ops people need to do a little dev</li>
+<li>Dev people need to do a little ops</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="what-is-devops-video">
+<h2>What is Devops Video</h2>
+<iframe width="560" height="315" src="http://www.youtube.com/embed/_I94-tJlovg"
+frameborder="0" allowfullscreen></iframe>
+</article>
+<article class="slide level-2" id="devops-explained-no-horse-manure">
+<h2>Devops Explained: No Horse Manure</h2>
+<iframe width="560" height="315" src="http://www.youtube.com/embed/g-BF0z7eFoU"
+frameborder="0" allowfullscreen></iframe>
+</article>
+<article class="slide level-2" id="configuration-management">
+<h2>Configuration Management</h2>
+<p>What is it?</p>
+<blockquote>
+<div><em>&quot;Configuration management is the process of standardizing resource
+configurations and enforcing their state across IT infrastructure in an
+automated yet agile manner.&quot;</em> [PuppetLabs]</div></blockquote>
+<table class="docutils citation" frame="void" id="puppetlabs" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[PuppetLabs]</td><td><a class="reference external" href="http://puppetlabs.com/solutions/configuration-management">http://puppetlabs.com/solutions/configuration-management</a></td></tr>
+</tbody>
+</table>
+
+</article>
+<article class="slide level-2" id="history-of-cm">
+<h2>History of CM</h2>
+<ul class="simple">
+<li>mid-1990s -- &quot;snowflake system&quot;; few systems</li>
+<li>Rise of Unix-like systems and commodity x86 hardware increased the need</li>
+<li>CFEngine -- First release 1993; v2 released in 2002</li>
+<li>mid-2000s through present<ul>
+<li>More agile CM systems emerged developed with the cloud in mind</li>
+</ul>
+</li>
+<li>2008<ul>
+<li>provisioning and management of individual systems were well-understood</li>
+</ul>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="infrastructure-as-code">
+<h2>Infrastructure as code</h2>
+<ul class="simple">
+<li>CM enables ops to define their infrastructure in <em>code</em></li>
+<li>Install packages, configure software, start/stop services</li>
+<li>Ensure a state of a machine</li>
+<li>Ensure policies and standards are in place</li>
+<li>Provide history of changes for a system</li>
+<li>Repeatable way of rebuild a system</li>
+<li>Orchestrate a cluster of services together</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="cm-platforms">
+<h2>CM Platforms</h2>
+<ul class="simple">
+<li>CFengine<ul>
+<li>Lightweight agent system. Manages configuration of a large number of
+computers using the client–server paradigm or stand-alone.</li>
+</ul>
+</li>
+<li>Puppet<ul>
+<li>Puppet consists of a custom declarative language to describe system
+configuration, distributed using the client–server paradigm.</li>
+</ul>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="cm-platforms-part-2">
+<h2>CM Platforms (part 2)</h2>
+<ul class="simple">
+<li>Chef<ul>
+<li>Chef is a configuration management tool written in Ruby, and uses a pure
+Ruby DSL for writing configuration &quot;recipes&quot;. Also a client-server model.</li>
+</ul>
+</li>
+<li>Ansible<ul>
+<li>Combines multi-node deployment, ad-hoc task execution, and configuration
+management in one package. Utilizes SSH with little to no remote agents.</li>
+</ul>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="puppet-example">
+<h2>Puppet Example</h2>
+<ul class="simple">
+<li>Install apache and start the service</li>
+<li>Puppet Domain Specific Language (DSL)</li>
+</ul>
+<div class="highlight-puppet"><div class="highlight"><pre><span class="k">package</span> <span class="p">{</span> <span class="s">&quot;apache&quot;</span><span class="p">:</span>
+  <span class="na">name</span>    <span class="o">=&gt;</span> <span class="s">&quot;httpd&quot;</span><span class="p">,</span>
+  <span class="na">ensure</span>  <span class="o">=&gt;</span> <span class="k">present</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">service</span> <span class="p">{</span> <span class="s">&quot;apache&quot;</span><span class="p">:</span>
+  <span class="na">name</span>    <span class="o">=&gt;</span> <span class="s">&quot;apache&quot;</span><span class="p">,</span>
+  <span class="na">ensure</span>  <span class="o">=&gt;</span> <span class="k">running</span><span class="p">,</span>
+  <span class="na">enable</span>  <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+  <span class="na">require</span> <span class="o">=&gt;</span> <span class="k">Package</span><span class="p">[</span><span class="s">&quot;apache&quot;</span><span class="p">],</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="chef-example">
+<h2>Chef Example</h2>
+<ul class="simple">
+<li>Install apache and start the service</li>
+<li>Ruby code</li>
+</ul>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">package</span> <span class="s2">&quot;apache&quot;</span> <span class="k">do</span>
+  <span class="n">package_name</span> <span class="s2">&quot;httpd&quot;</span>
+  <span class="n">action</span> <span class="ss">:install</span>
+<span class="k">end</span>
+
+<span class="n">service</span> <span class="s2">&quot;apache&quot;</span> <span class="k">do</span>
+  <span class="n">action</span> <span class="o">[</span><span class="ss">:enable</span><span class="p">,</span> <span class="ss">:start</span><span class="o">]</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="cm-platform-comparison">
+<h2>CM Platform Comparison</h2>
+<ul class="simple">
+<li>CFEngine scales like mad, not very agile</li>
+<li>Puppet<ul>
+<li>Uses a list of dependencies and figures out what order to run it in</li>
+<li>The Puppet DSL can become a blocker and a problem, puppet also has scaling
+issues</li>
+</ul>
+</li>
+<li>Chef<ul>
+<li>Executes commands and scripts as they are listed with minimal amount of
+dependencies</li>
+<li>Using ruby offers both its advantages and disadvantages</li>
+</ul>
+</li>
+<li>Each platform offers its own level of complexity</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="references">
+<h2>References</h2>
+<ul class="simple">
+<li><a class="reference external" href="http://theagileadmin.com/what-is-devops/">http://theagileadmin.com/what-is-devops/</a></li>
+<li><a class="reference external" href="http://itrevolution.com/the-convergence-of-devops/">http://itrevolution.com/the-convergence-of-devops/</a></li>
+<li><a class="reference external" href="http://en.wikipedia.org/wiki/DevOps">http://en.wikipedia.org/wiki/DevOps</a></li>
+<li><a class="reference external" href="http://en.wikipedia.org/wiki/Agile_software_development">http://en.wikipedia.org/wiki/Agile_software_development</a></li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=_I94-tJlovg">What is DevOps? - In Simple English (video)</a></li>
+<li><a class="reference external" href="https://www.youtube.com/watch?v=g-BF0z7eFoU">DevOps Explained: No Horse Manure (video)</a></li>
+</ul>
+
+</article>
+<article class="slide level-2" id="traditional-development-workflow">
+<h2>Traditional Development Workflow</h2>
+<p>Scenario: Developer Mary Smith wants to deploy SystemView to a server
+administered by Ivan Bofh, a strict old-school sysadmin.</p>
+<p><a class="reference external" href="http://web.engr.oregonstate.edu/~dunhame/devops/emailthread.txt">email conversation link</a></p>
+
+</article>
+<article class="slide level-2" id="email-1">
+<h2>Email #1</h2>
+<div class="codeblock-sm highlight-python"><div class="highlight"><pre><span class="go">&gt;&gt;&gt;&gt;&gt;&gt; On April 3, 2013, at 4:22 PM, Mary Smith &lt;msmith@cruftware.com&gt; wrote:</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;&gt; Ops team,</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;&gt; As discussed in the release schedule distributed by Mr. Bossman on 2/5, the</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;&gt; development team is ready to deploy our flagship product SystemView this week.</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;&gt; We will need Python 3.4 an Virtualenv on the production server, as well as a</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;&gt; correctly configured Nginx vhost to direct users to the site.</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;&gt; When we log into the production server to deploy the app&#39;s code, we&#39;ll need</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;&gt; permission to write to /var/www and all of /etc for configuration reasons.</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;&gt; Please also create the user and tables detailed in the attached spreadsheet on</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;&gt; our MySql 5.7 database.</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;&gt; Mary Smith</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;&gt; Lead Developer, CruftWare SystemView product division</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="email-2">
+<h2>Email #2</h2>
+<div class="codeblock-sm highlight-python"><div class="highlight"><pre><span class="go">&gt;&gt;&gt;&gt;&gt; On April 5, 2013, at 9:15 AM, Ivan Bofh &lt;ibofh@cruftware.com&gt; wrote:</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt; Mary,</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt; Our production systems are standardized to CentOS 6, so Python is only</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt; supported up to version 2.6. The Python 2.6 version of virtualenv can be</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt; installed after you work with legal to file documentation of a full security</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt; audit of the package.</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt; Providing any account, let alone root, to developers on a production system is</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt; absolutely out of the question. Just document the app&#39;s deployment process</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt; clearly and we&#39;ll handle it.</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt; Ivan Bofh</span>
+<span class="go">&gt;&gt;&gt;&gt;&gt; Senior Systems Engineer, CruftWare</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="email-3">
+<h2>Email #3</h2>
+<div class="codeblock-sm highlight-python"><div class="highlight"><pre><span class="go">&gt;&gt;&gt;&gt; On April 5, 2013, at 11:32 AM, Mary Smith &lt;msmith@cruftware.com&gt; wrote:</span>
+<span class="go">&gt;&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;&gt; Ivan,</span>
+<span class="go">&gt;&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;&gt; That sounds like it will be simpler to just install the dependencies directly</span>
+<span class="go">&gt;&gt;&gt;&gt; on the server instead of using virtualenv. I should be able to include this</span>
+<span class="go">&gt;&gt;&gt;&gt; in the Jenkins configuration, as long as the CI users is running as root.</span>
+<span class="go">&gt;&gt;&gt;&gt; Speaking of which, the development team will need access to Jenkins or other</span>
+<span class="go">&gt;&gt;&gt;&gt; continuous integration in order to automatically update the site when changes</span>
+<span class="go">&gt;&gt;&gt;&gt; are pushed.</span>
+<span class="go">&gt;&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;&gt; Is mysql-dev installed yet? Also please confirm that the database is at</span>
+<span class="go">&gt;&gt;&gt;&gt; systemview-prod.mysql57.cruftware.com.</span>
+<span class="go">&gt;&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;&gt; Mary Smith</span>
+<span class="go">&gt;&gt;&gt;&gt; Lead Developer, CruftWare SystemView product division</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="email-4">
+<h2>Email #4</h2>
+<div class="codeblock-sm highlight-python"><div class="highlight"><pre>&gt;&gt;&gt; On April 6, 2013, at 10:08 AM, Ivan Bofh &lt;ibofh@cruftware.com&gt; wrote:
+&gt;&gt;&gt;
+&gt;&gt;&gt; Mary,
+&gt;&gt;&gt;
+&gt;&gt;&gt; Why do you need to use Jenkins? I Googled it and it looks like a non-standard
+&gt;&gt;&gt; and immature implementation of some of CFEngine&#39;s features. Just send me a
+&gt;&gt;&gt; CFEngine configuration file for the settings that you need. The updates can be
+&gt;&gt;&gt; done with an SVN post-commit hook.
+&gt;&gt;&gt;
+&gt;&gt;&gt; Due to administrative decisions that Mr. Bossman explained in a company-wide
+&gt;&gt;&gt; memo a couple of months ago, absolutely no dev libraries may be installed on
+&gt;&gt;&gt; production servers. Servers are for serving, not for compiling.
+&gt;&gt;&gt;
+&gt;&gt;&gt; Ivan Bofh
+&gt;&gt;&gt; Senior Systems Engineer, CruftWare
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="email-5">
+<h2>Email #5</h2>
+<div class="codeblock-sm highlight-python"><div class="highlight"><pre>&gt;&gt; On April 6, 2013, at 10:14 AM, Mary Smith &lt;msmith@cruftware.com&gt; wrote:
+&gt;&gt;
+&gt;&gt; Do you at least have the Nginx vhost and uWsgi installation ready?
+&gt;&gt;
+&gt;&gt; Mary Smith
+&gt;&gt; Lead Developer, CruftWare SystemView product division
+&gt;&gt;
+&gt;&gt; On April 6, 2013, at 1:53 PM, Ivan Bofh &lt;ibofh@cruftware.com&gt; wrote:
+&gt;&gt;
+&gt;&gt; We don&#39;t use Nginx or uWsgi. The specs should have said to convert the app to
+&gt;&gt; work with Apache and mod_wsgi for production deployment.
+&gt;&gt;
+&gt;&gt; Ivan Bofh
+&gt;&gt; Senior Systems Engineer, CruftWare
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="email-6">
+<h2>Email #6</h2>
+<div class="codeblock-sm highlight-python"><div class="highlight"><pre>&gt; On April 6, 2013, at 2:37 PM, Mary Smith &lt;msmith@cruftware.com&gt; wrote:
+&gt;
+&gt; Ivan,
+&gt;
+&gt; What&#39;s the URL for the database?
+&gt;
+&gt; Mary Smith
+&gt; Lead Developer, CruftWare SystemView product division
+&gt;
+On April 6, 2013, at 4:22 PM, Ivan Bofh &lt;ibofh@cruftware.com&gt; wrote:
+
+Mary,
+
+You&#39;ll have to contact Sharon Negative (snegative@cruftware.com), our DBA, and
+file a ticket to get the database access. She won&#39;t be back from vacation for
+another 2 weeks so it might take awhile.
+
+Ivan Bofh
+Senior Systems Engineer, CruftWare
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="devops-workflow">
+<h2>DevOps Workflow</h2>
+<p>Scenario: DevOps-oriented developer Simon Johnson wants to deploy SystemView
+to a server administered by Ada Opdev, a DevOps-oriented sysadmin.</p>
+<p><a class="reference external" href="http://web.engr.oregonstate.edu/~dunhame/devops/devooops.log">irc conversation link</a></p>
+
+</article>
+<article class="slide level-2" id="irc-1">
+<h2>IRC #1</h2>
+<div class="codeblock-sm highlight-irc"><div class="highlight"><pre><span class="cp">14:03 </span><span class="nt">&lt; JnomiS&gt; </span><span class="na">AdaOpdev:</span> hey, all the systemview tests are passing on
+                python 3.4
+<span class="cp">14:04 </span><span class="nt">&lt;@AdaOpdev&gt; </span>yay! I&#39;ll spin up a VM on the cluster with the production
+                  cookbook
+<span class="cp">14:04 </span><span class="nt">&lt; JnomiS&gt; </span>that&#39;ll be at sysview23dev.internal.ourcorp, right?
+<span class="cp">14:05 </span><span class="nt">&lt;@AdaOpdev&gt; </span>actually we&#39;re migrating over to a new test cluster
+<span class="cp">14:05 </span><span class="nt">&lt;@AdaOpdev&gt; </span>could you use sysview23.dev.ourcorp instead?
+<span class="cp">14:06 </span><span class="nt">&lt; JnomiS&gt; </span>sure
+<span class="cp">14:06 </span><span class="nt">&lt;@AdaOpdev&gt; </span>it&#39;s set up for passwordless ssh login with your ldap
+                  account
+<span class="cp">14:07 </span><span class="nt">&lt; JnomiS&gt; </span>ok, awesome.
+<span class="cp">14:07 </span><span class="nt">&lt; JnomiS&gt; </span>thanks!
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="irc-2">
+<h2>IRC #2</h2>
+<div class="codeblock-sm highlight-irc"><div class="highlight"><pre><span class="cp">15:12 </span><span class="nt">&lt; JnomiS&gt; </span>hmm, I&#39;ve been building mysql-python for the app with the
+                mysql dev libraries, but it doesn&#39;t look like you have
+                those in production
+<span class="cp">15:22 </span><span class="nt">&lt; JnomiS&gt; </span>also, what database should i connect to from the dev
+                instance? I&#39;ve been using MySql 5.7 in testing
+<span class="cp">15:25 </span><span class="nt">&lt;@AdaOpdev&gt; </span>just get me a list of the names and databases you&#39;ll
+                  need, and I&#39;ll plug them into our MySql Chef cookbooks.
+<span class="cp">15:25 </span><span class="nt">&lt;@AdaOpdev&gt; </span>I checked the ORM docs, and you&#39;re not actually using any
+                  features that changed between MySql 5.5 (which is what
+                  we&#39;ve got in production right now) and 5.7
+<span class="cp">15:26 </span><span class="nt">&lt; JnomiS&gt; </span>okay, I&#39;ll run the tests with mysql5.5
+<span class="cp">15:27 </span><span class="nt">&lt; JnomiS&gt; </span>everything seems to be working fine locally
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="irc-3">
+<h2>IRC #3</h2>
+<div class="codeblock-sm highlight-irc"><div class="highlight"><pre><span class="cp">16:00 </span><span class="nt">&lt; JnomiS&gt; </span>ugh, I totally forgot -- I&#39;ll need to get root on the dev vm
+                so I can install uwsgi and nginx
+<span class="cp">16:00 </span><span class="nt">&lt;@AdaOpdev&gt; </span>We actually manage UWsgi and Nginx through chef as well.
+                  Have you written cookbooks before?
+<span class="cp">16:02 </span><span class="nt">&lt; JnomiS&gt; </span>nope, I&#39;ve always just used yours :)
+<span class="cp">16:05 </span><span class="nt">&lt;@AdaOpdev&gt; </span>http://reiddraper.com/first-chef-recipe/ and
+                  https://www.digitalocean.com/community/articles/how-to-create-simple-chef-cookbooks-to-manage-infrastructure-on-ubuntu
+                  are a couple of good places to start
+<span class="cp">16:05 </span><span class="nt">&lt; JnomiS&gt; </span>thanks!
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="irc-4">
+<h2>IRC #4</h2>
+<div class="codeblock-sm highlight-irc"><div class="highlight"><pre><span class="cp">16:52 </span><span class="nt">&lt; JnomiS&gt; </span>do we have jenkins deployed anywhere yet?
+<span class="cp">16:53 </span><span class="nt">&lt; JnomiS&gt; </span>I&#39;d like to get continuous integration set up
+<span class="cp">16:54 </span><span class="nt">&lt;@AdaOpdev&gt; </span>I&#39;ve heard of Jenkins but not worked with it much
+<span class="cp">16:54 </span><span class="nt">&lt; JnomiS&gt; </span>yeah, it&#39;ll automate that deploy hook mess we used to have
+<span class="cp">16:54 </span><span class="nt">&lt;@AdaOpdev&gt; </span>cool!
+<span class="cp">16:55 </span><span class="nt">&lt;@AdaOpdev&gt; </span>let&#39;s talk to our boss about getting an instance
+                  provisioned
+<span class="cp">16:55 </span><span class="nt">&lt; JnomiS&gt; </span>okay, I&#39;ll email him about it and cc you
+<span class="cp">16:57 </span><span class="nt">&lt;@AdaOpdev&gt; </span>thanks
+<span class="cp">16:57 </span><span class="nt">&lt;@AdaOpdev&gt; </span>for now let&#39;s keep using Chef for everything we can
+<span class="cp">16:58 </span><span class="nt">&lt; JnomiS&gt; </span>okay, sounds good.
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="non-devops">
+<h2>Non-DevOps</h2>
+<ul>
+<li><p class="first">Poor communication, territorialism (silos)</p>
+</li>
+<li><p class="first">Development environment wildly different from production</p>
+</li>
+<li><p class="first">Sysadmin averse to changes because environment is hard to test</p>
+</li>
+<li><p class="first">Little willingness to cooperate or educate (trust/teamwork)</p>
+</li>
+<li><dl class="first docutils">
+<dt>It can get even worse</dt>
+<dd><ul class="first last simple">
+<li>More people in email thread = more confusion</li>
+<li>Bikeshedding about top post vs bottom post</li>
+<li>Mary is surprisingly clear about her exact requirements</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="devops">
+<h2>DevOps</h2>
+<ul class="simple">
+<li>Developer tests on VM with same config as production</li>
+<li>Realistic expectations about access and compatibility</li>
+<li>More automation, configuration management</li>
+<li>Sysadmin can debug the code and help developer</li>
+<li>Developer and sysadmin help and educate one another (Chef, Jenkins)</li>
+<li>Distributed tasks mean fewer choke points (single person who can block task)</li>
+</ul>
+
+</article>
+
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>

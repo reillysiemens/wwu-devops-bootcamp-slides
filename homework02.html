@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lesson 2: Homework &mdash; WWU DevOps Bootcamp 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    <script type="text/javascript" src="_static/ga.js"></script>
+    
+    <link rel="top" title="WWU DevOps Bootcamp 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Lesson 3: Editors &amp; Version Control" href="03_editors_git.html" />
+    <link rel="prev" title="Lesson 2: Single System Fundamentals" href="02_single_system_fundamentals.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  <article class="slide level-1" id="lesson-2-homework">
+<h1>Lesson 2: Homework</h1>
+<ol class="arabic simple">
+<li>Why is a salt used when storing encrypted passwords in <tt class="docutils literal"><span class="pre">/etc/shadow</span></tt>?</li>
+<li>What portion of the MD5 hash <tt class="docutils literal"><span class="pre">'$1$xxUwcovy$JfV9i7j9H/NFA3RBCrVHN.'</span></tt> is the
+salt?</li>
+<li>What UID is used for the root user?</li>
+<li>Where is a user's primary (&quot;default&quot;) group defined? Specifically which file
+and which &quot;field&quot;.</li>
+<li>Add a user <tt class="docutils literal"><span class="pre">foobar</span></tt> to your system. Use <tt class="docutils literal"><span class="pre">useradd</span></tt> to add the user and to
+create their home directory containing files from <tt class="docutils literal"><span class="pre">/etc/skel</span></tt>. Show the
+user's entry in <tt class="docutils literal"><span class="pre">/etc/passwd</span></tt> as well as the full <tt class="docutils literal"><span class="pre">useradd</span></tt> command
+needed.</li>
+<li>Create a group <tt class="docutils literal"><span class="pre">bootcamp</span></tt> on your system.  Show the command used (not
+editing files by hand).</li>
+<li>Assume the user <tt class="docutils literal"><span class="pre">foobar</span></tt> belongs to multiple groups. Add <tt class="docutils literal"><span class="pre">foobar</span></tt> to the
+<tt class="docutils literal"><span class="pre">bootcamp</span></tt> group by using a system command (not editing files by hand)
+without changing any of their other groups. Show the command used.</li>
+<li>What <tt class="docutils literal"><span class="pre">chmod</span></tt> command (using octal mode) would you use to allow owner read
+and write access and group read access (and <em>no</em> other permissions!) to a
+file <tt class="docutils literal"><span class="pre">foo</span></tt>? Using <tt class="docutils literal"><span class="pre">chmod</span></tt> <em>without</em> octal mode, how would you do the
+same?</li>
+<li>What does it mean for a binary to be setuid?  is setuid a potential security
+risk?  Why is this important for tools such as <tt class="docutils literal"><span class="pre">passwd</span></tt>?</li>
+<li>You have the following <tt class="docutils literal"><span class="pre">foo</span></tt> directory</li>
+</ol>
+<div class="highlight-bash"><div class="highlight"><pre>drwxr-xr-x 7 lance bootcamp 4096 Mar 31 09:15 foo
+</pre></div>
+</div>
+<blockquote>
+<div>What <tt class="docutils literal"><span class="pre">chmod</span></tt> command can you run to ensure files created inside that directory
+will default to having <tt class="docutils literal"><span class="pre">bootcamp</span></tt> group ownership? Assume the user creating
+the files is in the <tt class="docutils literal"><span class="pre">bootcamp</span></tt> group.</div></blockquote>
+
+</article>
+
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>

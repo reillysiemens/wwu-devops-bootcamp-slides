@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lesson 9: Networking &mdash; WWU DevOps Bootcamp 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    <script type="text/javascript" src="_static/ga.js"></script>
+    
+    <link rel="top" title="WWU DevOps Bootcamp 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Lesson 10: Networking part 2" href="10_dns.html" />
+    <link rel="prev" title="Lesson 8: Security &amp; Authentication" href="08_security_auth.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  <article class="slide level-1" id="lesson-9-networking">
+<h1>Lesson 9: Networking</h1>
+
+</article>
+<article class="slide level-2" id="who-is-this-talk-for">
+<h2>Who is this talk for?</h2>
+<p>Someone with little or no networking knowledge.</p>
+<p>ECE/CS 372 at OSU covers this content, more or less</p>
+
+</article>
+<article class="slide level-2" id="what-is-a-network">
+<h2>What is a network?</h2>
+<p>&quot;<em>a group or system of interconnected people or things</em>&quot;</p>
+<p>To us, a network is:</p>
+<ul class="simple">
+<li>Electronic devices</li>
+<li>Sending signals over wire, fiber, or radio</li>
+<li>Communicating data using a standardized protocol</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="what-is-a-protocol">
+<h2>What is a protocol?</h2>
+<p>&quot;<em>A set of agreed upon rules for communication</em>&quot;</p>
+<ul class="simple">
+<li>Defines sequence &amp; format of packets being sent</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="the-osi-model">
+<h2>The OSI Model</h2>
+<p>Open Systems Interconnection</p>
+<ul class="simple">
+<li>Layers of abstraction</li>
+</ul>
+<div class="figure align-center">
+<img alt="_images/osi-layers.jpg" src="_images/osi-layers.jpg" />
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">&quot;Create a layer of easily localized functions so that the layer
+could be totally redesigned and its protocols changed in a major way...
+without changing the services expected from and provided to adjacent
+layers&quot;</p>
+</div>
+
+</article>
+<article class="slide level-2" id="layer-1-physical">
+<h2>Layer 1: Physical</h2>
+<p>Networking Hardware</p>
+<ul class="simple">
+<li>Connector shapes</li>
+<li>Wire, optical fiber, or radio signal specifications</li>
+</ul>
+<div class="figure align-center">
+<img alt="_images/cat5.jpg" src="_images/cat5.jpg" />
+</div>
+<p>RS-232</p>
+<div class="figure align-center">
+<img alt="_images/db25.png" src="_images/db25.png" />
+</div>
+
+</article>
+<article class="slide level-2" id="layer-2-data-link">
+<h2>Layer 2: Data Link</h2>
+<p>MAC: Media Access Control</p>
+<ul class="simple">
+<li>MAC address should be globally unique</li>
+<li>ARP: Address Resolution Protocol (between layer 2 &amp; 3)</li>
+<li>NDP (neighbor discovery protocol) used in IPv6</li>
+<li>Flow control &amp; error checking</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="layer-3-network">
+<h2>Layer 3: Network</h2>
+<p>Packet forwarding and routing</p>
+<p>Network and host addressing</p>
+<ul class="simple">
+<li>IPv4</li>
+<li>IPv6</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="layer-4-transport">
+<h2>Layer 4: Transport</h2>
+<p>Interact directly with program same-order delivery, reliability, flow control,
+and congestion avoidance</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">TCP:</th><td class="field-body">Transmission Control Protocol</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>used by HTTP, HTTPS, SMTP, POP3, IMAP, SSH, FTP, Telnet</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">UDP:</th><td class="field-body">User Datagram Protocol</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>No error checking built in</li>
+<li>No retransmission delays</li>
+<li>VoIP, media, games</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="get-your-hands-dirty">
+<h2>Get your hands dirty</h2>
+<p>In a linux terminal run::</p>
+<div class="highlight-python"><div class="highlight"><pre>ip a
+</pre></div>
+</div>
+<p>These will display information about your network interfaces.</p>
+<p>See also:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ifconfig</span>
+<span class="n">iwconfig</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="example-output">
+<h2>Example output:</h2>
+<div class="highlight-python"><div class="highlight"><pre>user@host:~$ ip a
+...
+2: eth2: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc pfifo_fast state DOWN qlen 1000
+    link/ether 33:77:00:44:66:33 brd ff:ff:ff:ff:ff:ff
+3: wlan1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq state UP qlen 1000
+    link/ether 24:77:33:44:55:66 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.1.55/24 brd 192.168.1.255 scope global wlan1
+    inet6 fe80::2677:3ff:fed4:538c/64 scope link
+       valid_lft forever preferred_lft forever
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="netmask">
+<h2>Netmask:</h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Decimal IP Address</td>
+<td>Binary IP Address</td>
+</tr>
+<tr class="row-even"><td>192.168.1.55</td>
+<td>11000000.10101000.00000001.00110111</td>
+</tr>
+<tr class="row-odd"><td>255.255.255.0</td>
+<td>11111111.11111111.11111111.00000000</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Part of address</td>
+<td>Corresponding address</td>
+</tr>
+<tr class="row-even"><td>Network (Decimal)</td>
+<td>192.168.1.0</td>
+</tr>
+<tr class="row-odd"><td>Network (Binary)</td>
+<td>11000000.10101000.00000001.00000000</td>
+</tr>
+<tr class="row-even"><td>Host (Decimal)</td>
+<td>0.0.0.55</td>
+</tr>
+<tr class="row-odd"><td>Host (Binary)</td>
+<td>00000000.00000000.00000000.00110111</td>
+</tr>
+</tbody>
+</table>
+<p>Available Hosts:   192.168.1.[1-254]</p>
+<p>Broadcast address: 192.168.1.255</p>
+
+</article>
+<article class="slide level-2" id="netmask-example">
+<h2>Netmask Example:</h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Decimal IP Address</td>
+<td>Binary IP Address</td>
+</tr>
+<tr class="row-even"><td>192.168.90.55</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>255.255.192.0</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+
+</article>
+<article class="slide level-2" id="id1">
+<h2>Netmask Example:</h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Decimal IP Address</td>
+<td>Binary IP Address</td>
+</tr>
+<tr class="row-even"><td>192.168.90.55</td>
+<td>11000000.10101000.01011010.00110111</td>
+</tr>
+<tr class="row-odd"><td>255.255.192.0</td>
+<td>11111111.11111111.11000000.00000000</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Part of address</td>
+<td>Corresponding address</td>
+</tr>
+<tr class="row-even"><td>Network (Decimal)</td>
+<td>192.168.64.0</td>
+</tr>
+<tr class="row-odd"><td>Network (Binary)</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Host (Decimal)</td>
+<td>0.0.26.55</td>
+</tr>
+<tr class="row-odd"><td>Host (Binary)</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+
+</article>
+<article class="slide level-2" id="id2">
+<h2>Netmask Example:</h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Decimal IP Address</td>
+<td>Binary IP Address</td>
+</tr>
+<tr class="row-even"><td>192.168.90.55</td>
+<td>11000000.10101000.01011010.00110111</td>
+</tr>
+<tr class="row-odd"><td>255.255.192.0</td>
+<td>11111111.11111111.11000000.00000000</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Part of address</td>
+<td>Corresponding address</td>
+</tr>
+<tr class="row-even"><td>Network (Decimal)</td>
+<td>192.168.64.0</td>
+</tr>
+<tr class="row-odd"><td>Network (Binary)</td>
+<td>11000000.10101000.01000000.00000000</td>
+</tr>
+<tr class="row-even"><td>Host (Decimal)</td>
+<td>0.0.26.55</td>
+</tr>
+<tr class="row-odd"><td>Host (Binary)</td>
+<td>00000000.00000000.00011010.00110111</td>
+</tr>
+</tbody>
+</table>
+<p>Available Hosts:   192.168.[64-127].[1-254]</p>
+<p>Broadcast Address: 192.168.127.255</p>
+
+</article>
+<article class="slide level-2" id="routes">
+<h2>Routes</h2>
+<div class="highlight-python"><div class="highlight"><pre>user@host:~$ route
+Kernal IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         foo.osuosl      0.0.0.0         UG    0      0        0 wlan1
+link-local      *               255.255.0.0     U     1000   0        0 wlan1
+192.168.1.0     *               255.255.255.0   U     2      0        0 wlan1
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre>user@host:~$ route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.1.1     0.0.0.0         UG    0      0        0 wlan1
+169.254.0.0     0.0.0.0         255.255.0.0     U     1000   0        0 wlan1
+192.168.1.0     0.0.0.0         255.255.255.0   U     2      0        0 wlan1
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="bootstrapping">
+<h2>Bootstrapping</h2>
+<p>What happens when your computer connects to a network?</p>
+<ol class="arabic simple">
+<li>Duplex and speed negotiation</li>
+<li>Static or dynamic configuration is applied</li>
+</ol>
+
+</article>
+<article class="slide level-2" id="static-configuration">
+<h2>Static Configuration</h2>
+<p>Must in advance know:</p>
+<ul class="simple">
+<li>IP Address</li>
+<li>Netmask</li>
+<li>Default Gateway</li>
+<li>DNS Servers (optional in some cases)</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="dynamic-configuration">
+<h2>Dynamic Configuration</h2>
+<p>All of the statically defined parameters are retrieved over the network via DHCP</p>
+<p>But how do you communicate over the network without a network configuration?</p>
+
+</article>
+<article class="slide level-2" id="reserved-ipv4-addresses">
+<h2>Reserved IPv4 Addresses</h2>
+<ul class="simple">
+<li>127.0.0.1</li>
+</ul>
+<div class="figure align-right">
+<img alt="_images/noplacelike_home.jpg" src="_images/noplacelike_home.jpg" />
+</div>
+<ul class="simple">
+<li>192.168.0.0</li>
+<li>172.16.0.0</li>
+<li>10.0.0.0</li>
+<li>169.254.0.0</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="public-vs-private-address">
+<h2>Public vs Private Address</h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">NAT:</th><td class="field-body">Network Address Translation</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>lose end-to-end traceability</li>
+<li>hides internal network topology</li>
+<li>allows use of private IP's over public internet</li>
+<li>conserves limited public IP's</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="network-devices">
+<h2>Network Devices</h2>
+<div class="figure align-center">
+<img alt="_images/router.jpg" src="_images/router.jpg" />
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/switch.jpg"><img alt="_images/switch.jpg" src="_images/switch.jpg" style="width: 140.0px; height: 215.6px;" /></a>
+</div>
+<div class="figure align-center">
+<img alt="_images/hub.jpg" src="_images/hub.jpg" />
+</div>
+
+</article>
+<article class="slide level-2" id="id3">
+<h2>Network Devices</h2>
+<div class="figure align-center">
+<img alt="_images/router1.jpg" src="_images/router1.jpg" />
+</div>
+<div class="figure align-center">
+<img alt="_images/switch1.gif" src="_images/switch1.gif" />
+</div>
+
+</article>
+<article class="slide level-2" id="control-layer">
+<h2>Control Layer</h2>
+<p>Connection oriented vs Connectionless</p>
+
+</article>
+<article class="slide level-2" id="collisions">
+<h2>Collisions</h2>
+<dl class="docutils">
+<dt>CSMA CA</dt>
+<dd>All Wireless networks use this Carrier Sense Multiple Access with Collisions
+Avoidance</dd>
+<dt>CSMA CD</dt>
+<dd>Carrier Sense Multiple Access with Collisions Detection</dd>
+</dl>
+<p>Why is this important?</p>
+<p><a class="reference external" href="http://articles.latimes.com/2007/aug/15/local/me-lax15">http://articles.latimes.com/2007/aug/15/local/me-lax15</a></p>
+
+</article>
+
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>

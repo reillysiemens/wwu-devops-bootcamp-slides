@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lesson 6: Boot and the Filesystem Hierarchy &mdash; WWU DevOps Bootcamp 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    <script type="text/javascript" src="_static/ga.js"></script>
+    
+    <link rel="top" title="WWU DevOps Bootcamp 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Lesson 7: Databases" href="07_database_integration.html" />
+    <link rel="prev" title="Lesson 5: Web Applications" href="05_services_app.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  <article class="slide level-1" id="lesson-6-boot-and-the-filesystem-hierarchy">
+<h1>Lesson 6: Boot and the Filesystem Hierarchy</h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>grub, filesystem stuff based roughly on Frostsnow's talk</li>
+<li>basics of kernel and differences between virtualization/physical (the
+picture that kevin draws)</li>
+</ul>
+</div>
+
+</article>
+<article class="slide level-2" id="the-linux-filesystem-hierarchy">
+<h2>The Linux Filesystem Hierarchy</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Based on Wade's talk
+<a class="reference external" href="https://github.com/clinew/presentation_filesystems/blob/master/presentation.tex">https://github.com/clinew/presentation_filesystems/blob/master/presentation.tex</a></p>
+</div>
+<p>What's a filesystem?</p>
+<blockquote>
+<div><p>In computing, a file system is used to control how information is stored and
+retrieved. Without a file system, information placed in a storage area would
+be one large body of information with no way to tell where one piece of
+information stops and the next begins.</p>
+<blockquote>
+<div><ul class="simple">
+<li>(<a class="reference external" href="http://en.wikipedia.org/wiki/Filesystem">http://en.wikipedia.org/wiki/Filesystem</a>)</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+
+</article>
+<article class="slide level-2" id="filesystem-can-mean">
+<h2>Filesystem can mean:</h2>
+<ul class="simple">
+<li><strong>How the system's files are arranged on the disk</strong></li>
+<li>How the disk actually holds the files<ul>
+<li>FAT and NTFS are old but Windows-compatible</li>
+<li>ext3 is standard, ext4 is newer, xfs has fancier journaling<ul>
+<li>journaling tracks changes before write</li>
+</ul>
+</li>
+<li>sysadmins will encounter NFS and its competitors like Gluster</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Moving from Windows?</p>
+<ul class="last simple">
+<li>Binaries, not executables.</li>
+<li>Directories, not folders.</li>
+<li>Read, not load.</li>
+<li>Symbolic links, not shortcuts.</li>
+<li>Write, not save.</li>
+</ul>
+</div>
+
+</article>
+<article class="slide level-2" id="the-file-system">
+<h2>The File System</h2>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/you_are_here.jpg"><img alt="_images/you_are_here.jpg" src="_images/you_are_here.jpg" style="width: 432.0px; height: 297.0px;" /></a>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>ls
+bin   etc         initrd.img.old  lost+found  opt   run      srv  usr
+boot  home        lib             media       proc  sbin     sys  var
+dev   initrd.img  lib64           mnt         root  selinux  tmp  vmlinuz
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="installed-programs-and-utilities">
+<h2>Installed programs and utilities</h2>
+<div class="highlight-bash"><div class="highlight"><pre>/bin                /usr/sbin
+/sbin               /usr/local/bin
+/usr/bin            /usr/local/sbin
+</pre></div>
+</div>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">PATH</span></tt> environment variable</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo</span> <span class="nv">$PATH</span>
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+</pre></div>
+</div>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">which</span></tt> command</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>which bash
+/bin/bash
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="user-specific-data-configuration">
+<h2>User-Specific Data &amp; Configuration</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>Data stored at <tt class="docutils literal"><span class="pre">/home/&lt;username&gt;</span></tt></dt>
+<dd><ul class="first last simple">
+<li>Desktop environment creates folders Documents, Pictures, Videos, etc.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Configurations in dotfiles within home (<tt class="docutils literal"><span class="pre">/.</span></tt>)</p>
+</li>
+<li><dl class="first docutils">
+<dt>Lost+Found is <strong>not</strong> your desktop trash can</dt>
+<dd><ul class="first last simple">
+<li>Lost blocks of the filesystem.</li>
+<li>Usually not an issue.</li>
+<li>If your desktop provides backups of deleted files, they'll be somewhere
+in <tt class="docutils literal"><span class="pre">/home/&lt;username&gt;/</span></tt></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="where-are-drives-mounted">
+<h2>Where are drives mounted?</h2>
+<ul class="simple">
+<li>Raw device appears under <tt class="docutils literal"><span class="pre">/dev</span></tt>.</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>dmesg | tail
+<span class="o">[</span>260930.208715<span class="o">]</span>  sdb: sdb1
+<span class="o">[</span>260930.320756<span class="o">]</span> sd 6:0:0:0: &gt;<span class="o">[</span>sdb<span class="o">]</span> Asking <span class="k">for </span>cache data failed
+<span class="o">[</span>260930.320765<span class="o">]</span> sd 6:0:0:0: &gt;<span class="o">[</span>sdb<span class="o">]</span> Assuming drive cache: write through
+<span class="o">[</span>260930.320771<span class="o">]</span> sd 6:0:0:0: &gt;<span class="o">[</span>sdb<span class="o">]</span> Attached SCSI removable disk
+</pre></div>
+</div>
+<ul>
+<li><p class="first">USB filesystem under <tt class="docutils literal"><span class="pre">/media</span></tt>, main disk <tt class="docutils literal"><span class="pre">/</span></tt></p>
+</li>
+<li><dl class="first docutils">
+<dt>You can manually mount devices with <tt class="docutils literal"><span class="pre">mount</span></tt></dt>
+<dd><ul class="first last simple">
+<li>&quot;Everything's a file&quot;</li>
+<li><tt class="docutils literal"><span class="pre">umount</span></tt> to unmount</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">/etc/fstab</span></tt> tells things where to mount</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">/etc/mtab</span></tt> shows where things are currently mounted</p>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="space-on-drives">
+<h2>Space on drives</h2>
+<ul class="simple">
+<li>Use df to see disk free space.</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>df -h /
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda8        73G   29G   41G  42% /
+</pre></div>
+</div>
+<ul class="simple">
+<li>Use du to see disk usage.</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>du -sh /home/
+21G /home/
+</pre></div>
+</div>
+<ul class="simple">
+<li>Default output is in bytes, <tt class="docutils literal"><span class="pre">-h</span></tt> for human-readable output.</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="three-tiers-of-filesystem-hierarchy">
+<h2>Three Tiers of Filesystem Hierarchy</h2>
+<ul>
+<li><p class="first">/, essential for system booting and mounting /usr.</p>
+</li>
+<li><p class="first">/usr, read-only system data for normal system operation.</p>
+</li>
+<li><dl class="first docutils">
+<dt>/usr/local, locally-installed software.</dt>
+<dd><ul class="first last simple">
+<li>Package managers usually install under / and /usr.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/hierarchy.jpg"><img alt="_images/hierarchy.jpg" src="_images/hierarchy.jpg" style="width: 384.0px; height: 311.4px;" /></a>
+</div>
+
+</article>
+<article class="slide level-2" id="common-directories">
+<h2>Common Directories</h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Directory</th>
+<th class="head">Contents</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>/bin</td>
+<td>Binary files</td>
+</tr>
+<tr class="row-odd"><td>/include</td>
+<td>Header files for C/C++ programs</td>
+</tr>
+<tr class="row-even"><td>/lib</td>
+<td>Libraries</td>
+</tr>
+<tr class="row-odd"><td>/sbin</td>
+<td>Binary files for root (superuser)</td>
+</tr>
+<tr class="row-even"><td>/boot</td>
+<td>Files essential for booting kernel, initramfs</td>
+</tr>
+<tr class="row-odd"><td>/dev</td>
+<td>Virtual filesystem, exports hardware devices</td>
+</tr>
+<tr class="row-even"><td>/etc</td>
+<td>System-wide configurations</td>
+</tr>
+<tr class="row-odd"><td>/home</td>
+<td>Individual users' data</td>
+</tr>
+<tr class="row-even"><td>/media</td>
+<td>Removable storage devices</td>
+</tr>
+<tr class="row-odd"><td>/mnt</td>
+<td>Like media -- place to mount disks and things</td>
+</tr>
+</tbody>
+</table>
+
+</article>
+<article class="slide level-2" id="id1">
+<h2>Common Directories</h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Directory</th>
+<th class="head">Contents</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>/opt</td>
+<td>&quot;Add-on application software packages&quot;</td>
+</tr>
+<tr class="row-odd"><td>/proc</td>
+<td>Virtual filesystem exporting system data</td>
+</tr>
+<tr class="row-even"><td>/root</td>
+<td>homedir for root</td>
+</tr>
+<tr class="row-odd"><td>/run</td>
+<td>Volatile information accumulated since boot</td>
+</tr>
+<tr class="row-even"><td>/sys</td>
+<td>Virtual filesystem exporting kernel objects</td>
+</tr>
+<tr class="row-odd"><td>/tmp</td>
+<td>Temporary files</td>
+</tr>
+<tr class="row-even"><td>/var</td>
+<td>Data which varies -- logs, mail, etc.</td>
+</tr>
+<tr class="row-odd"><td>/usr/share</td>
+<td>Architecture-independent, read-only data</td>
+</tr>
+<tr class="row-even"><td>/usr/src</td>
+<td>Kernel source code</td>
+</tr>
+</tbody>
+</table>
+
+</article>
+<article class="slide level-2" id="proc-has-lots-of-useful-system-information">
+<h2>/proc has lots of useful system information</h2>
+<p>Which Linux kernel version are you running?</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>cat /proc/version
+Linux version 3.5.0-17-generic <span class="o">(</span>buildd@allspice<span class="o">)</span> <span class="o">(</span>gcc version 4.7.2
+<span class="o">(</span>Ubuntu/Linaro 4.7.2-2ubuntu1<span class="o">)</span> <span class="o">)</span> <span class="c">#28-Ubuntu SMP Tue Oct 9 19:31:23 UTC 2012</span>
+</pre></div>
+</div>
+<p>Learn about system's hardware</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>less /proc/cpuinfo
+<span class="nv">$ </span>less /proc/meminfo
+</pre></div>
+</div>
+<p>Some parts of /proc can be written as well as read...</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">echo </span>3 &gt; /proc/sys/vm/drop_caches <span class="c"># drop caches</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="commands-for-working-with-filesystems">
+<h2>Commands for working with filesystems</h2>
+<p>Creating filesystems</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>mkfs
+</pre></div>
+</div>
+<p>Mounting filesystems</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>mount
+<span class="c"># -t for type</span>
+<span class="c"># -o for options</span>
+<span class="c"># requires device path and mount point</span>
+</pre></div>
+</div>
+<p>Loopback devices</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>losetup
+<span class="nv">$ </span>/dev/loop*
+<span class="c"># makes it look like a device instead of a file</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="devfs">
+<h2>devfs</h2>
+<div class="highlight-bash"><div class="highlight"><pre>sd*
+sr*
+/dev/null
+/dev/random
+/dev/urandom
+/dev/zero
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="blocks-and-dd">
+<h2>Blocks and dd</h2>
+<ul>
+<li><p class="first">Block size is the size of chunks allocated for files</p>
+</li>
+<li><dl class="first docutils">
+<dt>dd</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>Disk duplicator (or disk dump).</dt>
+<dd><ul class="first last simple">
+<li>if=&lt;path&gt;, input file.</li>
+<li>of=&lt;path&gt;, ooutput file.</li>
+<li>bs=&lt;size&gt;, block size.</li>
+<li>count=&lt;size&gt;, number of block to transfer.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>dd <span class="k">if</span><span class="o">=</span>/dev/random <span class="nv">of</span><span class="o">=</span>/dev/sda
+<span class="c"># What will this do?</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="filesystem-consistency">
+<h2>Filesystem Consistency</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>Metadata vs. data</dt>
+<dd><ul class="first last simple">
+<li>Metadata is extra information the filesystem tracks about the file</li>
+<li>Data is the file's contents</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Filesystem is <strong>consistent</strong> if all metadata is intact</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">fsck</span></tt> is FileSystem Consistency Check</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="more-about-journaling">
+<h2>More about Journaling</h2>
+<ul>
+<li><p class="first">Filesystem consistency tool; protections against system freezes, power
+outages, etc.</p>
+</li>
+<li><p class="first">Replaying the journal.</p>
+</li>
+<li><p class="first">ext3’s three modes of journaling:</p>
+<ul>
+<li><table class="first docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">journal:</th><td class="field-body">Data and metadata to journal.</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><table class="first docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">ordered:</th><td class="field-body">Data updates to filesystem, then metadata committed to journal.</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><table class="first docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">writeback:</th><td class="field-body">Metadata comitted to journal, possibly before data updates.</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="the-boot-process">
+<h2>The Boot Process</h2>
+<ul class="simple">
+<li>Bootstrapping</li>
+<li>Steps in the process</li>
+<li>Boot loaders</li>
+<li>Startup scripts</li>
+<li>Boot levels</li>
+</ul>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/xkcd-fight.png"><img alt="_images/xkcd-fight.png" src="_images/xkcd-fight.png" style="width: 674.0px; height: 184.0px;" /></a>
+</div>
+
+</article>
+<article class="slide level-2" id="bootstrapping">
+<h2>Bootstrapping</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>kernel loaded into memory, initialization tasks, and available to users</p>
+<dl class="last docutils">
+<dt>Init</dt>
+<dd><ul class="first last simple">
+<li>kernel spawns init which is always PID 1</li>
+<li>controls the boot process</li>
+<li>can be a simple script to a binary</li>
+</ul>
+</dd>
+</dl>
+</div>
+<ul class="simple">
+<li><em>Pull itself up by its own bootstraps</em></li>
+<li>Automatic and manual booting</li>
+<li>Driver Loading</li>
+<li>Period of vulnerability<ul>
+<li>configuration errors</li>
+<li>missing hardware</li>
+<li>damaged filesystems</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">init</span></tt> -- <strong>Always Process ID (PID) #1</strong><ul>
+<li>First process to start</li>
+<li>Either a binary or can be a simple script (even a bash shell!)</li>
+</ul>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="steps-in-boot-process">
+<h2>Steps in boot process</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>Kernel</dt>
+<dd><ul class="first last simple">
+<li>1st stage – bootloader, 2nd, boot the kernel</li>
+<li>boot from boot loader</li>
+<li>load into memory</li>
+<li>located in /boot/ on Linux</li>
+</ul>
+</dd>
+<dt>Hardware config</dt>
+<dd><ul class="first last simple">
+<li>locate &amp; initialize hardware</li>
+<li>print out what it does</li>
+</ul>
+</dd>
+<dt>System processes</dt>
+<dd><ul class="first last simple">
+<li>init, kswapd, pdflush, etc</li>
+<li>init only real process</li>
+<li>Others look like processes for scheduling (appear as [kswapd] with ps)</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/booting.png"><img alt="_images/booting.png" src="_images/booting.png" style="width: 420.0px; height: 270.9px;" /></a>
+</div>
+<ol class="arabic simple">
+<li>Kernel initialization</li>
+<li>Hardware configuration</li>
+<li>System processes</li>
+<li>Operator intervention (single-user)</li>
+<li>Execution of start-up scripts</li>
+<li>Multi-user operation</li>
+</ol>
+
+</article>
+<article class="slide level-2" id="booting">
+<h2>Booting</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>On hardware specific to UNIX (i.e. Sun)</dt>
+<dd><ul class="first last simple">
+<li>firmware knows how to use devices</li>
+<li>talk to the network</li>
+<li>understand filesystems</li>
+<li>all accessible via the commandline</li>
+</ul>
+</dd>
+<dt>BIOS smarter than they used to be</dt>
+<dd><ul class="first last simple">
+<li>Not standardized</li>
+<li>Most servers support PXE</li>
+</ul>
+</dd>
+</dl>
+</div>
+<ul class="simple">
+<li>PCs vs Proprietary hardware<ul>
+<li>BIOS, UEFI, OpenBoot PROM, etc</li>
+</ul>
+</li>
+<li>BIOS<ul>
+<li><strong>B</strong>asic <strong>I</strong>nput/<strong>O</strong>utput <strong>S</strong>ystem</li>
+<li>Very simple compared to OpenBoot PROM / UEFI</li>
+<li>Select devices to boot from</li>
+<li>MBR (first 512 bytes)</li>
+</ul>
+</li>
+<li>UEFI<ul>
+<li><strong>U</strong>nified <strong>E</strong>xtensible <strong>F</strong>irmware <strong>I</strong>nterface</li>
+<li>Successor to BIOS</li>
+<li>Flexible pre-OS environment including network booting</li>
+</ul>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="boot-loaders-grub">
+<h2>Boot Loaders (Grub)</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>Grub</dt>
+<dd><ul class="first last simple">
+<li>next generation PC boot loader</li>
+<li>no need to “re-run grub” config updates</li>
+<li>Grub config</li>
+<li>disks are index based from zero</li>
+<li>grub install commands</li>
+<li>netboot, pretty, serial</li>
+<li>device.map, grub.conf</li>
+<li>robust with weird disk geometry</li>
+</ul>
+</dd>
+</dl>
+</div>
+<ul class="simple">
+<li><strong>Gr</strong>and <strong>U</strong>nified <strong>B</strong>ootloader</li>
+<li>Dynamic fixes during booting</li>
+<li>Can read the filesystem</li>
+<li>Index based – <tt class="docutils literal"><span class="pre">(hd0,0)</span> <span class="pre">=</span> <span class="pre">sda1</span></tt></li>
+<li>Grub &quot;version 1&quot; vs. &quot;version 2&quot;<ul>
+<li>Version 2 has more features, but more complicated</li>
+<li>Latest Debian, Ubuntu and Fedora use v2</li>
+</ul>
+</li>
+</ul>
+<div class="code highlight-python"><div class="highlight"><pre>grub&gt; root (hd0,0)    (Specify where your /boot partition resides)
+grub&gt; setup (hd0)     (Install GRUB in the MBR)
+grub&gt; quit            (Exit the GRUB shell)
+
+grub-install
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="single-user-mode">
+<h2>Single User Mode</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="docutils">
+<dt>Show on VM</dt>
+<dd><ul class="first last simple">
+<li>enter grub, hit ESC, pick kernel, hit “e” for edit</li>
+<li>use arrows</li>
+</ul>
+</dd>
+</dl>
+<p class="last">Typically ask for root password</p>
+</div>
+<ul class="simple">
+<li>What is it used for?</li>
+</ul>
+<div class="figure align-right">
+<a class="reference internal image-reference" href="_images/single-user-mode.png"><img alt="_images/single-user-mode.png" src="_images/single-user-mode.png" style="width: 432.0px; height: 240.0px;" /></a>
+</div>
+<blockquote>
+<div><ul class="simple">
+<li>Troubleshoot problems</li>
+<li>Manual Filesystem Checks</li>
+<li>Booting with bare services</li>
+<li>Fix boot problems</li>
+<li>Add “single” to kernel option</li>
+</ul>
+</div></blockquote>
+<ul class="simple">
+<li>Solaris/BSD<ul>
+<li><tt class="docutils literal"><span class="pre">boot</span> <span class="pre">-s</span></tt></li>
+</ul>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="startup-script-tasks">
+<h2>Startup Script Tasks</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Verbose and print out description of what its doing.</p>
+<p class="last">Old days were to manually adjust scripts, not anymore. Most are configurable now.</p>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/fsck.jpg"><img alt="_images/fsck.jpg" src="_images/fsck.jpg" style="width: 600.0px; height: 224.25px;" /></a>
+</div>
+<ul class="simple">
+<li>Setting up hostname &amp; timezone</li>
+<li>Checking disks with fsck</li>
+<li>Mounting system's disks</li>
+<li>Configuring network interfaces</li>
+<li>Starting up daemons &amp; network services</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="system-v-boot-style">
+<h2>System-V Boot Style</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>System-V Most common today</li>
+<li>Show system changing between different run levels.</li>
+<li>Slightly different between Distros</li>
+</ul>
+</div>
+<ul class="simple">
+<li>Linux derived from System-V originally</li>
+<li>Alternative init systems<ul>
+<li><strong>systemd</strong> - Fedora 15+, Redhat 7+ and Debian* (dependency driven)</li>
+<li><strong>upstart</strong> - Ubuntu, Redhat 6 (event driven, faster boot times)</li>
+</ul>
+</li>
+</ul>
+<p>Run levels:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="37%" />
+<col width="63%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>level 0</td>
+<td>sys is completely down (halt)</td>
+</tr>
+<tr class="row-even"><td>level 1 or S</td>
+<td>single-user mode</td>
+</tr>
+<tr class="row-odd"><td>level 2 through 5</td>
+<td>multi-user levels</td>
+</tr>
+<tr class="row-even"><td>level 6</td>
+<td>reboot level</td>
+</tr>
+</tbody>
+</table>
+
+</article>
+<article class="slide level-2" id="etc-inittab">
+<h2>/etc/inittab</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Look at inittab</p>
+</div>
+<ul class="simple">
+<li>Tells init what to do on each level</li>
+<li>Starts <tt class="docutils literal"><span class="pre">getty</span></tt> (terminals, serial console)</li>
+<li>Commands to be run or kept running</li>
+<li><tt class="docutils literal"><span class="pre">inittab</span></tt> not used with systemd or upstart</li>
+</ul>
+<div class="code highlight-python"><div class="highlight"><pre># The default runlevel.
+id:2:initdefault:
+
+# What to do in single-user mode.
+~~:S:wait:/sbin/sulogin
+
+# What to do when CTRL-ALT-DEL is pressed.
+ca:12345:ctrlaltdel:/sbin/shutdown -t1 -a -r now
+
+# terminals
+1:2345:respawn:/sbin/getty 38400 tty1
+T0:23:respawn:/sbin/getty -L ttyS0 9600 vt100
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="init-d-scripts">
+<h2>init.d Scripts</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>sshd init script</dt>
+<dd><ul class="first last simple">
+<li>case statement</li>
+<li>functions</li>
+<li>chkconfig</li>
+</ul>
+</dd>
+</dl>
+</div>
+<ul class="simple">
+<li>One script for one service/daemon</li>
+<li>Start up services such as sshd, httpd, etc</li>
+<li>Commands<ul>
+<li>start, stop, reload, restart</li>
+</ul>
+</li>
+<li>sshd init script</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>service sshd status
+openssh-daemon <span class="o">(</span>pid  1186<span class="o">)</span> is running...
+
+<span class="nv">$ </span>service sshd restart
+Stopping sshd:                                             <span class="o">[</span>  OK  <span class="o">]</span>
+Starting sshd:                                             <span class="o">[</span>  OK  <span class="o">]</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="starting-services-on-boot">
+<h2>Starting services on boot</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Show sshd script
+show list, adding, removing, enabling, disabling</p>
+</div>
+<ul class="simple">
+<li>rc<strong>level</strong>.d (rc0.d, rc1.d)</li>
+<li>S = start, K = stop/kill</li>
+<li>Numbers to set sequence (S55sshd)</li>
+<li>chkconfig / update-rc.d<ul>
+<li>Easy way to enable/disable services in RH/Debian</li>
+</ul>
+</li>
+<li>Other distributions work differently</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>chkconfig --list sshd
+sshd            0:off 1:off 2:on  3:on  4:on  5:on  6:off
+
+<span class="nv">$ </span>chkconfig sshd off
+
+<span class="nv">$ </span>chkconfig --list sshd
+sshd            0:off 1:off 2:off 3:off 4:off 5:off 6:off
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="configuring-init-d-scripts">
+<h2>Configuring init.d Scripts</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>show sendmail &amp; network config examples for CentOS</p>
+<p class="last">/etc/defaults seems to be more common between UNIX's</p>
+</div>
+<ul class="simple">
+<li>/etc/sysconfig (RH) or /etc/defaults (Debian)</li>
+<li>source Bash scripts</li>
+<li>Daemon arguments</li>
+<li>Networking settings</li>
+<li>Other distributions are vastly different</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>cat /etc/sysconfig/ntpd
+<span class="c"># Drop root to id &#39;ntp:ntp&#39; by default.</span>
+<span class="nv">OPTIONS</span><span class="o">=</span><span class="s2">&quot;-u ntp:ntp -p /var/run/ntpd.pid -g&quot;</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="shutting-down">
+<h2>Shutting Down</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Modern systems are less touchy with hard resets, but still need to be
+careful. Only for emergencies.</p>
+<p class="last">Shutdown -h</p>
+</div>
+<ul class="simple">
+<li>Not Windows, don't reboot to fix issue</li>
+<li>Can take a long time (i.e. servers)</li>
+<li>Reboot only to<ul>
+<li>load new kernel</li>
+<li>new hardware</li>
+<li>system-wide configuration changes</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">shutdown</span></tt>, <tt class="docutils literal"><span class="pre">reboot</span></tt>, <tt class="docutils literal"><span class="pre">halt</span></tt>, <tt class="docutils literal"><span class="pre">init</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">wall</span></tt> - send system-wide message to all users</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>wall hello world
+Broadcast message from root@devops-bootcamp <span class="o">(</span>pts/0<span class="o">)</span> <span class="o">(</span>Fri Jan 31 00:40:29 2014<span class="o">)</span>:
+
+hello world
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="homework">
+<h2>Homework</h2>
+
+</article>
+
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>

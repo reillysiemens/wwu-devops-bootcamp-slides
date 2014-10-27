@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lesson 16: Email &mdash; WWU DevOps Bootcamp 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    <script type="text/javascript" src="_static/ga.js"></script>
+    
+    <link rel="top" title="WWU DevOps Bootcamp 0.0.1 documentation" href="index.html" />
+    <link rel="prev" title="Lesson 14: Review" href="14_review.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  <article class="slide level-1" id="lesson-16-email">
+<h1>Lesson 16: Email</h1>
+<ul>
+<li><dl class="first docutils">
+<dt>Email service</dt>
+<dd><ul class="first last simple">
+<li>How it works</li>
+<li>Configuration Postfix</li>
+<li>Planning</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="email-system-components">
+<h2>Email: System Components</h2>
+<ul class="simple">
+<li>Mail User Agent (MUA)</li>
+<li>Mail Transport Agent (MTA)</li>
+<li>Delivery Agent (MDA)</li>
+<li>Access Agent (MAA)</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">MUA:</th><td class="field-body"><ul class="first simple">
+<li>lets users read &amp; compose mail</li>
+<li>Thunderbird, mutt, etc</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">MTA:</th><td class="field-body"><ul class="first simple">
+<li>routes messages to other machines</li>
+<li>sendmail, postfix, exim, qmail</li>
+</ul>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">MDA:</th><td class="field-body"><ul class="first simple">
+<li>places messages in local store</li>
+<li>mail.local, procmail</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">MAA:</th><td class="field-body"><p class="first last">access to mail store (i.e IMAP, POP)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</article>
+<article class="slide level-2" id="id1">
+<h2>Email: System Components</h2>
+<div class="figure align-center">
+<img alt="_images/email_routing.jpg" src="_images/email_routing.jpg" />
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The most confusing part about email is understanding the routing.  Knowing the
+different components is important to fully grasping it.</p>
+</div>
+
+</article>
+<article class="slide level-2" id="transport-agents">
+<h2>Transport Agents</h2>
+<p>Accept mail form user agent</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Postfix:</th><td class="field-body">More common, easier to configure &amp; use</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Sendmail:</th><td class="field-body">Highly configurable, steep learning curve</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Exim:</th><td class="field-body">Similar to Postfix</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Qmail:</th><td class="field-body">Logging is horrid, but some people like it</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Postfix is the easiest to learn and understand, but queue management is a “black
+box”</p>
+<p>Sendmail &amp; qmail is great for high volume sites, but postfix/exim still perform
+great.</p>
+<p>Sendmail has great options for queue management</p>
+<dl class="last docutils">
+<dt>Features to look out for:</dt>
+<dd><ul class="first last simple">
+<li>SASL (authenticated SMTP)</li>
+<li>Queue Management</li>
+</ul>
+</dd>
+</dl>
+</div>
+
+</article>
+<article class="slide level-2" id="delivery-agents-message-stores">
+<h2>Delivery Agents &amp; Message Stores</h2>
+<ul>
+<li><p class="first">procmail – great filtering</p>
+</li>
+<li><p class="first">maildrop – newer procmail-like</p>
+</li>
+<li><p class="first">mail.local</p>
+</li>
+<li><dl class="first docutils">
+<dt>Message Stores</dt>
+<dd><ul class="first last simple">
+<li>mbox – one large file, locking problems</li>
+<li>maildir – one file per message, great for IMAP</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Consider scaling issues for the mailstore.</p>
+<p class="last">Generally maildir is the best &amp; most compatible option</p>
+</div>
+
+</article>
+<article class="slide level-2" id="anatomy-of-a-mail-message">
+<h2>Anatomy of a Mail Message</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>Envelope</dt>
+<dd><ul class="first last simple">
+<li>Destination email address</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Headers</dt>
+<dd><ul class="first last simple">
+<li>Record of variety of important information</li>
+<li>Great for tracking down problems</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Body of the message</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="last docutils">
+<dt>Headers:</dt>
+<dd><ul class="first last simple">
+<li>Know how to identify and track queue id's</li>
+<li>Originator starts at the bottom</li>
+<li>Headers can be forged</li>
+<li>X- Headers non-RFC headers</li>
+<li>Message ID is always unique</li>
+</ul>
+</dd>
+</dl>
+</div>
+
+</article>
+<article class="slide level-2" id="mta-log-files">
+<h2>MTA Log Files</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>Track emails via queue ID</dt>
+<dd><ul class="first last simple">
+<li>Look something like: <tt class="docutils literal"><span class="pre">03CE18819A</span></tt></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Tracking via message ID</p>
+</li>
+<li><dl class="first docutils">
+<dt>Informational fields</dt>
+<dd><ul class="first last simple">
+<li>to, from, status, relay, etc</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Log files differ between each MTA</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Being able to read log files is important.</p>
+</div>
+
+</article>
+<article class="slide level-2" id="configuring-postfix">
+<h2>Configuring Postfix</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>/etc/postfix</dt>
+<dd><ul class="first last simple">
+<li>main.cf – main config file</li>
+<li>master.cf – postfix process config file</li>
+<li>/etc/aliases – local email forwarding</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Set to relay email to central MTA</dt>
+<dd><ul class="first last simple">
+<li>relayhost = [smtp.osuosl.org]</li>
+<li>myorigin = osuosl.org</li>
+<li>/etc/aliases -- root: <a class="reference external" href="mailto:foo&#37;&#52;&#48;gmail&#46;com">foo<span>&#64;</span>gmail<span>&#46;</span>com</a></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<dl class="docutils">
+<dt>relayhost: [smtp.osuosl.org] vs. osuosl.org</dt>
+<dd><ul class="first last simple">
+<li>[smtp.osuosl.org] goes directly to smtp.osuosl.org</li>
+<li>'osuosl.org' does DNS lookup and uses MX</li>
+</ul>
+</dd>
+</dl>
+<p>Make sure you run “newaliases” after updating /etc/aliases</p>
+<p>Reloading postfix is ideal too</p>
+<dl class="last docutils">
+<dt>To test email:</dt>
+<dd>echo “this is a test” | mail <a class="reference external" href="mailto:root&#37;&#52;&#48;localhost">root<span>&#64;</span>localhost</a></dd>
+</dl>
+</div>
+
+</article>
+<article class="slide level-2" id="sendmail">
+<h2>Sendmail</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>Config files created via m4</dt>
+<dd><ul class="first last simple">
+<li>Makefile</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Always edit the .mc files not the .cf files</p>
+</li>
+<li><p class="first">Remember to rebuild .cf files with make</p>
+</li>
+<li><p class="first">Extremely configurable</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Config files in /etc/mail usually
+Primary file to edit should be sendmail.mc</p>
+</div>
+
+</article>
+<article class="slide level-2" id="email-viruses-spam">
+<h2>Email: Viruses &amp; Spam</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>Virus</dt>
+<dd><ul class="first last simple">
+<li>Clamav</li>
+<li>Ensure freshclam is running too</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Spam</dt>
+<dd><ul class="first last simple">
+<li>Spamassassin</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>All-in-one</dt>
+<dd><ul class="first last simple">
+<li>Amavis</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p class="first">Check abuse emails</p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Make sure you have enough CPU &amp; RAM for Spam checking
+Neglecting abuse emails may get you blacklisted
+For larger infrastructures, have dedicated machines to process spam
+Important to keep these updated</p>
+</div>
+
+</article>
+<article class="slide level-2" id="email-infrastructure-implementation">
+<h2>Email: Infrastructure Implementation</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>Small sites</dt>
+<dd><ul class="first last simple">
+<li>Can have MTA/MDA/etc all on the same server</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Medium sites</dt>
+<dd><ul class="first last simple">
+<li>Separate MTA from MDA</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Large sites</dt>
+<dd><ul class="first last simple">
+<li>Split outgoing mail and incoming</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Consider resources, redundancy, &amp; scalability.
+MDA is hardest to scale.</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Look at Cyrus Murder for large scalability</li>
+<li>dovecot is another option</li>
+</ul>
+</div></blockquote>
+</div>
+
+</article>
+<article class="slide level-2" id="email-security">
+<h2>Email: Security</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>On General servers:</dt>
+<dd><ul class="first last simple">
+<li>Only listen on localhost</li>
+<li>Don't allow other hosts to relay through it</li>
+<li>Relay all outbound mail through central host</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>On Email servers:</dt>
+<dd><ul class="first last simple">
+<li>Restrict relaying to trusted networks</li>
+<li>Implement antivirus &amp; spam protection</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Always test new configurations to ensure spammers can't relay mail
+through your server
+Having dedicate outbound servers will ensure they always catch spam/viruses/etc</p>
+</div>
+
+</article>
+
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>

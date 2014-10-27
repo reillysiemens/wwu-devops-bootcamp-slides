@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lesson 2: Single System Fundamentals &mdash; WWU DevOps Bootcamp 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    <script type="text/javascript" src="_static/ga.js"></script>
+    
+    <link rel="top" title="WWU DevOps Bootcamp 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Lesson 2: Homework" href="homework02.html" />
+    <link rel="prev" title="Lesson 1: The Very Basics" href="01_the_very_basics.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  <article class="slide level-1" id="lesson-2-single-system-fundamentals">
+<h1>Lesson 2: Single System Fundamentals</h1>
+<p>Or, how to be a power user.</p>
+
+</article>
+<article class="slide level-2" id="housekeeping">
+<h2>Housekeeping</h2>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/virtualbox.png"><img alt="_images/virtualbox.png" src="_images/virtualbox.png" style="width: 153.6px; height: 153.6px;" /></a>
+</div>
+<p>10 minutes to make sure everyone's Virtualbox instances are up and running</p>
+<p><strong>Your opinions:</strong></p>
+<ul class="simple">
+<li>Want to meet during dead week vs. have last meeting of term next week?</li>
+<li>Start wk1 of winter term?</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="today-s-topics">
+<h2>Today's Topics</h2>
+<ul>
+<li><dl class="first docutils">
+<dt>What are files?</dt>
+<dd><ul class="first last simple">
+<li>Permissions/users</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>What are user accounts?</dt>
+<dd><ul class="first last simple">
+<li>User management</li>
+<li>Root vs. normal</li>
+<li>Groups</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>What are packages?</dt>
+<dd><ul class="first last simple">
+<li>How to use package managers</li>
+<li>Differences between Linux Distributions</li>
+<li>Other package managers</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="what-are-users">
+<h2>What are users?</h2>
+<ul class="simple">
+<li>You, right now</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>whoami    <span class="c"># your username</span>
+<span class="nv">$ </span>who       <span class="c"># who is logged in?</span>
+<span class="nv">$ </span>w         <span class="c"># who is here and what are they doing?</span>
+<span class="nv">$ </span>id        <span class="c"># user ID, group ID, and groups you&#39;re in</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Not just people: Apache, Mailman, ntp</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="users-have">
+<h2>Users have</h2>
+<ul class="simple">
+<li>Username</li>
+<li>UID</li>
+<li>Group</li>
+<li>Usually (but not always) password</li>
+<li>Usually (but not always) home directory</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="managing-users">
+<h2>Managing users</h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>cat /etc/passwd
+<span class="c"># username:x:UID:GID:GECOS:homedir:shell</span>
+<span class="nv">$ </span>useradd <span class="nv">$USER</span> <span class="c"># vs adduser, the friendly Ubuntu version</span>
+<span class="nv">$ </span>userdel <span class="nv">$USER</span>
+<span class="nv">$ </span>passwd
+</pre></div>
+</div>
+<div class="figure align-center">
+<img alt="_images/xkcd215.png" src="_images/xkcd215.png" />
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># GECOS: full name, office number and building, office phone extension,</span>
+<span class="c"># home phone number (General Electric Comprehensive Operating System)</span>
+<span class="nv">$ </span>chfn <span class="c"># change GECOS information; only works sometimes</span>
+<span class="nv">$ </span>finger <span class="c"># tells you someone&#39;s GECOS info</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="passwords">
+<h2>Passwords</h2>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">/etc/shadow</span></tt>, not <tt class="docutils literal"><span class="pre">/etc/passwd</span></tt></li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">test</span>@x230 ~ <span class="nv">$ </span>ls -l /etc/ | grep shadow
+-rw-r-----  1 root shadow   1503 Nov 12 17:37 shadow
+
+<span class="nv">$ </span>sudo su -
+<span class="nv">$ </span>cat /etc/shadow
+daemon:*:15630:0:99999:7:::
+bin:*:15630:0:99999:7:::
+sys:*:15630:0:99999:7:::
+mail:*:15630:0:99999:7:::
+
+<span class="c"># name:hash:time last changed: min days between changes: max days</span>
+<span class="c">#    between changes:days to wait before expiry or disabling:day of</span>
+<span class="c">#    account expiry</span>
+
+<span class="nv">$ </span>chage <span class="c"># change when a user&#39;s password expires</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="root-superuser">
+<h2>Root/Superuser</h2>
+<ul class="simple">
+<li>UID 0</li>
+<li><tt class="docutils literal"><span class="pre">sudo</span></tt></li>
+</ul>
+<div class="figure align-center">
+<img alt="_images/xkcd149.png" src="_images/xkcd149.png" />
+</div>
+
+</article>
+<article class="slide level-2" id="acting-as-another-user">
+<h2>Acting as another user</h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>su <span class="nv">$USER</span>          <span class="c"># become user, with THEIR password</span>
+<span class="nv">$ </span>su                <span class="c"># become root, with root&#39;s password</span>
+<span class="nv">$ </span>sudo su -         <span class="c"># use user password instead of root&#39;s</span>
+<span class="nv">$ </span>sudo su <span class="nv">$USER</span>     <span class="c"># become $USER with your password</span>
+</pre></div>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/xkcd_838.png"><img alt="_images/xkcd_838.png" src="_images/xkcd_838.png" style="width: 556.0px; height: 247.2px;" /></a>
+</div>
+<dl class="docutils">
+<dt>If someone has permissions errors:</dt>
+<dd><ul class="first last simple">
+<li>Check that they or their group owns the files</li>
+<li>Check that they have the flag +x to execute</li>
+</ul>
+</dd>
+</dl>
+
+</article>
+<article class="slide level-2" id="what-are-groups">
+<h2>What are groups?</h2>
+<ul class="simple">
+<li>Manage permissions for groups of users</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>groupadd
+<span class="nv">$ </span>usermod
+<span class="nv">$ </span>groupmod
+<span class="nv">$ </span>cat /etc/group
+    root:x:0:
+    daemon:x:1:
+    bin:x:2:
+    sys:x:3:
+    adm:x:4:
+    tty:x:5:
+<span class="c"># group name:password or placeholder:GID:member,member,member</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="hands-on-users-and-groups">
+<h2>Hands-On: Users and Groups</h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>To give yourself sudo powers do the following:</p>
+<ol class="arabic">
+<li><p class="first">Add your user to the <tt class="docutils literal"><span class="pre">wheel</span></tt> group using <tt class="docutils literal"><span class="pre">gpasswd</span></tt>.</p>
+</li>
+<li><p class="first">As the root user, use <tt class="docutils literal"><span class="pre">visudo</span></tt> and uncomment this line:</p>
+<div class="highlight-python"><div class="highlight"><pre>%wheel  ALL=(ALL)   ALL
+</pre></div>
+</div>
+</li>
+<li><p class="first">Save the file and now you should have sudo!</p>
+</li>
+</ol>
+<p class="last"><em>We'll cover sudo in more depth at a later time.</em></p>
+</div>
+<ul class="simple">
+<li>Create a user on your system for yourself, with your preferred username</li>
+<li>Give your user sudo powers</li>
+<li>Use use su to get into your user account</li>
+<li>Change your password</li>
+<li>Create a directory called bootcamp in your home directory</li>
+<li>Create a group called devops</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="what-are-files">
+<h2>What are files?</h2>
+<ul>
+<li><p class="first">Nearly everything</p>
+</li>
+<li><dl class="first docutils">
+<dt>Files have:</dt>
+<dd><ul class="first last simple">
+<li>Owner</li>
+<li>Permissions</li>
+<li>inode</li>
+<li>Size</li>
+<li>Filename</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">test</span>@x230 ~ <span class="nv">$ </span>ls -il
+total 8
+2884381 drwxrwxr-x 5 <span class="nb">test test </span>4096 Nov  6 11:46 Documents
+2629156 -rw-rw-r-- 1 <span class="nb">test test    </span>0 Nov 13 14:09 file.txt
+2884382 drwxrwxr-x 2 <span class="nb">test test </span>4096 Nov  6 13:22 Pictures
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="file-extensions">
+<h2>File extensions</h2>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">.jpg</span></tt>, <tt class="docutils literal"><span class="pre">.txt</span></tt>, <tt class="docutils literal"><span class="pre">.doc</span></tt></p>
+</li>
+<li><dl class="first docutils">
+<dt>Really more of a recommendation</dt>
+<dd><ul class="first last simple">
+<li>File contains information about its encoding</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>file <span class="nv">$FILENAME</span> <span class="c"># tells you about the filetype</span>
+
+<span class="nb">test</span>@x230 ~ <span class="nv">$ </span>file file.txt
+file.txt: ASCII text
+
+<span class="nb">test</span>@x230 ~ <span class="nv">$ </span>file squirrel.jpg
+squirrel.jpg: JPEG image data, JFIF standard 1.01
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="ls-l">
+<h2>ls -l</h2>
+<ul class="simple">
+<li>First bit: type</li>
+<li>Next 3: user</li>
+<li>Next 3: group</li>
+<li>Next 3: world</li>
+<li>user &amp; group</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>ls -l
+drwxrwxr-x 5 <span class="nb">test test </span>4096 Nov  6 11:46 Documents
+-rw-rw-r-- 1 <span class="nb">test test    </span>0 Nov 13 14:09 file.txt
+drwxrwxr-x 2 <span class="nb">test test </span>4096 Nov  6 13:22 Pictures
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-3" id="chmod-and-octal-permissions">
+<h3>chmod and octal permissions</h3>
+<div class="highlight-bash"><div class="highlight"><pre>+<span class="o">=====</span>+<span class="o">========</span>+<span class="o">=======</span>+
+| rwx | Binary | Octal |
++<span class="o">=====</span>+<span class="o">========</span>+<span class="o">=======</span>+
+| --- | 000    | 0     |
+| --x | 001    | 1     |
+| -w- | 010    | 2     |
+| -wx | 011    | 3     |
+| r-- | 100    | 4     |
+| r-x | 101    | 5     |
+| rw- | 110    | 6     |
+| rwx | 111    | 7     |
++<span class="o">=====</span>+<span class="o">========</span>+<span class="o">=======</span>+
+</pre></div>
+</div>
+<ul class="simple">
+<li>u, g, o for user, group, other</li>
+<li>-, +, = for remove, add, set</li>
+<li>r, w, x for read, write, execute</li>
+</ul>
+
+</article>
+<article class="slide level-3" id="chown-chgrp">
+<h3>chown, chgrp</h3>
+<p>user &amp; group</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Change the owner of myfile to &quot;root&quot;.</span>
+<span class="nv">$ </span>chown root myfile
+
+<span class="c"># Likewise, but also change its group to &quot;staff&quot;.</span>
+<span class="nv">$ </span>chown root:staff myfile
+
+<span class="c"># Change the owner of /mydir and subfiles to &quot;root&quot;.</span>
+<span class="nv">$ </span>chown -hR root /mydir
+
+<span class="c"># Make the group devops own the bootcamp dir</span>
+<span class="nv">$ </span>chgrp -R devops /home/<span class="nv">$yourusername</span>/bootcamp
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="types-of-files">
+<h2>Types of files</h2>
+<div class="highlight-bash"><div class="highlight"><pre>drwxrwxr-x      5 <span class="nb">test    test      </span>4096    Nov  6 11:46 Documents
+-rw-rw-r--      1 <span class="nb">test    test         </span>0    Nov 13 14:09 file.txt
+drwxrwxr-x      2 <span class="nb">test    test      </span>4096    Nov  6 13:22 Pictures
+----------     -------  -------  -------- ------------ -------------
+    |             |        |         |         |             |
+    |             |        |         |         |         File Name
+    |             |        |         |         +---  Modification Time
+    |             |        |         +-------------   Size <span class="o">(</span>in bytes<span class="o">)</span>
+    |             |        +-----------------------        Group
+    |             +--------------------------------        Owner
+    +----------------------------------------------   File Permissions
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">-</span></tt> is a normal file</p>
+<p><tt class="docutils literal"><span class="pre">d</span></tt> is a directory</p>
+<p><tt class="docutils literal"><span class="pre">b</span></tt> is a block device</p>
+
+</article>
+<article class="slide level-2" id="acls">
+<h2>ACLs</h2>
+<ul class="simple">
+<li>Access control lists</li>
+<li>Not recommended; hard to maintain</li>
+<li>Typically how other OSes manage permissions</li>
+<li>Support depends on OS and filesystem</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="hands-on-files-and-permissions">
+<h2>Hands-On: Files and Permissions</h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>touch foo <span class="c"># create empty file called foo</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>As root, create a file in /home/$yourusername/bootcamp</li>
+<li>Who can do what to the file?</li>
+<li>Make the devops group own the file</li>
+<li>Make a file called allperms and give user, group, and world +rwx</li>
+<li>Make more files and practice changing their permissions</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="package-management">
+<h2>Package Management</h2>
+<p><em>Take care of installation and removal of software</em></p>
+<p><strong>Core Functionality:</strong></p>
+<ul class="simple">
+<li>Install, Upgrade &amp; uninstall packages easily</li>
+<li>Resolve package dependencies</li>
+<li>Install packages from a central repository</li>
+<li>Search for information on installed packages and files</li>
+<li>Pre-built binaries (usually)</li>
+</ul>
+<p><strong>Popular Linux Package Managers</strong></p>
+<ul class="simple">
+<li>.deb / APT (used by Debian, Ubuntu)</li>
+<li>.rpm / YUM (used by RedHat, CentOS, Fedora)</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="rpm-yum-redhat-centos-fedora">
+<h2>RPM &amp; yum (RedHat, CentOS, Fedora)</h2>
+<a class="reference internal image-reference" href="_images/rpm.png"><img alt="_images/rpm.png" class="align-right" src="_images/rpm.png" style="width: 30%;" /></a>
+<p><strong>RPM</strong></p>
+<blockquote>
+<div>Binary file format which includes metadata about the package and the
+application binaries as well.</div></blockquote>
+<a class="reference internal image-reference" href="_images/yum.png"><img alt="_images/yum.png" class="align-right" src="_images/yum.png" style="width: 30%;" /></a>
+<p><strong>Yum</strong></p>
+<blockquote>
+<div>RPM package manager used to query a central repository and resolve RPM
+package dependencies.</div></blockquote>
+
+</article>
+<article class="slide level-3" id="yum-commands-redhat-centos-fedora">
+<h3>Yum Commands (Redhat, CentOS, Fedora)</h3>
+<p>We'll use the <tt class="docutils literal"><span class="pre">tree</span></tt> package as an example below.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Searching for a package</span>
+<span class="nv">$ </span>yum search tree
+
+<span class="c"># Information about a package</span>
+<span class="nv">$ </span>yum info tree
+
+<span class="c"># Installing a package</span>
+<span class="nv">$ </span>yum install tree
+
+<span class="c"># Upgrade all packages to a newer version</span>
+<span class="nv">$ </span>yum upgrade
+
+<span class="c"># Uninstalling a package</span>
+<span class="nv">$ </span>yum remove tree
+
+<span class="c"># Cleaning the RPM database</span>
+<span class="nv">$ </span>yum clean all
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-3" id="rpm-commands">
+<h3>RPM Commands</h3>
+<p>Low level package management. No dependency checking or central repository.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Install an RPM file</span>
+<span class="nv">$ </span>rpm -i tree-1.5.3-2.el6.x86_64.rpm
+
+<span class="c"># Upgrade an RPM file</span>
+<span class="nv">$ </span>rpm -Uvh tree-1.5.3-3.el6.x86_64.rpm
+
+<span class="c"># Uninstall an RPM package</span>
+<span class="nv">$ </span>rpm -e tree
+
+<span class="c"># Querying the RPM database</span>
+<span class="nv">$ </span>rpm -qa tree
+
+<span class="c"># Listing all files in an RPM package</span>
+<span class="nv">$ </span>rpm -ql tree
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="dpkg-apt-debian-ubuntu">
+<h2>DPKG &amp; Apt (Debian, Ubuntu)</h2>
+<p><strong>Deb</strong></p>
+<blockquote>
+<div>Binary file format which includes metadata about the package and the
+application binaries as well.</div></blockquote>
+<img alt="_images/debian.png" class="align-right" src="_images/debian.png" />
+<p><strong>DPKG</strong></p>
+<blockquote>
+<div>Low level package installer for the .deb file format. Does no package
+dependency resolution.</div></blockquote>
+<p><strong>Apt</strong></p>
+<blockquote>
+<div>DPKG package manager used to query a central repository and resolve Deb
+package dependencies. Considered mostly a front-end to dpkg.</div></blockquote>
+
+</article>
+<article class="slide level-3" id="apt-commands-debian-ubuntu">
+<h3>Apt Commands (Debian, Ubuntu)</h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can also use aptitude as a front-end to dpkg instead of apt-get.</p>
+</div>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Update package cache database</span>
+<span class="nv">$ </span>apt-get update
+
+<span class="c"># Searching for a package</span>
+<span class="nv">$ </span>apt-cache search tree
+
+<span class="c"># Information about a package</span>
+<span class="nv">$ </span>apt-cache show tree
+
+<span class="c"># Installing a package</span>
+<span class="nv">$ </span>apt-get install tree
+
+<span class="c"># Upgrade all packages to a newer version</span>
+<span class="nv">$ </span>apt-get upgrade
+<span class="nv">$ </span>apt-get dist-upgrade
+
+<span class="c"># Uninstalling a package</span>
+<span class="nv">$ </span>apt-get remove tree
+<span class="nv">$ </span>apt-get purge tree
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-3" id="dpkg-commands">
+<h3>Dpkg Commands</h3>
+<p>Low level package management. No dependency checking or central repository.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Install or upgrade a DEB file</span>
+<span class="nv">$ </span>dpkg -i tree_1.6.0-1_amd64.deb
+
+<span class="c"># Removing a DEB package</span>
+<span class="nv">$ </span>dpkg -r tree
+
+<span class="c"># Purging a DEB package</span>
+<span class="nv">$ </span>dpkg -P tree
+
+<span class="c"># Querying the DPKG database</span>
+<span class="nv">$ </span>dpkg-query -l tree
+
+<span class="c"># Listing all files in a DEB package</span>
+<span class="nv">$ </span>dpkg-query -L tree
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="language-specific-package-managers">
+<h2>Language-specific Package Managers</h2>
+<ul>
+<li><p class="first">Languages sometimes have their own package management suite</p>
+</li>
+<li><p class="first">Can be useful for using newer versions of packages</p>
+</li>
+<li><dl class="first docutils">
+<dt><strong>Examples</strong></dt>
+<dd><ul class="first last simple">
+<li>pip (Python)</li>
+<li>rubygems (Ruby)</li>
+<li>CPAN (Perl)</li>
+<li>cabal (Haskell)</li>
+<li>npm (NodeJS)</li>
+<li><em>... and so on forever ...</em></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="other-package-managers">
+<h2>Other Package Managers</h2>
+<p>They each fill a specific niche and have their own pros and cons.</p>
+<ul class="simple">
+<li>Portage (Gentoo) -- Source based package installer</li>
+<li>pacman (Arch Linux)</li>
+<li>ZYpp / Zypper (SUSE) -- Yet another RPM package manager</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="installing-from-source">
+<h2>Installing from source</h2>
+<ul class="simple">
+<li>Download source tarball, run build scripts and install in a local directory.</li>
+<li>RPM/DEB packages do this for you</li>
+<li>Not for the faint of heart ... <strong>Not recommended!</strong></li>
+<li>Using <tt class="docutils literal"><span class="pre">grep</span></tt> as an example</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>wget http://mirrors.kernel.org/gnu/grep/grep-2.15.tar.xz
+<span class="nv">$ </span>tar -Jxvf grep-2.15.tar.xz
+<span class="nv">$ </span><span class="nb">cd </span>grep-2.15
+<span class="nv">$ </span>./configure
+<span class="nv">$ </span>make
+<span class="nv">$ </span>make install
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="hands-on-package-management">
+<h2>Hands-on: Package Management</h2>
+<ul class="simple">
+<li>Install the <tt class="docutils literal"><span class="pre">git</span></tt> package</li>
+<li>Query the RPM/APT database for installed packages</li>
+<li>List the files in an installed package</li>
+<li>Remove the <tt class="docutils literal"><span class="pre">git</span></tt> package</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="questions">
+<h2>Questions:</h2>
+<ul>
+<li><p class="first">read example output of ls -al</p>
+</li>
+<li><p class="first">read output of yum or aptitude search</p>
+</li>
+<li><dl class="first docutils">
+<dt>install a package on their VM/partition (Vim, Git)</dt>
+<dd><ul class="first last simple">
+<li>explain what dependencies it also installed</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+
+</article>
+
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>

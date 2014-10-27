@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lesson 7: Databases &mdash; WWU DevOps Bootcamp 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    <script type="text/javascript" src="_static/ga.js"></script>
+    
+    <link rel="top" title="WWU DevOps Bootcamp 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Lesson 8: Security &amp; Authentication" href="08_security_auth.html" />
+    <link rel="prev" title="Lesson 6: Boot and the Filesystem Hierarchy" href="06_boot_filesystem.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  <article class="slide level-1" id="lesson-7-databases">
+<h1>Lesson 7: Databases</h1>
+
+</article>
+<article class="slide level-2" id="filesystems-review-questions">
+<h2>Filesystems Review Questions</h2>
+<ul class="build simple">
+<li>What might happen to a busy ext2 volume on power loss?</li>
+<li>ext3?</li>
+<li>ext4?</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>ext2 may not be consistent upon restart</li>
+<li>ext3 and ext 4 are not</li>
+<li>but consistency only guarantees metadata is intact</li>
+<li>What might happen to a busy ext2 volume on power loss?</li>
+<li>ext3?</li>
+<li>ext4?</li>
+</ul>
+</div>
+
+</article>
+<article class="slide level-2" id="but-what-about-our-poor-data">
+<h2>But what about our poor data?</h2>
+<ul class="build simple">
+<li>Possibly gone, like the wind</li>
+<li>Or worse: Half completed writes!</li>
+<li><strong>General purpose operating systems, by design, don't understand structured
+data</strong></li>
+</ul>
+
+</article>
+<article class="slide level-2" id="enter-the-database">
+<h2>Enter the Database</h2>
+<blockquote>
+<div><p>A database system's fundamental goal is to provide consistent views of
+structured data using the tools the operating system makes available.</p>
+<p>Chief among them is <em>fsync(2)</em></p>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">fsync instructs the operating system to flush all writes to disk before
+returning</p>
+</div>
+
+</article>
+<article class="slide level-2" id="structure">
+<h2>Structure</h2>
+<p>SQL databases are structured around <strong>Relational Algebra</strong></p>
+<ul class="simple">
+<li>Tables<ul>
+<li><strong>Columns</strong> are fields</li>
+<li><strong>Rows</strong> define a relation between fields</li>
+</ul>
+</li>
+<li>A <strong>Primary key</strong> is a set of columns that uniquely identify rows in a table</li>
+<li>A <strong>Foreign key</strong> is a column that matches the primary key of another table</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="relational-algebra-visualized">
+<h2>Relational Algebra Visualized</h2>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/inner-outer-join-venn.jpg"><img alt="_images/inner-outer-join-venn.jpg" src="_images/inner-outer-join-venn.jpg" style="width: 450.0px; height: 420.0px;" /></a>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">joins are the principle use of relations.</p>
+</div>
+
+</article>
+<article class="slide level-2" id="installing-mysql">
+<h2>Installing MySQL</h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>yum install mysql-server
+<span class="nv">$ </span>/sbin/service mysqld start
+<span class="nv">$ </span>/usr/bin/mysql_secure_installation
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="managing-mysql">
+<h2>Managing MySQL</h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>/sbin/service mysqld status
+<span class="nv">$ </span>mysqladmin -p ping
+<span class="nv">$ </span>mysqladmin -p create nobel
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="configuration">
+<h2>Configuration</h2>
+<ul class="build">
+<li><p class="first"><tt class="docutils literal"><span class="pre">/etc/my.conf</span></tt></p>
+</li>
+<li><p class="first">The most important MySQL tuning rule:</p>
+<blockquote>
+<div><ul class="simple">
+<li>almost always prefer <strong>InnoDB</strong></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">we're going to add:
+<tt class="docutils literal"><span class="pre">default_storage_engine</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="pre">=</span> <span class="pre">InnoDB</span></tt></p>
+</div>
+
+</article>
+<article class="slide level-2" id="users-permissions">
+<h2>Users &amp; Permissions</h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>sudo mysql -p
+</pre></div>
+</div>
+<div class="highlight-sql"><div class="highlight"><pre><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">USER</span> <span class="s1">&#39;vagrant&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span>
+       <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;password&#39;</span><span class="p">;</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">nobel</span><span class="p">.</span><span class="o">*</span>
+       <span class="k">TO</span> <span class="s1">&#39;vagrant&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span>
+       <span class="k">WITH</span> <span class="k">GRANT</span> <span class="k">OPTION</span><span class="p">;</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="importing-data">
+<h2>Importing Data</h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>wget http://osl.io/nobel -O nobel.sql
+<span class="nv">$ </span>mysql -p nobel &lt; nobel.sql
+<span class="nv">$ </span>mysql -p nobel
+</pre></div>
+</div>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">SHOW</span> <span class="n">TABLES</span><span class="p">;</span>
+<span class="k">DESCRIBE</span> <span class="n">nobel</span><span class="p">;</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="basic-queries">
+<h2>Basic Queries</h2>
+<p>4 basic operations on data:</p>
+<ul class="simple">
+<li>SELECT</li>
+<li>INSERT</li>
+<li>UPDATE</li>
+<li>DELETE</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="select">
+<h2>SELECT</h2>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">SELECT</span>
+   <span class="n">yr</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">winner</span>
+<span class="k">FROM</span>
+   <span class="n">nobel</span>
+<span class="k">WHERE</span>
+   <span class="n">yr</span> <span class="o">=</span> <span class="mi">1960</span><span class="p">;</span>
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="practice">
+<h2>Practice</h2>
+<ul class="simple">
+<li>Who won the prize for Medicine in 1952?</li>
+<li>How many people were awarded the 1903 Nobel in Physics?</li>
+<li>How many prizes were awarded to Linus Pauling?</li>
+<li>How many people have won more than once? (Difficult)</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="insert">
+<h2>INSERT</h2>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">INSERT</span> <span class="k">VALUES</span>
+   <span class="p">(</span><span class="s1">&#39;2013&#39;</span><span class="p">,</span><span class="s1">&#39;Literature&#39;</span><span class="p">,</span><span class="s1">&#39;Herta Müller&#39;</span><span class="p">)</span>
+<span class="k">INTO</span>
+   <span class="n">nobel</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">this data stops at 2008, so lets insert some 2009 awards</p>
+</div>
+
+</article>
+<article class="slide level-2" id="id1">
+<h2>Practice</h2>
+<dl class="docutils">
+<dt>In 2009:</dt>
+<dd><ul class="first last simple">
+<li>Barack Obama won the Peace Prize</li>
+<li>Elinor Ostrom and Oliver E. Williamson won the prize in Economics</li>
+<li><a class="reference external" href="http://en.wikipedia.org/wiki/List_of_Nobel_laureates">http://en.wikipedia.org/wiki/List_of_Nobel_laureates</a></li>
+</ul>
+</dd>
+</dl>
+
+</article>
+<article class="slide level-2" id="update">
+<h2>UPDATE</h2>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">UPDATE</span>
+   <span class="n">nobel</span>
+<span class="k">SET</span>
+   <span class="n">winner</span><span class="o">=</span><span class="s1">&#39;Andrew Ryan&#39;</span>
+<span class="k">WHERE</span>
+   <span class="n">subject</span><span class="o">=</span><span class="s1">&#39;Peace&#39;</span> <span class="k">AND</span> <span class="n">yr</span><span class="o">=</span><span class="s1">&#39;1951&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">obviously Andrew Ryan deserves the peace price for his work in the Rapture
+planned community</p>
+</div>
+
+</article>
+<article class="slide level-2" id="id2">
+<h2>Practice</h2>
+<blockquote>
+<div><ul class="simple">
+<li>Brigid Tenenbaum Medicine prize in 1952</li>
+</ul>
+</div></blockquote>
+
+</article>
+<article class="slide level-2" id="delete">
+<h2>DELETE</h2>
+<div class="highlight-sql"><div class="highlight"><pre><span class="k">DELETE</span> <span class="k">FROM</span>
+   <span class="n">nobel</span>
+<span class="k">WHERE</span>
+   <span class="n">yr</span> <span class="o">=</span> <span class="mi">1989</span><span class="p">,</span> <span class="n">subject</span> <span class="o">=</span> <span class="n">peace</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">peace prizes can be controversial, and perhaps there's a political interest in
+censoring our database?</p>
+</div>
+
+</article>
+<article class="slide level-2" id="further-reading-resources-etc">
+<h2>Further Reading, Resources, etc.</h2>
+<ul class="simple">
+<li>Codd, E.F. (1970). &quot;A Relational Model of Data for Large Shared Data Banks&quot;.
+Communications of the ACM 13 (6): 377–387.</li>
+<li>sqlzoo.net</li>
+<li>CS 440: Database Management Systems</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="hands-on-make-a-database">
+<h2>Hands-On: Make a Database</h2>
+<ul class="simple">
+<li>Create a new database</li>
+</ul>
+<div class="highlight-sql"><div class="highlight"><pre><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">create</span> <span class="k">database</span> <span class="n">systemview</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">PRIVILEGES</span> <span class="k">ON</span> <span class="n">systemview</span><span class="p">.</span><span class="o">*</span>
+       <span class="k">TO</span> <span class="s1">&#39;vagrant&#39;</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span>
+       <span class="k">WITH</span> <span class="k">GRANT</span> <span class="k">OPTION</span><span class="p">;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Grant a user privileges on your new database</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">challenge them to do this based on the material in the last hour, maybe also
+demo the mysql console. Make sure everyone remembers the username and password
+for the next step.</p>
+</div>
+
+</article>
+<article class="slide level-2" id="databases-in-applications">
+<h2>Databases in Applications</h2>
+<p>Applications love databases.</p>
+<ul class="simple">
+<li>Application data - the information to be displayed and manipulated</li>
+<li>User data - complex authentication and authorization</li>
+<li>Logging, statistics, state and session data, etc...</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All the various things an app might use a database for - note that the vast
+majority of web apps use them for something</p>
+</div>
+
+</article>
+<article class="slide level-2" id="native-sql">
+<h2>Native SQL</h2>
+<p>Most languages allow you to speak directly to a database</p>
+<p>Python:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#!/usr/bin/python</span>
+<span class="kn">import</span> <span class="nn">MySQLdb</span>
+
+<span class="n">db</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;localhost&quot;</span><span class="p">,</span><span class="s">&quot;testuser&quot;</span><span class="p">,</span><span class="s">&quot;test123&quot;</span><span class="p">,</span><span class="s">&quot;nobel&quot;</span> <span class="p">)</span>
+
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s">&quot;SELECT subject, yr, winner FROM nobel WHERE yr = 1960)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">winner</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> winner in </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">winner</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">winner</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">winner</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="n">db</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Note the plain SQL statement, recognizable from earlier. Point out the
+cumbersome nature of creating the connection, creating a cursor, sending the
+sql, getting data from the cursor (iterating over it if you want multiple
+results), etc. Similar interfaces exist for virtually all languages.</p>
+</div>
+
+</article>
+<article class="slide level-2" id="introducing-the-orm">
+<h2>Introducing the ORM</h2>
+<p>Object Relational Mapper</p>
+<ul class="simple">
+<li>Maps an Object in an application to a database table or relationship</li>
+<li>Talks SQL to the database, your favorite language to you</li>
+<li>Lets you point to different databases with the same syntax</li>
+<li>Intelligently manages transactions to the database</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Make sure people know what you mean by &quot;object&quot;, mention possible difference
+between Postgres, sqlite, MySql, etc. Objects may map to one table, but might
+also incorporate relationships. ORMs also often optimize queries and manage
+transactions to make database queries as efficient as possible (like all other
+magic, though, sometimes this can backfire).</p>
+</div>
+
+</article>
+<article class="slide level-2" id="life-with-a-python-orm">
+<h2>Life With a Python ORM</h2>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Look, ma! No SQL!</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">subject</span><span class="p">,</span> <span class="n">yr</span><span class="p">,</span> <span class="n">winner</span> <span class="ow">in</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">Nobel</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">yr</span><span class="o">=</span><span class="mi">1960</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> winner in </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s"> &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">subject</span><span class="p">,</span> <span class="n">yr</span><span class="p">,</span> <span class="n">winner</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Much easier to read and understand, but requires some setting up first.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Of course we actually have to do a lot of setup work - setting up the model,
+engine, session, etc - but you do that once and can interact with the database
+as much as you want, without worrying about the cursor or connection. Note
+that we have no SQL in this statement, it is pythonic and has pythonic
+methods. The database table is now an object.</p>
+</div>
+
+</article>
+<article class="slide level-2" id="setting-up-the-magic-sqlalchemy">
+<h2>Setting Up the Magic - SqlAlchemy</h2>
+<p>SqlAlchemy - a popular Python ORM, frequently used in Flask apps (like
+SystemView!).</p>
+<p>To use it, we'll need to:</p>
+<ul class="simple">
+<li>Import sqlalchemy</li>
+<li>Create a &quot;model&quot; - a representation of our data in code</li>
+<li>Create an &quot;engine&quot; and connect it to the database</li>
+<li>Create a session to store the model instances and transactions</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Model:</th><td class="field-body">A object with all the properties, attributes, etc of our data, can also
+include code to manipulate that data in order to represent a specific view
+(i.e. automatically returning sorted results). It's just a python class,
+instances are just python objects.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Engine:</th><td class="field-body">This handles the authentication with the database, it's like the
+MySQLdb.connect above.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Session:</th><td class="field-body">An in-memory record of your changes to objects - all the orm objects you
+instantiate live int he session, and are only saved to the database when you
+say so.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</article>
+<article class="slide level-2" id="let-s-databasify-systemview">
+<h2>Let's Databasify Systemview</h2>
+<p>Project:</p>
+<ul class="simple">
+<li>Store search terms, then provide them as links on the search page, so you can
+just click the most common terms you search for.</li>
+</ul>
+<p>What else? Ideas?</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Solicit ideas for another column or two, maybe number of times the term is
+used (easy incrementing example), or number of results from the least search.</p>
+</div>
+
+</article>
+<article class="slide level-2" id="hands-on">
+<h2>Hands On</h2>
+<ul class="simple">
+<li>Install the following packages:</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre>sudo yum install python-devel
+sudo yum install mysql-devel
+</pre></div>
+</div>
+<ul class="simple">
+<li>Check out systemview from GitHub (if you don't have it already)</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre>git clone git@github.com:DevOpsBootcamp/systemview
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="hands-on-cont">
+<h2>Hands On (Cont...)</h2>
+<ul class="simple">
+<li>Switch to 'save-search' branch</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre>git checkout -tb save-search origin/save-search
+</pre></div>
+</div>
+<ul class="simple">
+<li>Activate your virtualenv</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">source</span> &lt;path to virtualenv&gt;/bin/activate
+</pre></div>
+</div>
+<ul class="simple">
+<li>Install the requirements</li>
+</ul>
+<div class="highlight-bash"><div class="highlight"><pre>pip install -r requirements.txt
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Talk about git branches again, explain tracking, git pull for people who
+already have it cloned, etc. Talk about the virtualenv, have people create a
+new one if they have lost the one they made last time. Talk about pip and what
+requirements.txt is all about - point out how easy it is to set up an app this
+way. Make sure requirements.txt contains sqlalchemy.</p>
+<p class="last"><strong>DANGER!</strong> - people will need mysql-dev package! name varies by distribution,
+for centos it is libmysqlclient-dev</p>
+</div>
+
+</article>
+<article class="slide level-2" id="goals">
+<h2>Goals</h2>
+<ul class="simple">
+<li>Connect the app to your new database</li>
+<li>Add a new column</li>
+<li>Save data to that column whenever someone searches</li>
+<li>Fetch the data from that column and display it on the search page</li>
+<li>challenge: limit the returned result to only 5 terms</li>
+</ul>
+<p><a class="reference external" href="http://docs.sqlalchemy.org/en/rel_0_9/orm/tutorial.html">http://docs.sqlalchemy.org/en/rel_0_9/orm/tutorial.html</a></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The code in the repo should have a simple model with one column, 'term', you
+can make a <tt class="docutils literal"><span class="pre">models.py</span></tt>, or just put it all in one file. If you separate
+them, talk about MVC. The code should start an sqlalchemy engine and session,
+save the search term normalized (lowercased, stripped), the column should be
+set to unique. Make sure the code handles the case of the term already
+existing in the database (when you add a count, increment the count when the
+term exists).  You should probably initialize the db directly in the code,
+otherwise you'll have to open up a python console, import the app and run the
+db update.</p>
+</div>
+
+</article>
+
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>

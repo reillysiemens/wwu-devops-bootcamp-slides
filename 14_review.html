@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Lesson 14: Review &mdash; WWU DevOps Bootcamp 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+    
+
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    <script type="text/javascript" src="_static/ga.js"></script>
+    
+    <link rel="top" title="WWU DevOps Bootcamp 0.0.1 documentation" href="index.html" />
+    <link rel="next" title="Lesson 16: Email" href="16_email.html" />
+    <link rel="prev" title="Lesson 13: Contributing to Open Source" href="13_opensource.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  <article class="slide level-1" id="lesson-14-review">
+<h1>Lesson 14: Review</h1>
+
+</article>
+<article class="slide level-2" id="today-s-goals">
+<h2>Today's Goals</h2>
+<ul class="simple">
+<li>Working VM</li>
+<li>Run Systemview app</li>
+<li>Connect to Systemview from browser in host</li>
+<li>Understand what's happening</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="how-to-set-up-a-vm">
+<h2>How to set up a VM</h2>
+
+</article>
+<article class="slide level-2" id="enable-virtualbox-vt-extensions">
+<h2>Enable VirtualBox (VT extensions)</h2>
+<p>Install <a class="reference external" href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></p>
+<p>Install <a class="reference external" href="http://www.vagrantup.com/">Vagrant</a></p>
+
+</article>
+<article class="slide level-2" id="linux">
+<h2>Linux</h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># clone</span>
+git clone https://github.com/DevOpsBootcamp/devopsbootcamp-vagrant.git
+
+<span class="c"># start up</span>
+<span class="nb">cd </span>devopsbootcamp-vagrant
+vagrant up
+
+<span class="c"># access vm</span>
+vagrant ssh
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="irc">
+<h2>IRC</h2>
+<ul class="simple">
+<li>Use the <a class="reference external" href="http://lug.oregonstate.edu/blog/irc/">LUG guide</a></li>
+<li>#devopsbootcamp on irc.freenode.net</li>
+<li>Also join the <a class="reference external" href="http://lists.osuosl.org/mailman/listinfo/devops-bootcamp">Mailing List</a></li>
+</ul>
+
+</article>
+<article class="slide level-2" id="github-account">
+<h2>GitHub Account</h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">SSH keys:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre>ssh-keygen -t rsa
+</pre></div>
+</div>
+<p>Your public key is in <tt class="docutils literal"><span class="pre">~/.ssh/id_rsa.pub</span></tt> by default.</p>
+<p>GitHub -&gt; Account Settings (icon in upper right) -&gt; SSH keys -&gt; Add SSH key</p>
+
+</article>
+<article class="slide level-2" id="joining-the-github-org">
+<h2>Joining the Github Org</h2>
+<ul class="simple">
+<li>Ping Ramereth in the IRC channel to add you</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="installing-the-web-app">
+<h2>Installing the Web App</h2>
+
+</article>
+<article class="slide level-2" id="prerequisite-tools">
+<h2>Prerequisite tools</h2>
+<p>On host machine, in <tt class="docutils literal"><span class="pre">devopsbootcamp-vagrant</span></tt> directory:</p>
+<div class="highlight-python"><div class="highlight"><pre>git pull
+vagrant up
+vagrant ssh
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="the-magic-script">
+<h2>The Magic Script</h2>
+<p>Now that you're in the guest machine:</p>
+<div class="highlight-bash"><div class="highlight"><pre>git@github.com:DevOpsBootcamp/catch-up.git
+
+<span class="nb">cd </span>catch-up
+./catch-up.sh
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="branches">
+<h2>Branches</h2>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Start one with:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre>git checkout -b branchname
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Which are you on:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre>git branch
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Switch with:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python"><div class="highlight"><pre>git checkout branchname
+</pre></div>
+</div>
+
+</article>
+<article class="slide level-2" id="connecting-to-the-app">
+<h2>Connecting to the App</h2>
+<p>In the guest machine, with <tt class="docutils literal"><span class="pre">virtualenv</span></tt> activated, <tt class="docutils literal"><span class="pre">python</span> <span class="pre">systemview.py</span></tt></p>
+<p>Point the browser of your host machine at <a class="reference external" href="http://127.0.0.1:5050">http://127.0.0.1:5050</a></p>
+<p>If changes in the app don't show up in your browser, use <tt class="docutils literal"><span class="pre">F5</span></tt> to hard refresh</p>
+
+</article>
+<article class="slide level-2" id="where-am-i">
+<h2>Where am I?</h2>
+
+</article>
+<article class="slide level-2" id="in-virtual-machine">
+<h2>In virtual machine?</h2>
+<ul class="simple">
+<li>Did you <tt class="docutils literal"><span class="pre">vagrant</span> <span class="pre">ssh</span></tt>?</li>
+</ul>
+
+</article>
+<article class="slide level-2" id="in-a-repo">
+<h2>In a repo?</h2>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">git</span> <span class="pre">status</span></tt></li>
+</ul>
+
+</article>
+<article class="slide level-2" id="on-a-branch">
+<h2>On a branch?</h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Show current branch</span>
+<span class="nv">$ </span>git branch
+
+<span class="c"># create new branch, called branchname</span>
+<span class="nv">$ </span>git checkout -b branchname
+</pre></div>
+</div>
+
+</article>
+
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>
